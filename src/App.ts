@@ -1,8 +1,19 @@
+import sha256 from "crypto-js/sha256";
 
 class App {
     public static async main() {
         try {
-            void await this.requestInput("Whatever: ");
+            const input = await this.requestInput("Dice rolls: ");
+            const entropy = sha256(input);
+            const hexEntropy = entropy.toString();
+            console.log(`Entropy: ${hexEntropy}`);
+
+            // The following operations implement https://en.bitcoin.it/wiki/BIP_0039:
+            // 1. Calculate checksum: take the first byte (2 hex digits) of the sha256
+            const hexChecksum = sha256(entropy).toString().slice(0, 2);
+            // 2. Append checksum to the end of entropy
+            const hexEntropyWithChecksum = hexEntropy + hexChecksum;
+            console.log(`Entropy with checksum: ${hexEntropyWithChecksum}`);
 
             return 0;
         } catch (ex: unknown) {
