@@ -1,0 +1,1 @@
+# verify-coldcard-dice-seed
