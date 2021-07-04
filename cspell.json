@@ -1,0 +1,19 @@
+{
+  "version": "0.1",
+  "language": "en",
+  "words": [
+    "COLDCARD"
+  ],
+  "flagWords": [],
+  "dictionaries": [
+    "typescript"
+  ],
+  "ignorePaths": [
+    "**/*.svg",
+    "coverage/**",
+    "node_modules/**",
+    "package.json",
+    "package-lock.json",
+    "tsconfig.json"
+  ]
+}
