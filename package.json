@@ -1,21 +1,21 @@
 {
-  "name": "backup",
+  "name": "verify-coldcard-dice-seed",
   "author": {
     "name": "Andreas Huber"
   },
   "keywords": [
-    "backup"
+    "coldcard"
   ],
   "description": "",
-  "homepage": "https://github.com/andreashuber69/backup/blob/master/README.md#--",
+  "homepage": "https://github.com/andreashuber69/verify-coldcard-dice-seed/blob/master/README.md#--",
   "version": "1.0.0",
   "license": "Unlicense",
   "repository": {
     "type": "git",
-    "url": "https://github.com/andreashuber69/backup.git"
+    "url": "https://github.com/andreashuber69/verify-coldcard-dice-seed.git"
   },
   "bugs": {
-    "url": "https://github.com/andreashuber69/backup/issues"
+    "url": "https://github.com/andreashuber69/verify-coldcard-dice-seed/issues"
   },
   "private": true,
   "main": "src/App.ts",
@@ -49,6 +49,7 @@
   "dependencies": {
     "@types/crypto-js": "^4.0.1",
     "@types/node": "^14.17.4",
+    "bip39": "^3.0.4",
     "crypto-js": "^4.0.0",
     "ts-node": "^10.0.0",
     "typescript": "^4.3.5"
