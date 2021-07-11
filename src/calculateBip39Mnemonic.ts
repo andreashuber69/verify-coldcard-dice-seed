@@ -27,8 +27,6 @@ const getWords = (checkedEntropy: bigint, bits: number) => {
         checkedEntropy /= divisor;
     }
 
-    words.pop();
-
     return words;
 };
 
