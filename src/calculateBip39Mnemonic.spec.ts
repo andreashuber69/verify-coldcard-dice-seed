@@ -4,8 +4,15 @@ import Mocha from "mocha";
 import fetch from "node-fetch";
 import { calculateBip39Mnemonic } from "./calculateBip39Mnemonic";
 
-const addTest = (suite: Mocha.Suite, entropy: string, words: string) => suite.addTest(
+const addPassingTest = (suite: Mocha.Suite, entropy: string, words: string) => suite.addTest(
     new Mocha.Test(entropy, () => expect(calculateBip39Mnemonic(entropy).join(" ")).to.equal(words)),
+);
+
+const addFailingTest = (suite: Mocha.Suite, entropy: string, errorMessage: string) => suite.addTest(
+    new Mocha.Test(
+        entropy,
+        () => expect(() => calculateBip39Mnemonic(entropy).join(" ")).to.throw(RangeError, errorMessage),
+    ),
 );
 
 const execute = async () => {
@@ -32,11 +39,17 @@ const execute = async () => {
 
         // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
         const [entropy, words] = vector;
-        addTest(suite, entropy, words);
+        addPassingTest(suite, entropy, words);
     }
 
-    const suiteRun = mocha.run();
-    process.on("exit", () => process.exit(suiteRun.stats?.failures ?? 0));
+    addPassingTest(suite, "", "");
+    addPassingTest(suite, "00000000", "abandon abandon ability");
+    addPassingTest(suite, "ffffffff", "zoo zoo zoo");
+    addFailingTest(suite, "3", "hexEntropy length must be a multiple of 8");
+    addFailingTest(suite, "777777777", "hexEntropy length must be a multiple of 8");
+    addPassingTest(suite, "000000000", "abandon abandon ability");
+
+    mocha.run();
 };
 
 execute().catch((error) => void console.error(`${error}`));

@@ -2,7 +2,7 @@ import { wordlists } from "bip39";
 import { enc } from "crypto-js";
 import sha256 from "crypto-js/sha256";
 
-const toBigInt = (hexNumber: string) => BigInt(`0x${hexNumber}`);
+const toBigInt = (hexNumber: string) => BigInt(`0x${hexNumber || "0"}`);
 
 const calculateCheckSum = (hexEntropy: string, cs: number) => {
     const entropySha256 = sha256(enc.Hex.parse(hexEntropy));
