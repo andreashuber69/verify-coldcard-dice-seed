@@ -18,9 +18,9 @@
     "url": "https://github.com/andreashuber69/verify-coldcard-dice-seed/issues"
   },
   "private": true,
-  "main": "src/App.ts",
+  "main": "src/main.ts",
   "scripts": {
-    "start": "ts-node src/App.ts",
+    "start": "ts-node src/main.ts",
     "prelint": "cspell '**/*.*' && markdownlint *.md",
     "lint": "eslint ./src --ext .js,.ts",
     "test-no-coverage": "mocha --require ts-node/register src/*.spec.ts",
