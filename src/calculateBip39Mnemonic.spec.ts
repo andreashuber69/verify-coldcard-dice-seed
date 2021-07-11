@@ -49,7 +49,8 @@ const execute = async () => {
     addFailingTest(suite, "777777777", "hexEntropy length must be a multiple of 8");
     addPassingTest(suite, "000000000", "abandon abandon ability");
 
-    mocha.run();
+    const suiteRun = mocha.run();
+    process.on("exit", () => process.exit(suiteRun.stats?.failures ?? 0));
 };
 
 execute().catch((error) => void console.error(`${error}`));
