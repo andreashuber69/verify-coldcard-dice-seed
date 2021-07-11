@@ -4,6 +4,10 @@ import Mocha from "mocha";
 import fetch from "node-fetch";
 import { calculateBip39Mnemonic } from "./calculateBip39Mnemonic";
 
+const addTest = (suite: Mocha.Suite, entropy: string, words: string) => suite.addTest(
+    new Mocha.Test(entropy, () => expect(calculateBip39Mnemonic(entropy).join(" ")).to.equal(words)),
+);
+
 const execute = async () => {
     const mocha = new Mocha();
     const suite = Mocha.Suite.create(mocha.suite, "calculateBip39Mnemonic");
@@ -28,12 +32,7 @@ const execute = async () => {
 
         // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
         const [entropy, words] = vector;
-
-        suite.addTest(
-            new Mocha.Test(entropy, () => {
-                expect(calculateBip39Mnemonic(entropy).join(" ")).to.equal(words);
-            }),
-        );
+        addTest(suite, entropy, words);
     }
 
     const suiteRun = mocha.run();
