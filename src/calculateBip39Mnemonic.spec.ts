@@ -9,10 +9,7 @@ const addPassingTest = (suite: Mocha.Suite, entropy: string, words: string) => s
 );
 
 const addFailingTest = (suite: Mocha.Suite, entropy: string, errorMessage: string) => suite.addTest(
-    new Mocha.Test(
-        entropy,
-        () => expect(() => calculateBip39Mnemonic(entropy).join(" ")).to.throw(RangeError, errorMessage),
-    ),
+    new Mocha.Test(entropy, () => expect(() => calculateBip39Mnemonic(entropy)).to.throw(RangeError, errorMessage)),
 );
 
 const execute = async () => {
