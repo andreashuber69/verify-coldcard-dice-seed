@@ -64,10 +64,19 @@ const main = async () => {
     try {
         const { stdin, stdout } = process;
 
+        stdout.write("Verify COLDCARD dice seed\r\n");
+        stdout.write("\r\n");
+        stdout.write("This application allows you to CHECK whether your COLDCARD correctly generates 24 word\r\n");
+        stdout.write("seeds from dice rolls.\r\n");
+        stdout.write("CAUTION: The very point of a COLDCARD is that the 24 word seed of a real wallet is NEVER\r\n");
+        stdout.write("entered outside of a coldcard.\r\n");
+        stdout.write("So, once you have tested your COLDCARD successfully, you should then generate the\r\n");
+        stdout.write("24 word seed for your real wallet on your COLDCARD only.\r\n\r\n");
+
         if (stdin instanceof ReadStream) {
             stdin.setRawMode(true);
             stdin.setEncoding("utf-8");
-            stdout.write("\r\n\r\nPress 1-6 for each roll to mix in.\r\n");
+            stdout.write("\r\n\r\nPress 1-6 for each roll to mix in, ENTER to finish or CTRL-C to abort.\r\n");
             let state: IState = { rolls: 0, input: "", command: Command.Ignore };
 
             while ((state.command !== Command.Abort) && (state.command !== Command.Finish)) {
@@ -78,9 +87,12 @@ const main = async () => {
 
             if (state.command === Command.Finish) {
                 const words = calculateBip39Mnemonic(`${sha256(state.input)}`);
-                stdout.write("\r\n24 words:\r\n");
-                stdout.write(`${words.join("\r\n")}\r\n`);
+                stdout.write("\r\nCompare these 24 words to the ones calculated by your COLDCARD:\r\n");
+                stdout.write(words.reduce((p, c, i) => `${p}${`0${i + 1}`.slice(-2)}: ${c}\r\n`, ""));
             }
+
+            stdout.write("\r\n");
+            stdout.write("IMPORTANT: Press the cancel button (X) on your COLDCARD now.\r\n");
         }
 
         return 0;
