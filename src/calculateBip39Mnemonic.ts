@@ -1,3 +1,4 @@
+// https://github.com/andreashuber69/verify-coldcard-dice-seed#--
 import { wordlists } from "bip39";
 import { enc } from "crypto-js";
 import sha256 from "crypto-js/sha256";

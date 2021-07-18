@@ -1,3 +1,4 @@
+// https://github.com/andreashuber69/verify-coldcard-dice-seed#--
 import { expect } from "chai";
 import Mocha from "mocha";
 
