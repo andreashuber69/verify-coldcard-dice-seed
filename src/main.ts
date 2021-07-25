@@ -24,12 +24,6 @@ enum Command {
     Finish,
 }
 
-interface IState {
-    readonly rolls: number;
-    readonly input: string;
-    readonly command: Command;
-}
-
 const getCommand = (key: string) => {
     switch (key) {
         case "1":
@@ -46,24 +40,6 @@ const getCommand = (key: string) => {
     }
 };
 
-const processKey = async (stdin: NodeJS.ReadStream, state: IState): Promise<IState> => {
-    const { rolls, input } = state;
-    process.stdout.write(`${rolls} rolls\r\n`);
-    process.stdout.write(`${sha256(input)}\r\n\r\n`);
-    const key = await getKey(stdin);
-    const command = getCommand(key);
-
-    if (command === Command.Process) {
-        return {
-            rolls: rolls + 1,
-            input: input + key,
-            command,
-        };
-    }
-
-    return { ...state, command };
-};
-
 const main = async () => {
     const { stdin, stdout } = process;
 
@@ -71,6 +47,15 @@ const main = async () => {
         stdout.write("Press any key to continue or CTRL-C to abort: ");
         await getKey(stdin);
         stdout.write("\r\n\r\n");
+    };
+
+    const processKey = async (input: string): Promise<[string, Command]> => {
+        stdout.write(`${input.length} rolls\r\n`);
+        stdout.write(`${sha256(input)}\r\n\r\n`);
+        const key = await getKey(stdin);
+        const command = getCommand(key);
+
+        return [`${input}${command === Command.Process ? key : ""}`, command];
     };
 
     try {
@@ -95,21 +80,22 @@ const main = async () => {
             stdout.write("Roll the dice and enter the value on your COLDCARD and here.\r\n");
             stdout.write("\r\n\r\n\r\n");
             stdout.write("Press 1-6 for each roll to mix in, ENTER to finish or CTRL-C to abort.\r\n");
-            let state: IState = { rolls: 0, input: "", command: Command.Ignore };
+            let input = "";
+            let command = Command.Ignore;
 
-            while (state.command !== Command.Finish) {
+            while (command !== Command.Finish) {
                 stdout.moveCursor(0, -3);
                 // eslint-disable-next-line no-await-in-loop
-                state = await processKey(stdin, state);
+                [input, command] = await processKey(input);
             }
 
-            if (state.command === Command.Finish) {
+            if (command === Command.Finish) {
                 stdout.write("\r\n");
-                const suffix = `${state.input.length < 99 ? " twice" : ""}`;
+                const suffix = `${input.length < 99 ? " twice" : ""}`;
                 stdout.write(`Press the OK button ('\u2713') on your COLDCARD${suffix}.\r\n`);
                 await waitForUser();
 
-                const words = calculateBip39Mnemonic(`${sha256(state.input)}`);
+                const words = calculateBip39Mnemonic(`${sha256(input)}`);
                 stdout.write("Compare these 24 words to the ones calculated by your COLDCARD:\r\n");
                 stdout.write(words.reduce((p, c, i) => `${p}${`0${i + 1}`.slice(-2)}: ${c}\r\n`, ""));
                 stdout.write("\r\n");
