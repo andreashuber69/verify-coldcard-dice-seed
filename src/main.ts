@@ -8,37 +8,15 @@ const getKey = async (stdin: ReadStream) => await new Promise<string>((resolve, 
     stdin.resume();
 
     stdin.once("data", (key: unknown) => {
+        stdin.pause();
+
         if (key === "\u0003") {
             reject(new AbortError());
         } else {
             resolve(`${key}`);
         }
-
-        stdin.pause();
     });
 });
-
-enum Command {
-    Process,
-    Ignore,
-    Finish,
-}
-
-const getCommand = (key: string) => {
-    switch (key) {
-        case "1":
-        case "2":
-        case "3":
-        case "4":
-        case "5":
-        case "6":
-            return Command.Process;
-        case "\r":
-            return Command.Finish;
-        default:
-            return Command.Ignore;
-    }
-};
 
 const main = async () => {
     const { stdin, stdout } = process;
@@ -49,13 +27,12 @@ const main = async () => {
         stdout.write("\r\n\r\n");
     };
 
-    const processKey = async (input: string): Promise<[string, Command]> => {
+    const processKey = async (input: string): Promise<[string, string]> => {
         stdout.write(`${input.length} rolls\r\n`);
         stdout.write(`${sha256(input)}\r\n\r\n`);
         const key = await getKey(stdin);
-        const command = getCommand(key);
 
-        return [`${input}${command === Command.Process ? key : ""}`, command];
+        return [`${input}${key >= "1" && key <= "6" ? key : ""}`, key];
     };
 
     try {
@@ -84,12 +61,12 @@ const main = async () => {
         stdout.write("\r\n\r\n\r\n");
         stdout.write("Press 1-6 for each roll to mix in, ENTER to finish or CTRL-C to abort.\r\n");
         let input = "";
-        let command = Command.Ignore;
+        let key = "";
 
-        while (command !== Command.Finish) {
+        while (key !== "\r") {
             stdout.moveCursor(0, -3);
             // eslint-disable-next-line no-await-in-loop
-            [input, command] = await processKey(input);
+            [input, key] = await processKey(input);
         }
 
         stdout.write("\r\n");
