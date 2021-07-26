@@ -49,6 +49,7 @@
     "nyc": "^15.1.0"
   },
   "dependencies": {
+    "@bitgo/utxo-lib": "^1.9.5",
     "@types/crypto-js": "^4.0.1",
     "@types/node": "^14.17.4",
     "bip39": "^3.0.4",

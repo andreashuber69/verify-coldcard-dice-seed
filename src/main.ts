@@ -1,5 +1,7 @@
 // https://github.com/andreashuber69/verify-coldcard-dice-seed#--
 import { ReadStream } from "tty";
+import { HDNode } from "@bitgo/utxo-lib";
+import { mnemonicToSeed } from "bip39";
 import sha256 from "crypto-js/sha256";
 import { AbortError } from "./AbortError";
 import { calculateBip39Mnemonic } from "./calculateBip39Mnemonic";
@@ -86,6 +88,8 @@ const main = async () => {
         stdout.write("Navigate back to the main menu by pressing 'X' multiple times.\r\n");
         stdout.write("Select 'Secure Logout' and power down your COLDCARD.\r\n");
         await waitForUser();
+        const root = HDNode.fromSeedBuffer(await mnemonicToSeed(words.join(" ")));
+        stdout.write(root.derivePath("m/44'/0'/0'/0/0").getAddress());
 
         return 0;
     } catch (ex: unknown) {
@@ -103,5 +107,5 @@ const main = async () => {
     }
 };
 
-// The catch should never be reached (because we handle all errors in main). If it does, we let the whole thing fail.
+// The catch should never be reached (because we handle all errors in main). If it is, we let the whole thing fail.
 main().then((exitCode) => (process.exitCode = exitCode)).catch(() => (process.exitCode = 1));
