@@ -23,6 +23,17 @@ const getKey = async (stdin: ReadStream) => await new Promise<string>((resolve, 
 const toBech32Address = (node: HDNode) =>
     address.fromOutputScript(script.witnessPubKeyHash.output.encode(crypto.hash160(node.getPublicKeyBuffer())));
 
+const getAddresses = (rootNode: HDNode, accountRootPath: string, startIndex: number, length: number) => {
+    const accountRoot = rootNode.derivePath(accountRootPath);
+    const result = new Array<[string, string]>();
+
+    for (let index = startIndex; index < startIndex + length; ++index) {
+        result.push([`${accountRootPath}/${index}`, toBech32Address(accountRoot.derive(index))]);
+    }
+
+    return result;
+};
+
 const main = async () => {
     const { stdin, stdout } = process;
 
@@ -88,14 +99,29 @@ const main = async () => {
         await waitForUser();
         stdout.write("Select 'Address Explorer' and press the 4 button on your COLDCARD.\r\n");
         await waitForUser();
-        const accountRoot = HDNode.fromSeedBuffer(await mnemonicToSeed(words.join(" "))).derivePath("m/84'/0'/0'/0");
-        const node = accountRoot.derive(0);
-        const firstAddress = toBech32Address(node);
+        const root = HDNode.fromSeedBuffer(await mnemonicToSeed(words.join(" ")));
+        let batchStart = 0;
+        const batchLength = 10;
+        const getBatch = (startIndex: number) => getAddresses(root, "m/84'/0'/0'/0", startIndex, batchLength);
+
+        let batch = getBatch(batchStart);
+        const [[, firstAddress]] = batch;
         stdout.write(`Select '${firstAddress.slice(0, 8)}-${firstAddress.slice(-7)}' on your COLDCARD.\r\n`);
         await waitForUser();
-        stdout.write("Compare these entries to ones calculated by your COLDCARD:\r\n");
+        stdout.write("You can now verify as many addresses as you like and abort whenever you're comfortable:\r\n");
 
-        return 0;
+        // eslint-disable-next-line no-constant-condition
+        while (true) {
+            stdout.write(`Addresses ${batchStart}..${batchStart + batchLength - 1}:\r\n`);
+            stdout.write("\r\n");
+            stdout.write(batch.reduce((p, [path, addr]) => `${p}${path} => ${addr}\r\n`, ""));
+            stdout.write("\r\n");
+            stdout.write("Press the 9 button on your COLDCARD.\r\n");
+            // eslint-disable-next-line no-await-in-loop
+            await waitForUser();
+            batchStart += batchLength;
+            batch = getBatch(batchStart);
+        }
     } catch (ex: unknown) {
         if (!(ex instanceof AbortError)) {
             console.error(ex);
@@ -107,7 +133,8 @@ const main = async () => {
     } finally {
         stdout.write("\r\n\r\n");
         stdout.write("CAUTION: If you've set up your COLDCARD with a seed please clear it now by\r\n");
-        stdout.write("selecting 'Advanced', 'Danger Zone', 'Seed Functions', 'Destroy Seed'.\r\n");
+        stdout.write("first going back to the main menu by pressing the X button as many times as necessary\r\n");
+        stdout.write("and then selecting 'Advanced', 'Danger Zone', 'Seed Functions', 'Destroy Seed'.\r\n");
     }
 };
 
