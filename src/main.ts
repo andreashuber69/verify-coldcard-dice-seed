@@ -1,6 +1,6 @@
 // https://github.com/andreashuber69/verify-coldcard-dice-seed#--
 import { ReadStream } from "tty";
-import { HDNode } from "@bitgo/utxo-lib";
+import { address, crypto, HDNode, script } from "@bitgo/utxo-lib";
 import { mnemonicToSeed } from "bip39";
 import sha256 from "crypto-js/sha256";
 import { AbortError } from "./AbortError";
@@ -19,6 +19,9 @@ const getKey = async (stdin: ReadStream) => await new Promise<string>((resolve, 
         }
     });
 });
+
+const toBech32Address = (node: HDNode) =>
+    address.fromOutputScript(script.witnessPubKeyHash.output.encode(crypto.hash160(node.getPublicKeyBuffer())));
 
 const main = async () => {
     const { stdin, stdout } = process;
@@ -73,7 +76,7 @@ const main = async () => {
 
         stdout.write("\r\n");
         const suffix = `${input.length < 99 ? " twice" : ""}`;
-        stdout.write(`Press the OK button ('\u2713') on your COLDCARD${suffix}.\r\n`);
+        stdout.write(`Press the \u2713 button on your COLDCARD${suffix}.\r\n`);
         await waitForUser();
 
         const words = calculateBip39Mnemonic(`${sha256(input)}`);
@@ -81,15 +84,16 @@ const main = async () => {
         stdout.write(words.reduce((p, c, i) => `${p}${`0${i + 1}`.slice(-2)}: ${c}\r\n`, ""));
         stdout.write("\r\n");
         await waitForUser();
-        stdout.write("Press the OK button on your COLDCARD and answer the test questions.\r\n");
+        stdout.write("Press the \u2713 button on your COLDCARD and answer the test questions.\r\n");
         await waitForUser();
-        stdout.write("Select 'Advanced', 'MicroSD Card', 'Export Wallet', 'Generic JSON' on your\r\n");
-        stdout.write("COLDCARD. Then press '\u2713', '0' '\u2713'.\r\n");
-        stdout.write("Navigate back to the main menu by pressing 'X' multiple times.\r\n");
-        stdout.write("Select 'Secure Logout' and power down your COLDCARD.\r\n");
+        stdout.write("Select 'Address Explorer' and press the 4 button on your COLDCARD.\r\n");
         await waitForUser();
-        const root = HDNode.fromSeedBuffer(await mnemonicToSeed(words.join(" ")));
-        stdout.write(root.derivePath("m/44'/0'/0'/0/0").getAddress());
+        const accountRoot = HDNode.fromSeedBuffer(await mnemonicToSeed(words.join(" "))).derivePath("m/84'/0'/0'/0");
+        const node = accountRoot.derive(0);
+        const firstAddress = toBech32Address(node);
+        stdout.write(`Select '${firstAddress.slice(0, 8)}-${firstAddress.slice(-7)}' on your COLDCARD.\r\n`);
+        await waitForUser();
+        stdout.write("Compare these entries to ones calculated by your COLDCARD:\r\n");
 
         return 0;
     } catch (ex: unknown) {
