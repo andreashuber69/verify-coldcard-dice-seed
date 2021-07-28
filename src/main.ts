@@ -2,9 +2,9 @@
 import { ReadStream } from "tty";
 import { address, crypto, HDNode, script } from "@bitgo/utxo-lib";
 import { mnemonicToSeed } from "bip39";
-import sha256 from "crypto-js/sha256";
 import { AbortError } from "./AbortError";
 import { calculateBip39Mnemonic } from "./calculateBip39Mnemonic";
+import { sha256 } from "./sha256";
 
 const getKey = async (stdin: ReadStream) => await new Promise<string>((resolve, reject) => {
     stdin.resume();
@@ -45,7 +45,7 @@ const main = async () => {
 
     const processKey = async (input: string): Promise<[string, string]> => {
         stdout.write(`${input.length} rolls\r\n`);
-        stdout.write(`${sha256(input)}\r\n\r\n`);
+        stdout.write(`${sha256(Buffer.from(input))}\r\n\r\n`);
         const key = await getKey(stdin);
 
         return [`${input}${key >= "1" && key <= "6" ? key : ""}`, key];
@@ -90,7 +90,7 @@ const main = async () => {
         stdout.write(`Press the \u2713 button on your COLDCARD${suffix}.\r\n`);
         await waitForUser();
 
-        const words = calculateBip39Mnemonic(`${sha256(input)}`);
+        const words = calculateBip39Mnemonic(sha256(Buffer.from(input)));
         stdout.write("Compare these 24 words to the ones calculated by your COLDCARD:\r\n");
         stdout.write(words.reduce((p, c, i) => `${p}${`0${i + 1}`.slice(-2)}: ${c}\r\n`, ""));
         stdout.write("\r\n");

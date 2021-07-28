@@ -1,14 +1,13 @@
 // https://github.com/andreashuber69/verify-coldcard-dice-seed#--
 import { wordlists } from "bip39";
-import { enc } from "crypto-js";
-import sha256 from "crypto-js/sha256";
+import { sha256 } from "./sha256";
 
 const toBigInt = (hexNumber: string) => BigInt(`0x${hexNumber || "0"}`);
 
 const calculateCheckSum = (hexEntropy: string, cs: number) => {
-    const entropySha256 = sha256(enc.Hex.parse(hexEntropy));
+    const entropySha256 = sha256(Buffer.from(hexEntropy, "hex"));
 
-    return toBigInt(`${entropySha256}`) >> BigInt((entropySha256.sigBytes * 8) - cs);
+    return toBigInt(entropySha256) >> BigInt((entropySha256.length * 4) - cs);
 };
 
 const getWords = (checkedEntropy: bigint, bits: number) => {

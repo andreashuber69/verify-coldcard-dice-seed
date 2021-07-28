@@ -13,6 +13,7 @@ declare module "@bitgo/utxo-lib" {
 
     export namespace crypto {
         export function hash160(buffer: Buffer): Buffer;
+        export function sha256(buffer: Buffer): Buffer;
     }
 
     export namespace script {
