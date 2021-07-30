@@ -123,17 +123,17 @@ const main = async () => {
             batch = getBatch(batchStart);
         }
     } catch (ex: unknown) {
-        if (!(ex instanceof AbortError)) {
-            console.error(ex);
-
-            return 1;
+        if (ex instanceof AbortError) {
+            return 0;
         }
 
-        return 0;
+        console.error(ex);
+
+        return 1;
     } finally {
         stdout.write("\r\n\r\n");
-        stdout.write("CAUTION: If you've set up your COLDCARD with a seed please clear it now by\r\n");
-        stdout.write("first going back to the main menu by pressing the X button as many times as necessary\r\n");
+        stdout.write("CAUTION: If you've set up your COLDCARD with a seed please clear it now by first\r\n");
+        stdout.write("going back to the main menu by pressing the X button as many times as necessary\r\n");
         stdout.write("and then selecting 'Advanced', 'Danger Zone', 'Seed Functions', 'Destroy Seed'.\r\n");
     }
 };
