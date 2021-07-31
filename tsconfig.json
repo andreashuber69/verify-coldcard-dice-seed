@@ -7,7 +7,7 @@
     "module": "CommonJS",
     "noFallthroughCasesInSwitch": true,
     "noImplicitReturns": true,
-    "outDir": "./dist/",
+    "outDir": "dist",
     "paths": {
       "@bitgo/utxo-lib": ["src/bitgo__utxo-lib"]
     },
