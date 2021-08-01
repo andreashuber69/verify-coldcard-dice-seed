@@ -50,4 +50,4 @@ const execute = async () => {
     process.on("exit", () => process.exit(suiteRun.stats?.failures ?? 0));
 };
 
-execute().catch((error) => void console.error(`${error}`));
+execute().catch((error) => void console.error(error));
