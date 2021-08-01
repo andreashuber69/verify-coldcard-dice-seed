@@ -1,21 +1,28 @@
 {
   "name": "verify-coldcard-dice-seed",
-  "author": {
-    "name": "Andreas Huber"
-  },
+  "version": "1.0.0",
+  "description":
+    "Helps you to verify whether your COLDCARD correctly generates 24 word Bitcoin wallet seeds from dice rolls. It then displays the public addresses that should be generated from the wallet seed.",
   "keywords": [
+    "bitcoin",
+    "wallet",
+    "seed",
     "coldcard"
   ],
-  "description": "",
   "homepage": "https://github.com/andreashuber69/verify-coldcard-dice-seed/blob/master/README.md#--",
-  "version": "4.1.2",
-  "license": "Unlicense",
   "repository": {
     "type": "git",
     "url": "https://github.com/andreashuber69/verify-coldcard-dice-seed.git"
   },
   "bugs": {
     "url": "https://github.com/andreashuber69/verify-coldcard-dice-seed/issues"
+  },
+  "license": "Unlicense",
+  "author": {
+    "name": "Andreas Huber"
+  },
+  "engines": {
+    "node": ">=10.4.0"
   },
   "main": "dist/main.js",
   "files": [
