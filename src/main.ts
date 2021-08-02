@@ -61,7 +61,7 @@ const main = async () => {
         stdin.setRawMode(true);
         stdin.setEncoding("utf-8");
 
-        stdout.write("Verify COLDCARD dice seed\r\n");
+        stdout.write("Verify COLDCARD v4.1.2 dice seed\r\n");
         stdout.write("\r\n");
         stdout.write("This application guides you through VERIFYING whether your COLDCARD correctly generates\r\n");
         stdout.write("24 word seeds from dice rolls.\r\n");
