@@ -1,6 +1,6 @@
 {
   "name": "verify-coldcard-dice-seed",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Helps you to verify whether your COLDCARD correctly generates 24 word Bitcoin wallet seeds from dice rolls. It then displays the public addresses that should be generated from the wallet seed.",
   "keywords": [
     "bitcoin",
@@ -35,7 +35,7 @@
     "test": "nyc --include 'src/*.ts' --extension .ts --require ts-node/register --reporter=html --reporter=text --all npm run test-no-coverage",
     "show-coverage": "lite-server --baseDir='coverage'",
     "preci": "npm run lint",
-    "ci": "npm test"
+    "ci": "npm test && tsc"
   },
   "devDependencies": {
     "@types/chai": "^4.2.19",
