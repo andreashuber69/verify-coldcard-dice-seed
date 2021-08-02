@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 // https://github.com/andreashuber69/verify-coldcard-dice-seed#--
 import { ReadStream } from "tty";
 import { address, crypto, HDNode, script } from "@bitgo/utxo-lib";
