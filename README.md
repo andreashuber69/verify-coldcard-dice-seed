@@ -83,8 +83,8 @@ This application is based on Node.js. Please download and install the version fo
 
 3. Follow the instructions in the command line window.
 
-4. Optional: The application with all it dependencies occupies roughly 5MB on your hard drive. To reclaim that space,
-   you can delete the npx cache as follows:
+4. Optional: The application with all its dependencies occupies roughly 5MB on your hard drive. To reclaim that space,
+   you can delete the npx cache (the following commands assume that you did not change the default locations):
    - Linux (& probably MacOS):
 
      ``` bash
@@ -92,7 +92,9 @@ This application is based on Node.js. Please download and install the version fo
      ```
 
    - Windows:
+     Two locations seem to be used (possibly depending on the npx version). The following command attempts to delete
+     both. If just one was used on your system, you might see a `The system cannot find the file specified` message.
 
      ``` bash
-     rmdir /q /s %AppData%/npm-cache/_npx
+     rmdir /q /s "%LocalAppData%\npm-cache\_npx" "%AppData%\npm-cache\_npx"
      ```
