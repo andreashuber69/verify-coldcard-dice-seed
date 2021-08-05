@@ -21,8 +21,14 @@
 
 <h1 align="center">Verify COLDCARD Dice Seed</h1>
 
-This application guides you through verifying whether your COLDCARD correctly derives 24 word seeds and addresses from
+This application guides you through verifying that your COLDCARD correctly derives 24 word seeds and addresses from
 dice rolls.
+
+CAUTION: The very point of a COLDCARD is that the 24 word seed of a real wallet is never entered outside of a coldcard.
+You should therefore only use this application to verify the seed and address derivation of your COLDCARD. Once you
+are convinced that your COLDCARD works correctly, you should then generate the seed of your real wallet on your COLDCARD
+only. Since the COLDCARD electronics has no way of knowing whether you're verifying seed derivation or generating a real
+wallet, you can be reasonably sure that your real wallet was indeed derived from the dice entropy you entered.
 
 ## Installation
 
@@ -37,7 +43,7 @@ This application is based on Node.js. Please download and install the version fo
    npx verify-coldcard-dice-seed
    ```
 
-2. First time usage only: Press the Enter key to acknowledge that the this package needs to be installed temporarily.
+2. First time usage only: Press the Enter key to acknowledge that the package needs to be installed.
 
 3. Follow the instructions in the command line window.
 
@@ -69,6 +75,8 @@ least the following conditions are satisfied:
 1. The seed of the hardware wallet is verifiably derived from truly random entropy.
 2. Addresses are reproducibly generated from the seed.
 
+### Why You Should Verify the Seed and Address Derivation of your HW Wallet
+
 The first point is often overlooked and most users thus simply trust that the electronically generated entropy used to
 derive the seed is indeed truly random. Unfortunately, there is no easy way to verify this for any given wallet.
 
@@ -78,9 +86,7 @@ features:
 - Allow for the external supply of entropy
 - Reproducibly generate the seed from the supplied entropy
 
-### Verifying the Security of a COLDCARD
-
-The [COLDCARD](https://coldcardwallet.com/) hardware wallet provides both features, as it allows the use of dice to
+The [COLDCARD](https://coldcardwallet.com) hardware wallet provides both features, as it allows the use of dice to
 generate the entropy and documents how the entropy is then used to generate the seed.
 
 While the manufacturer has surely tested this extensively, how can you be sure that your copy of the COLDCARD does this
@@ -96,9 +102,3 @@ The manufacturer [Coinkite](https://coinkite.com) is of course aware of that dan
 with a Python script. This application does the same but goes one step further: It also allows you to verify the receive
 addresses derived from the seed. This covers the scenario where a malicious COLDCARD copy correctly derives the seed but
 then generates addresses from a different seed, only known to the attacker.
-
-CAUTION: The very point of a COLDCARD is that the 24 word seed of a real wallet is NEVER entered outside of a coldcard.
-You should therefore only use this application to verify the seed and address derivation of your COLDCARD. Once you
-are convinced that your COLDCARD works correctly, you should then generate the seed of your real wallet on your COLDCARD
-only. Since the COLDCARD electronics has no way of knowing whether you're verifying seed derivation or generating a real
-wallet, you can be reasonably sure that your real wallet was indeed derived from the dice entropy you entered.
