@@ -47,12 +47,13 @@ features:
 The [COLDCARD](https://coldcardwallet.com/) hardware wallet provides both features, as it allows the use of dice to
 generate the entropy and documents how the entropy is then used to generate the seed.
 
-The problem is: How can you be sure that your copy of the COLDCARD does this correctly? This might sound far-fetched so
-here is a scenario where your funds could be stolen simply because you did not verify this yourself: The COLDCARD you
-ordered was interdicted and exchanged on its way to you. The COLDCARD you got looks and works exactly like a normal
-COLDCARD but is designed to steal your funds. It does so by only using say 30 bits of the entropy you entered and
-replacing the others with bits the attacker knows. The only way this can be detected reliably is by duplicating the
-process of seed derivation and verifying whether your COLDCARD copy produces the same seed.
+While the manufacturer has surely tested this extensively, how can you be sure that your copy of the COLDCARD does this
+correctly? The short answer is: You can't until you have verified this yourself. If this sounds far-fetched, here is a
+scenario: The COLDCARD you ordered was interdicted and exchanged on its way to you. The COLDCARD you got looks
+and works exactly like a normal COLDCARD but is designed to steal your funds. It does so by only using say 30 bits of
+the entropy you entered and replacing the others with bits the attacker knows. The seed words thus generated **look**
+random to you but the attacker can easily gain control over your Bitcoin by regularly checking the billion or so wallets
+that the 30 random bits represent.
 
 The manufacturer [Coinkite](https://coinkite.com) is of course aware of that danger and
 [provides instructions](https://coldcardwallet.com/docs/verifying-dice-roll-math) on how to verify dice seed derivation
@@ -61,8 +62,8 @@ addresses derived from the seed. This covers the scenario where a malicious COLD
 then generates addresses from a different seed, only known to the attacker.
 
 CAUTION: The very point of a COLDCARD is that the 24 word seed of a real wallet is NEVER entered outside of a coldcard.
-You should therefore only use this application to VERIFY the seed and address derivation of your COLDCARD. Once you are
-convinced that your COLDCARD works correctly, you should then generate the seed of your real wallet on your COLDCARD
+You should therefore only use this application to **verify** the seed and address derivation of your COLDCARD. Once you
+are convinced that your COLDCARD works correctly, you should then generate the seed of your real wallet on your COLDCARD
 only. Since the COLDCARD electronics has no way of knowing whether you're verifying seed derivation or generating a real
 wallet, you can be reasonably sure that your real wallet was indeed derived from the dice entropy you entered.
 
