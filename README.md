@@ -57,7 +57,7 @@ This application is based on Node.js. Please download and install the version fo
 
    - Windows:
      Two locations seem to be used (possibly depending on the npx version). The following command attempts to delete
-     both. If just one was used on your system, you might see a `The system cannot find the file specified` message.
+     both. If just one was used on your system, you might see a `The system cannot find the file specified` message:
 
      ``` bash
      rmdir /q /s "%LocalAppData%\npm-cache\_npx" "%AppData%\npm-cache\_npx"
