@@ -77,28 +77,29 @@ least the following conditions are satisfied:
 
 ### Why You Should Verify the Seed and Address Derivation of your HW Wallet
 
-The first point is often overlooked and most users thus simply trust that the electronically generated entropy used to
-derive the seed is indeed truly random. Unfortunately, there is no easy way to verify this for any given wallet.
+The first point is often overlooked and most users simply trust that the electronically generated entropy used to
+derive the seed is truly random. Here are two reasons why such trust is misplaced:
 
-If you want to be sure that your seed is derived from truly random entropy, your wallet must provide the following
-features:
+- Most HW wallets use a hardware random number generator (HW RNG) as a source of entropy. HW RNGs are often used in
+  security-critical applications (encrypted communication, digital signing, etc.). Companies mass-producing such
+  hardware are thus prime targets for intelligence agency "nudging" or even downright infiltration.
+- The HW wallet you ordered could have been interdicted and exchanged on its way to you. The one you got looks and
+  works exactly like the original but is designed to steal your funds. It does so by only using say 30 bits of entropy
+  and replacing the others with bits the attacker can calculate from the 30 bits. The seed words thus generated **look**
+  random to you and would probably pass every [randomness test](https://en.wikipedia.org/wiki/Statistical_randomness)
+  but the attacker can easily gain control over your funds by regularly checking the billion or so wallets that the 30
+  random bits represent.
+
+Therefore, if you want to be sure that your seed is derived from truly random entropy, your wallet must provide the
+following features:
 
 - Allow for the external supply of entropy
-- Reproducibly generate the seed from the supplied entropy
+- Reproducibly generate the seed and addresses from the supplied entropy
 
 The [COLDCARD](https://coldcardwallet.com) hardware wallet provides both features, as it allows the use of dice to
-generate the entropy and documents how the entropy is then used to generate the seed.
-
-While the manufacturer has surely tested this extensively, how can you be sure that your copy of the COLDCARD does this
-correctly? The short answer is: You can't until you have verified this yourself. If this sounds far-fetched, here is a
-scenario: The COLDCARD you ordered was interdicted and exchanged on its way to you. The COLDCARD you got looks and works
-exactly like a normal COLDCARD but is designed to steal your funds. It does so by only using say 30 bits of the entropy
-you entered and replacing the others with bits the attacker knows. The seed words thus generated **look** random to you
-but the attacker can easily gain control over your Bitcoin by regularly checking the billion or so wallets that the 30
-random bits represent.
-
-The manufacturer [Coinkite](https://coinkite.com) is of course aware of that danger and
-[provides instructions](https://coldcardwallet.com/docs/verifying-dice-roll-math) on how to verify dice seed derivation
-with a Python script. This application does the same but goes one step further: It also allows you to verify the receive
-addresses derived from the seed. This covers the scenario where a malicious COLDCARD copy correctly derives the seed but
-then generates addresses from a different seed, only known to the attacker.
+generate the entropy and documents how the seed is then derived from the entropy. As we've seen above, using dice rolls
+only makes sense when you can verify that your COLDCARD indeed factors in all rolls into the entropy. This is why the
+manufacturer [provides instructions](https://coldcardwallet.com/docs/verifying-dice-roll-math)
+on how to verify dice seed derivation with a Python script. This application does the same but goes one step further: It
+also allows you to verify the receive addresses derived from the seed. This covers the scenario where a malicious
+COLDCARD copy correctly derives the seed but then generates addresses from a different seed, only known to the attacker.
