@@ -63,18 +63,18 @@ const main = async () => {
 
         stdout.write("Verify COLDCARD v4.1.2 dice seed\r\n");
         stdout.write("\r\n");
-        stdout.write("This application guides you through VERIFYING whether your COLDCARD correctly generates\r\n");
-        stdout.write("24 word seeds from dice rolls.\r\n");
-        stdout.write("CAUTION: The very point of a COLDCARD is that the 24 word seed of a real wallet is\r\n");
-        stdout.write("NEVER entered outside of a coldcard.\r\n");
-        stdout.write("So, once you have tested your COLDCARD successfully, you should then generate the\r\n");
-        stdout.write("24 word seed for your real wallet on your COLDCARD only.\r\n\r\n");
+        stdout.write("This application guides you through VERIFYING whether your COLDCARD correctly\r\n");
+        stdout.write("generates 24 word seeds from dice rolls.\r\n");
+        stdout.write("CAUTION: The very point of a COLDCARD is that the 24 word seed of a real wallet\r\n");
+        stdout.write("is never entered outside of a coldcard.\r\n");
+        stdout.write("So, once you have tested your COLDCARD successfully, you should then generate\r\n");
+        stdout.write("the 24 word seed for your real wallet on your COLDCARD only.\r\n\r\n");
 
         stdout.write("Log into your COLDCARD, select 'Import Existing', 'Dice Rolls'.\r\n");
         await waitForUser();
-        stdout.write("To perform a realistic test you should enter exactly as many dice rolls as you will\r\n");
-        stdout.write("enter for your real wallet. 99 or more rolls are recommended for maximum security.\r\n");
-        stdout.write("Roll the dice and enter the value on your COLDCARD and here.\r\n");
+        stdout.write("To perform a realistic test you should enter exactly as many dice rolls as you\r\n");
+        stdout.write("will enter for your real wallet. 99 or more rolls are recommended for maximum\r\n");
+        stdout.write("security. Roll the dice and enter the value on your COLDCARD and here.\r\n");
         stdout.write("\r\n\r\n\r\n");
         stdout.write("Press 1-6 for each roll to mix in, ENTER to finish or CTRL-C to abort.\r\n");
         let input = "";
@@ -88,7 +88,7 @@ const main = async () => {
 
         stdout.write("\r\n");
         const suffix = `${input.length < 99 ? " twice" : ""}`;
-        stdout.write(`Press the \u2713 button on your COLDCARD${suffix}.\r\n`);
+        stdout.write(`Press the OK button on your COLDCARD${suffix}.\r\n`);
         await waitForUser();
 
         const words = calculateBip39Mnemonic(sha256(Buffer.from(input)));
@@ -96,7 +96,7 @@ const main = async () => {
         stdout.write(words.reduce((p, c, i) => `${p}${`0${i + 1}`.slice(-2)}: ${c}\r\n`, ""));
         stdout.write("\r\n");
         await waitForUser();
-        stdout.write("Press the \u2713 button on your COLDCARD and answer the test questions.\r\n");
+        stdout.write("Press the OK button on your COLDCARD and answer the test questions.\r\n");
         await waitForUser();
         stdout.write("Select 'Address Explorer' and press the 4 button on your COLDCARD.\r\n");
         await waitForUser();
@@ -109,7 +109,8 @@ const main = async () => {
         const [[, firstAddress]] = batch;
         stdout.write(`Select '${firstAddress.slice(0, 8)}-${firstAddress.slice(-7)}' on your COLDCARD.\r\n`);
         await waitForUser();
-        stdout.write("You can now verify as many addresses as you like and abort whenever you're comfortable:\r\n");
+        stdout.write("You can now verify as many addresses as you like and abort whenever you're\r\n");
+        stdout.write("comfortable:\r\n");
 
         // eslint-disable-next-line no-constant-condition
         while (true) {
