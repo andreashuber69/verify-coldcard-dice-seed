@@ -106,8 +106,8 @@ COLDCARD copy correctly derives the seed but then generates addresses from a dif
 
 ## Sample Output
 
-``` bash
-vcds:~$ npx verify-coldcard-dice-seed
+``` shell_session
+$ npx verify-coldcard-dice-seed
 Need to install the following packages:
   verify-coldcard-dice-seed
 Ok to proceed? (y) 
