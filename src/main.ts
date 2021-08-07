@@ -65,11 +65,12 @@ const main = async () => {
         stdout.write("\r\n");
         stdout.write("This application guides you through VERIFYING whether your COLDCARD correctly\r\n");
         stdout.write("generates 24 word seeds from dice rolls.\r\n");
+        stdout.write("\r\n");
         stdout.write("CAUTION: The very point of a COLDCARD is that the 24 word seed of a real wallet\r\n");
-        stdout.write("is never entered outside of a coldcard.\r\n");
-        stdout.write("So, once you have tested your COLDCARD successfully, you should then generate\r\n");
-        stdout.write("the 24 word seed for your real wallet on your COLDCARD only.\r\n\r\n");
-
+        stdout.write("is never entered outside of a coldcard. So, once you have tested your COLDCARD\r\n");
+        stdout.write("successfully, you should then generate the 24 word seed for your real wallet on\r\n");
+        stdout.write("your COLDCARD only.\r\n");
+        stdout.write("\r\n");
         stdout.write("Log into your COLDCARD, select 'Import Existing', 'Dice Rolls'.\r\n");
         await waitForUser();
         stdout.write("To perform a realistic test you should enter exactly as many dice rolls as you\r\n");
