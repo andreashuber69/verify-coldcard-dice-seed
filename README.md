@@ -77,7 +77,7 @@ least the following conditions are satisfied:
 
 ### Why You Should Verify the Seed and Address Derivation of your HW Wallet
 
-The first point is often overlooked and most users simply trust that the electronically generated entropy used to
+The first point above is often overlooked and most users simply trust that the electronically generated entropy used to
 derive the seed is truly random. Here are two reasons why such trust is misplaced:
 
 - Most HW wallets use a hardware random number generator (HW RNG) as a source of entropy. HW RNGs are often used in
