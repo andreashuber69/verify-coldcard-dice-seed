@@ -85,13 +85,14 @@ const main = async () => {
 
         stdout.write("Verify COLDCARD v4.1.2 dice seed\r\n");
         stdout.write("\r\n");
-        stdout.write("This application guides you through VERIFYING whether your COLDCARD correctly\r\n");
-        stdout.write("generates 24 word seeds from dice rolls.\r\n");
+        stdout.write("This application guides you through verifying that your COLDCARD correctly\r\n");
+        stdout.write("derives seeds and addresses from dice rolls.\r\n");
         stdout.write("\r\n");
-        stdout.write("CAUTION: The very point of a COLDCARD is that the 24 word seed of a real wallet\r\n");
-        stdout.write("is never entered outside of a coldcard. So, once you have tested your COLDCARD\r\n");
-        stdout.write("successfully, you should then generate the 24 word seed for your real wallet on\r\n");
-        stdout.write("your COLDCARD only.\r\n");
+        stdout.write("CAUTION: The very point of a COLDCARD is that the seed of a real wallet is\r\n");
+        stdout.write("never entered outside of a coldcard. You should therefore only use this\r\n");
+        stdout.write("application to verify the seed and address derivation of your COLDCARD. Once\r\n");
+        stdout.write("you are convinced that your COLDCARD works correctly, you should then generate\r\n");
+        stdout.write("the seed of your real wallet on your COLDCARD only.\r\n");
         stdout.write("\r\n");
         stdout.write("Log into your COLDCARD, select 'Import Existing', 'Dice Rolls'.\r\n");
         await waitForUser();
@@ -159,8 +160,8 @@ const main = async () => {
     } finally {
         stdout.write("\r\n\r\n");
         stdout.write("CAUTION: If you've set up your COLDCARD with a seed please clear it now by first\r\n");
-        stdout.write("going back to the main menu by pressing the X button as many times as necessary\r\n");
-        stdout.write("and then selecting 'Advanced', 'Danger Zone', 'Seed Functions', 'Destroy Seed'.\r\n");
+        stdout.write("going back to the main menu (press the X button as many times as necessary) and\r\n");
+        stdout.write("then selecting 'Advanced', 'Danger Zone', 'Seed Functions', 'Destroy Seed'.\r\n");
     }
 };
 
