@@ -39,10 +39,12 @@ const getAddresses = (rootNode: HDNode, accountRootPath: string, startIndex: num
 const main = async () => {
     const { stdin, stdout } = process;
 
-    const waitForUser = async () => {
-        stdout.write("Press any key to continue or CTRL-C to abort: ");
-        await getKey(stdin);
+    const waitForUser = async (prompt?: string) => {
+        stdout.write(prompt ?? "Press any key to continue or CTRL-C to abort: ");
+        const key = await getKey(stdin);
         stdout.write("\r\n\r\n");
+
+        return key;
     };
 
     const processKey = async (input: string): Promise<[string, string]> => {
@@ -53,12 +55,13 @@ const main = async () => {
         return [`${input}${key >= "1" && key <= "6" ? key : ""}`, key];
     };
 
-    const readline = async (prompt: string) => await new Promise<string>((resolve, reject) => {
+    const readPassphrase = async () => await new Promise<string>((resolve, reject) => {
         const readlineInterface = createInterface(stdin, stdout);
         readlineInterface.question(
-            prompt,
+            "Wallet passphrase (press Return for none): ",
             (l) => {
                 readlineInterface.close();
+                stdin.setRawMode(true);
                 resolve(l);
             },
         );
@@ -123,32 +126,47 @@ const main = async () => {
         stdout.write("Press the OK button on your COLDCARD and answer the test questions.\r\n");
         await waitForUser();
 
-        stdout.write("Select 'Address Explorer' and press the 4 button on your COLDCARD.\r\n");
-        await waitForUser();
-        const root = HDNode.fromSeedBuffer(await mnemonicToSeed(words.join(" ")));
-        let batchStart = 0;
-        const batchLength = 10;
-        const getBatch = (startIndex: number) => getAddresses(root, "m/84'/0'/0'/0", startIndex, batchLength);
-
-        let batch = getBatch(batchStart);
-        const [[, firstAddress]] = batch;
-        stdout.write(`Select '${firstAddress.slice(0, 8)}-${firstAddress.slice(-7)}' on your COLDCARD.\r\n`);
-        await waitForUser();
-        stdout.write("You can now verify as many addresses as you like and abort whenever you're\r\n");
-        stdout.write("comfortable:\r\n");
-
+        /* eslint-disable no-await-in-loop */
         // eslint-disable-next-line no-constant-condition
         while (true) {
-            stdout.write(`Addresses ${batchStart}..${batchStart + batchLength - 1}:\r\n`);
-            stdout.write("\r\n");
-            stdout.write(batch.reduce((p, [path, addr]) => `${p}${path} => ${addr}\r\n`, ""));
-            stdout.write("\r\n");
-            stdout.write("Press the 9 button on your COLDCARD.\r\n");
-            // eslint-disable-next-line no-await-in-loop
+            const passphrase = await readPassphrase();
+
+            if (passphrase) {
+                stdout.write("Select 'Passphrase', press the OK button and enter the same passphrase.\r\n");
+                stdout.write("Select 'APPLY', and press the OK button.\r\n");
+                await waitForUser();
+            }
+
+            stdout.write("Select 'Address Explorer' and press the 4 button on your COLDCARD.\r\n");
             await waitForUser();
-            batchStart += batchLength;
-            batch = getBatch(batchStart);
+            const root = HDNode.fromSeedBuffer(await mnemonicToSeed(words.join(" "), passphrase));
+            const batchLength = 10;
+            const getBatch = (startIndex: number) => getAddresses(root, "m/84'/0'/0'/0", startIndex, batchLength);
+
+            let batchStart = 0;
+            let batch = getBatch(batchStart);
+            const [[, firstAddress]] = batch;
+            stdout.write(`Select '${firstAddress.slice(0, 8)}-${firstAddress.slice(-7)}' on your COLDCARD.\r\n`);
+            await waitForUser();
+            stdout.write("You can now verify as many addresses as you like and abort whenever you're\r\n");
+            stdout.write("comfortable.\r\n");
+            let showNextBatch = true;
+
+            while (showNextBatch) {
+                stdout.write(`Addresses ${batchStart}..${batchStart + batchLength - 1}:\r\n`);
+                stdout.write("\r\n");
+                stdout.write(batch.reduce((p, [path, addr]) => `${p}${path} => ${addr}\r\n`, ""));
+                stdout.write("\r\n");
+                stdout.write("Press the 9 button on your COLDCARD.\r\n");
+                const prompt = "Press p to enter a new passphrase, CTRL-C to abort or any other key to continue: ";
+                showNextBatch = await waitForUser(prompt) !== "p";
+                batchStart += batchLength;
+                batch = getBatch(batchStart);
+            }
+
+            stdout.write("On your COLDCARD, press the X button twice.\r\n");
         }
+        /* eslint-enable no-await-in-loop */
     } catch (ex: unknown) {
         if (ex instanceof AbortError) {
             return 0;
