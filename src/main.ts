@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 // https://github.com/andreashuber69/verify-coldcard-dice-seed#--
+import { createInterface } from "readline";
 import { ReadStream } from "tty";
 import { address, crypto, HDNode, script } from "@bitgo/utxo-lib";
 import { mnemonicToSeed } from "bip39";
@@ -52,6 +53,27 @@ const main = async () => {
         return [`${input}${key >= "1" && key <= "6" ? key : ""}`, key];
     };
 
+    const readline = async (prompt: string) => await new Promise<string>((resolve, reject) => {
+        const readlineInterface = createInterface(stdin, stdout);
+        readlineInterface.question(
+            prompt,
+            (l) => {
+                readlineInterface.close();
+                resolve(l);
+            },
+        );
+
+        readlineInterface.once(
+            "SIGINT",
+            () => {
+                readlineInterface.close();
+                reject(new AbortError());
+            },
+        );
+
+        readlineInterface.on("SIGTSTP", () => undefined);
+    });
+
     try {
         if (!(stdin instanceof ReadStream)) {
             throw new Error("stdin is not an instance of tty.ReadStream");
@@ -99,6 +121,7 @@ const main = async () => {
         await waitForUser();
         stdout.write("Press the OK button on your COLDCARD and answer the test questions.\r\n");
         await waitForUser();
+
         stdout.write("Select 'Address Explorer' and press the 4 button on your COLDCARD.\r\n");
         await waitForUser();
         const root = HDNode.fromSeedBuffer(await mnemonicToSeed(words.join(" ")));
