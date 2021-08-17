@@ -130,12 +130,10 @@ const main = async () => {
         // eslint-disable-next-line no-constant-condition
         while (true) {
             const passphrase = await readPassphrase();
-
-            if (passphrase) {
-                stdout.write("Select 'Passphrase', press the OK button and enter the same passphrase.\r\n");
-                stdout.write("Select 'APPLY', and press the OK button.\r\n");
-                await waitForUser();
-            }
+            stdout.write("\r\n");
+            stdout.write("On your COLDCARD, select 'Passphrase', press the OK button and enter the\r\n");
+            stdout.write("same passphrase. Select 'APPLY', and press the OK button.\r\n");
+            await waitForUser();
 
             stdout.write("Select 'Address Explorer' and press the 4 button on your COLDCARD.\r\n");
             await waitForUser();
@@ -158,7 +156,7 @@ const main = async () => {
                 stdout.write(batch.reduce((p, [path, addr]) => `${p}${path} => ${addr}\r\n`, ""));
                 stdout.write("\r\n");
                 stdout.write("Press the 9 button on your COLDCARD.\r\n");
-                const prompt = "Press p to enter a new passphrase, CTRL-C to abort or any other key to continue: ";
+                const prompt = "Press p for a new passphrase, CTRL-C to abort or any other key to continue: ";
                 showNextBatch = await waitForUser(prompt) !== "p";
                 batchStart += batchLength;
                 batch = getBatch(batchStart);
