@@ -175,9 +175,10 @@ const main = async () => {
         return 1;
     } finally {
         stdout.write("\r\n\r\n");
-        stdout.write("CAUTION: If you've set up your COLDCARD with a seed please clear it now by first\r\n");
-        stdout.write("going back to the main menu (press the X button as many times as necessary) and\r\n");
-        stdout.write("then selecting 'Advanced', 'Danger Zone', 'Seed Functions', 'Destroy Seed'.\r\n");
+        stdout.write("CAUTION: If you've set up your COLDCARD with a seed please clear it now by\r\n");
+        stdout.write("first going back to the main menu (press the X button as many times as\r\n");
+        stdout.write("necessary) and then selecting 'Advanced', 'Danger Zone', 'Seed Functions',\r\n");
+        stdout.write("'Destroy Seed'.");
     }
 };
 
