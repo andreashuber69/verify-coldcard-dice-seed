@@ -21,14 +21,14 @@
 
 <h1 align="center">Verify COLDCARD Dice Seed</h1>
 
-This application guides you through verifying that your COLDCARD correctly derives 24 word seeds and addresses from
-dice rolls.
+This application guides you through verifying that your COLDCARD correctly derives seeds and addresses from dice rolls.
 
-CAUTION: The very point of a COLDCARD is that the 24 word seed of a real wallet is never entered outside of a coldcard.
-You should therefore only use this application to verify the seed and address derivation of your COLDCARD. Once you
-are convinced that your COLDCARD works correctly, you should then generate the seed of your real wallet on your COLDCARD
-only. Since the COLDCARD electronics has no way of knowing whether you're verifying seed derivation or generating a real
-wallet, you can be reasonably sure that your real wallet was indeed derived from the dice entropy you entered.
+CAUTION: The very point of a COLDCARD is that the seed (usually expressed as a 24 word mnemonic) of a real wallet is
+never entered outside of a coldcard. You should therefore only use this application to verify the seed and address
+derivation of your COLDCARD. Once you are convinced that your COLDCARD works correctly, you should then generate the
+seed of your real wallet on your COLDCARD only. Since the COLDCARD electronics has no way of knowing whether you're
+verifying seed derivation or generating a real wallet, you can be reasonably sure that your real wallet was indeed
+derived from the dice entropy you entered.
 
 ## Installation
 
@@ -103,3 +103,126 @@ manufacturer [provides instructions](https://coldcardwallet.com/docs/verifying-d
 on how to verify dice seed derivation with a Python script. This application does the same but goes one step further: It
 also allows you to verify the receive addresses derived from the seed. This covers the scenario where a malicious
 COLDCARD copy correctly derives the seed but then generates addresses from a different seed, only known to the attacker.
+
+## Sample Output
+
+``` shell_session
+$ npx verify-coldcard-dice-seed
+Need to install the following packages:
+  verify-coldcard-dice-seed
+Ok to proceed? (y) 
+Verify COLDCARD v4.1.2 dice seed
+
+This application guides you through VERIFYING whether your COLDCARD correctly
+generates 24 word seeds from dice rolls.
+
+CAUTION: The very point of a COLDCARD is that the 24 word seed of a real wallet
+is never entered outside of a coldcard. So, once you have tested your COLDCARD
+successfully, you should then generate the 24 word seed for your real wallet on
+your COLDCARD only.
+
+Log into your COLDCARD, select 'Import Existing', 'Dice Rolls'.
+Press any key to continue or CTRL-C to abort: 
+
+To perform a realistic test you should enter exactly as many dice rolls as you
+will enter for your real wallet. 99 or more rolls are recommended for maximum
+security. Roll the dice and enter the value on your COLDCARD and here.
+
+6 rolls
+8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92
+Press 1-6 for each roll to mix in, ENTER to finish or CTRL-C to abort.
+
+Press the OK button on your COLDCARD twice.
+Press any key to continue or CTRL-C to abort: 
+
+Compare these 24 words to the ones calculated by your COLDCARD:
+01: mirror
+02: reject
+03: rookie
+04: talk
+05: pudding
+06: throw
+07: happy
+08: era
+09: myth
+10: already
+11: payment
+12: own
+13: sentence
+14: push
+15: head
+16: sting
+17: video
+18: explain
+19: letter
+20: bomb
+21: casual
+22: hotel
+23: rather
+24: garment
+
+Press any key to continue or CTRL-C to abort: 
+
+Press the OK button on your COLDCARD and answer the test questions.
+Press any key to continue or CTRL-C to abort: 
+
+Select 'Address Explorer' and press the 4 button on your COLDCARD.
+Press any key to continue or CTRL-C to abort: 
+
+Select 'bc1qh2ns-6nvprc4' on your COLDCARD.
+Press any key to continue or CTRL-C to abort: 
+
+You can now verify as many addresses as you like and abort whenever you're
+comfortable:
+Addresses 0..9:
+
+m/84'/0'/0'/0/0 => bc1qh2nsjhtgknshf6mpsdm6rm3rtchvq836nvprc4
+m/84'/0'/0'/0/1 => bc1qz0apv5phxqar45crmskrp9qcz050c5r2fr8g2r
+m/84'/0'/0'/0/2 => bc1q5edhylv4eaqkdmpxvla224739v4jpykymct666
+m/84'/0'/0'/0/3 => bc1qrmlczy4wdjduz5xmdyjpakhdvfjjg6gpfdkn9x
+m/84'/0'/0'/0/4 => bc1qnp4fdnx0qtwd86t9tep4gf75smtfjyfh97t6qg
+m/84'/0'/0'/0/5 => bc1qtwdpry0z2thx4n5zg38dqya3trlem53vreydy5
+m/84'/0'/0'/0/6 => bc1qdtysrkjx0jfde8yckw60k9duz3hx7lcnd679ww
+m/84'/0'/0'/0/7 => bc1qv8x3lgptf0mq0nzalzkmlkljg4q6jwt3gejjhn
+m/84'/0'/0'/0/8 => bc1qp2wk2vkhnqh2utumhsznl0xfnqvscrw453yw3k
+m/84'/0'/0'/0/9 => bc1quzclsfs88n9z56eqauganuz5m7pw2uhrkkl3y0
+
+Press the 9 button on your COLDCARD.
+Press any key to continue or CTRL-C to abort: 
+
+Addresses 10..19:
+
+m/84'/0'/0'/0/10 => bc1q7ya3xhxz490vaq9nl4wpretqpvf69w7r6nkztv
+m/84'/0'/0'/0/11 => bc1qmhtta3yynxzvgtewjdgrj63vaf4zfr8mgu75g0
+m/84'/0'/0'/0/12 => bc1quewmx3um8uxpc62cdkhy7jfm8xaftcl60fpjv3
+m/84'/0'/0'/0/13 => bc1qpxhptvcj5ut28w2072hxedrj6ef7v29lfx9vc8
+m/84'/0'/0'/0/14 => bc1q8nppjt789hh65rspmq78j6q0dr3a6x4v72marl
+m/84'/0'/0'/0/15 => bc1qq29gx84plw3nr2dcfdw0k9kmkzw0wl98jkhvqh
+m/84'/0'/0'/0/16 => bc1qlv9quqsztdv5ekz20ef49ugfz2cg78tltncw9v
+m/84'/0'/0'/0/17 => bc1qq0pmh7c7khhc2va8fycwyhy0x48js5ffnctj9u
+m/84'/0'/0'/0/18 => bc1qwckfgdesfyvtuxx290kr546xsakjqhz3j6kdjv
+m/84'/0'/0'/0/19 => bc1q59m83tk3h7hyedtev9cvxxfe46xw58m7duwl67
+
+Press the 9 button on your COLDCARD.
+Press any key to continue or CTRL-C to abort: 
+
+Addresses 20..29:
+
+m/84'/0'/0'/0/20 => bc1qynjmhatgm7netr65ndu8z0ectmjqzkuexefm4t
+m/84'/0'/0'/0/21 => bc1qyy2yk0xzwnw79z74qgnacsp3nwylwz2p5rew72
+m/84'/0'/0'/0/22 => bc1qkf07el78e6k678dj28wewryk36nfs500u6ljq8
+m/84'/0'/0'/0/23 => bc1qel4qv3zqk3euysfar78mwz03y44y9d5s52ueq9
+m/84'/0'/0'/0/24 => bc1qyjxdsd4wg7lha36rj59cpvgr8naw0telc2kx6a
+m/84'/0'/0'/0/25 => bc1qf0qalcnh0v85zzhpsk9a2vd4kdnxymrxanp9u2
+m/84'/0'/0'/0/26 => bc1q983kra2akjgzlxd8xt802wurkxgadxugg85zcn
+m/84'/0'/0'/0/27 => bc1qdw0euqp8wl45sdmj800kwk0v0gkzfqz24smddc
+m/84'/0'/0'/0/28 => bc1qcftmn8asj2ncuafajc0z93ze40wad5ufm0942m
+m/84'/0'/0'/0/29 => bc1qafs8fnvnv0ehn9la9p2j3w2ay6vztnxdfsxm6u
+
+Press the 9 button on your COLDCARD.
+Press any key to continue or CTRL-C to abort: 
+
+CAUTION: If you've set up your COLDCARD with a seed please clear it now by first
+going back to the main menu by pressing the X button as many times as necessary
+and then selecting 'Advanced', 'Danger Zone', 'Seed Functions', 'Destroy Seed'.
+```

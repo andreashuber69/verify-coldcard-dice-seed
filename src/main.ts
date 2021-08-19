@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 // https://github.com/andreashuber69/verify-coldcard-dice-seed#--
+import { createInterface } from "readline";
 import { ReadStream } from "tty";
 import { address, crypto, HDNode, script } from "@bitgo/utxo-lib";
 import { mnemonicToSeed } from "bip39";
@@ -38,10 +39,12 @@ const getAddresses = (rootNode: HDNode, accountRootPath: string, startIndex: num
 const main = async () => {
     const { stdin, stdout } = process;
 
-    const waitForUser = async () => {
-        stdout.write("Press any key to continue or CTRL-C to abort: ");
-        await getKey(stdin);
+    const waitForUser = async (prompt?: string) => {
+        stdout.write(prompt ?? "Press any key to continue or CTRL-C to abort: ");
+        const key = await getKey(stdin);
         stdout.write("\r\n\r\n");
+
+        return key;
     };
 
     const processKey = async (input: string): Promise<[string, string]> => {
@@ -51,6 +54,28 @@ const main = async () => {
 
         return [`${input}${key >= "1" && key <= "6" ? key : ""}`, key];
     };
+
+    const readPassphrase = async () => await new Promise<string>((resolve, reject) => {
+        const readlineInterface = createInterface(stdin, stdout);
+        readlineInterface.question(
+            "Wallet passphrase (press Return for none): ",
+            (l) => {
+                readlineInterface.close();
+                stdin.setRawMode(true);
+                resolve(l);
+            },
+        );
+
+        readlineInterface.once(
+            "SIGINT",
+            () => {
+                readlineInterface.close();
+                reject(new AbortError());
+            },
+        );
+
+        readlineInterface.on("SIGTSTP", () => undefined);
+    });
 
     try {
         if (!(stdin instanceof ReadStream)) {
@@ -63,13 +88,14 @@ const main = async () => {
 
         stdout.write("Verify COLDCARD v4.1.2 dice seed\r\n");
         stdout.write("\r\n");
-        stdout.write("This application guides you through VERIFYING whether your COLDCARD correctly\r\n");
-        stdout.write("generates 24 word seeds from dice rolls.\r\n");
+        stdout.write("This application guides you through verifying that your COLDCARD correctly\r\n");
+        stdout.write("derives seeds and addresses from dice rolls.\r\n");
         stdout.write("\r\n");
-        stdout.write("CAUTION: The very point of a COLDCARD is that the 24 word seed of a real wallet\r\n");
-        stdout.write("is never entered outside of a coldcard. So, once you have tested your COLDCARD\r\n");
-        stdout.write("successfully, you should then generate the 24 word seed for your real wallet on\r\n");
-        stdout.write("your COLDCARD only.\r\n");
+        stdout.write("CAUTION: The very point of a COLDCARD is that the seed of a real wallet is\r\n");
+        stdout.write("never entered outside of a coldcard. You should therefore only use this\r\n");
+        stdout.write("application to verify the seed and address derivation of your COLDCARD. Once\r\n");
+        stdout.write("you are convinced that your COLDCARD works correctly, you should then generate\r\n");
+        stdout.write("the seed of your real wallet on your COLDCARD only.\r\n");
         stdout.write("\r\n");
         stdout.write("Log into your COLDCARD, select 'Import Existing', 'Dice Rolls'.\r\n");
         await waitForUser();
@@ -99,32 +125,46 @@ const main = async () => {
         await waitForUser();
         stdout.write("Press the OK button on your COLDCARD and answer the test questions.\r\n");
         await waitForUser();
-        stdout.write("Select 'Address Explorer' and press the 4 button on your COLDCARD.\r\n");
-        await waitForUser();
-        const root = HDNode.fromSeedBuffer(await mnemonicToSeed(words.join(" ")));
-        let batchStart = 0;
-        const batchLength = 10;
-        const getBatch = (startIndex: number) => getAddresses(root, "m/84'/0'/0'/0", startIndex, batchLength);
 
-        let batch = getBatch(batchStart);
-        const [[, firstAddress]] = batch;
-        stdout.write(`Select '${firstAddress.slice(0, 8)}-${firstAddress.slice(-7)}' on your COLDCARD.\r\n`);
-        await waitForUser();
-        stdout.write("You can now verify as many addresses as you like and abort whenever you're\r\n");
-        stdout.write("comfortable:\r\n");
-
+        /* eslint-disable no-await-in-loop */
         // eslint-disable-next-line no-constant-condition
         while (true) {
-            stdout.write(`Addresses ${batchStart}..${batchStart + batchLength - 1}:\r\n`);
+            const passphrase = await readPassphrase();
             stdout.write("\r\n");
-            stdout.write(batch.reduce((p, [path, addr]) => `${p}${path} => ${addr}\r\n`, ""));
-            stdout.write("\r\n");
-            stdout.write("Press the 9 button on your COLDCARD.\r\n");
-            // eslint-disable-next-line no-await-in-loop
+            stdout.write("On your COLDCARD, select 'Passphrase', press the OK button and enter the\r\n");
+            stdout.write("same passphrase. Select 'APPLY', and press the OK button.\r\n");
             await waitForUser();
-            batchStart += batchLength;
-            batch = getBatch(batchStart);
+
+            stdout.write("Select 'Address Explorer' and press the 4 button on your COLDCARD.\r\n");
+            await waitForUser();
+            const root = HDNode.fromSeedBuffer(await mnemonicToSeed(words.join(" "), passphrase));
+            const batchLength = 10;
+            const getBatch = (startIndex: number) => getAddresses(root, "m/84'/0'/0'/0", startIndex, batchLength);
+
+            let batchStart = 0;
+            let batch = getBatch(batchStart);
+            const [[, firstAddress]] = batch;
+            stdout.write(`Select '${firstAddress.slice(0, 8)}-${firstAddress.slice(-7)}' on your COLDCARD.\r\n`);
+            await waitForUser();
+            stdout.write("You can now verify as many addresses as you like and abort whenever you're\r\n");
+            stdout.write("comfortable.\r\n");
+            let showNextBatch = true;
+
+            while (showNextBatch) {
+                stdout.write(`Addresses ${batchStart}..${batchStart + batchLength - 1}:\r\n`);
+                stdout.write("\r\n");
+                stdout.write(batch.reduce((p, [path, addr]) => `${p}${path} => ${addr}\r\n`, ""));
+                stdout.write("\r\n");
+                stdout.write("Press the 9 button on your COLDCARD.\r\n");
+                const prompt = "Press p for a new passphrase, CTRL-C to abort or any other key to continue: ";
+                showNextBatch = await waitForUser(prompt) !== "p";
+                batchStart += batchLength;
+                batch = getBatch(batchStart);
+            }
+
+            stdout.write("On your COLDCARD, press the X button twice.\r\n");
         }
+        /* eslint-enable no-await-in-loop */
     } catch (ex: unknown) {
         if (ex instanceof AbortError) {
             return 0;
@@ -135,9 +175,10 @@ const main = async () => {
         return 1;
     } finally {
         stdout.write("\r\n\r\n");
-        stdout.write("CAUTION: If you've set up your COLDCARD with a seed please clear it now by first\r\n");
-        stdout.write("going back to the main menu by pressing the X button as many times as necessary\r\n");
-        stdout.write("and then selecting 'Advanced', 'Danger Zone', 'Seed Functions', 'Destroy Seed'.\r\n");
+        stdout.write("CAUTION: If you've set up your COLDCARD with a seed please clear it now by\r\n");
+        stdout.write("first going back to the main menu (press the X button as many times as\r\n");
+        stdout.write("necessary) and then selecting 'Advanced', 'Danger Zone', 'Seed Functions',\r\n");
+        stdout.write("'Destroy Seed'.");
     }
 };
 
