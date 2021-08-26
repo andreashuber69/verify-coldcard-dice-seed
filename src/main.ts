@@ -1,81 +1,18 @@
 #!/usr/bin/env node
 // https://github.com/andreashuber69/verify-coldcard-dice-seed#--
-import { createInterface } from "readline";
 import { ReadStream } from "tty";
-import { address, crypto, HDNode, script } from "@bitgo/utxo-lib";
+import { HDNode } from "@bitgo/utxo-lib";
 import { mnemonicToSeed } from "bip39";
 import { AbortError } from "./AbortError";
 import { calculateBip39Mnemonic } from "./calculateBip39Mnemonic";
+import { getAddresses } from "./getAddresses";
+import { processKey } from "./processKey";
+import { readPassphrase } from "./readPassphrase";
 import { sha256 } from "./sha256";
-
-const getKey = async (stdin: ReadStream) => await new Promise<string>((resolve, reject) => {
-    stdin.resume();
-
-    stdin.once("data", (key: unknown) => {
-        stdin.pause();
-
-        if (key === "\u0003") {
-            reject(new AbortError());
-        } else {
-            resolve(`${key}`);
-        }
-    });
-});
-
-const toBech32Address = (node: HDNode) =>
-    address.fromOutputScript(script.witnessPubKeyHash.output.encode(crypto.hash160(node.getPublicKeyBuffer())));
-
-const getAddresses = (rootNode: HDNode, accountRootPath: string, startIndex: number, length: number) => {
-    const accountRoot = rootNode.derivePath(accountRootPath);
-    const result = new Array<[string, string]>();
-
-    for (let index = startIndex; index < startIndex + length; ++index) {
-        result.push([`${accountRootPath}/${index}`, toBech32Address(accountRoot.derive(index))]);
-    }
-
-    return result;
-};
+import { waitForUser } from "./waitForUser";
 
 const main = async () => {
     const { stdin, stdout } = process;
-
-    const waitForUser = async (prompt?: string) => {
-        stdout.write(prompt ?? "Press any key to continue or CTRL-C to abort: ");
-        const key = await getKey(stdin);
-        stdout.write("\r\n\r\n");
-
-        return key;
-    };
-
-    const processKey = async (input: string): Promise<[string, string]> => {
-        stdout.write(`${input.length} rolls\r\n`);
-        stdout.write(`${sha256(Buffer.from(input))}\r\n\r\n`);
-        const key = await getKey(stdin);
-
-        return [`${input}${key >= "1" && key <= "6" ? key : ""}`, key];
-    };
-
-    const readPassphrase = async () => await new Promise<string>((resolve, reject) => {
-        const readlineInterface = createInterface(stdin, stdout);
-        readlineInterface.question(
-            "Wallet passphrase (press Return for none): ",
-            (l) => {
-                readlineInterface.close();
-                stdin.setRawMode(true);
-                resolve(l);
-            },
-        );
-
-        readlineInterface.once(
-            "SIGINT",
-            () => {
-                readlineInterface.close();
-                reject(new AbortError());
-            },
-        );
-
-        readlineInterface.on("SIGTSTP", () => undefined);
-    });
 
     try {
         if (!(stdin instanceof ReadStream)) {
