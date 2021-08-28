@@ -1,11 +1,12 @@
 import { HDNode } from "@bitgo/utxo-lib";
 import { mnemonicToSeed } from "bip39";
 import { getAddresses } from "./getAddresses";
+import type { IStdStreams } from "./IStdStreams";
 import { waitForUser } from "./waitForUser";
 
-export const showAddresses = async (stdout: NodeJS.WriteStream, words: readonly string[], passphrase: string) => {
+export const showAddresses = async ({ stdin, stdout }: IStdStreams, words: readonly string[], passphrase: string) => {
     stdout.write("Select 'Address Explorer' and press the 4 button on your COLDCARD.\r\n");
-    await waitForUser(process);
+    await waitForUser({ stdin, stdout });
     const root = HDNode.fromSeedBuffer(await mnemonicToSeed(words.join(" "), passphrase));
     const batchLength = 10;
     const getBatch = (startIndex: number) => getAddresses(root, "m/84'/0'/0'/0", startIndex, batchLength);
@@ -14,7 +15,7 @@ export const showAddresses = async (stdout: NodeJS.WriteStream, words: readonly 
     let batch = getBatch(batchStart);
     const [[, firstAddress]] = batch;
     stdout.write(`Select '${firstAddress.slice(0, 8)}-${firstAddress.slice(-7)}' on your COLDCARD.\r\n`);
-    await waitForUser(process);
+    await waitForUser({ stdin, stdout });
     stdout.write("You can now verify as many addresses as you like and abort whenever you're\r\n");
     stdout.write("comfortable.\r\n");
     let showNextBatch = true;
@@ -27,7 +28,7 @@ export const showAddresses = async (stdout: NodeJS.WriteStream, words: readonly 
         stdout.write("Press the 9 button on your COLDCARD.\r\n");
         const prompt = "Press p for a new passphrase, CTRL-C to abort or any other key to continue: ";
         // eslint-disable-next-line no-await-in-loop
-        showNextBatch = await waitForUser(process, prompt) !== "p";
+        showNextBatch = await waitForUser({ stdin, stdout }, prompt) !== "p";
         batchStart += batchLength;
         batch = getBatch(batchStart);
     }

@@ -2,11 +2,10 @@
 // https://github.com/andreashuber69/verify-coldcard-dice-seed#--
 import { ReadStream } from "tty";
 import { AbortError } from "./AbortError";
-import { calculateBip39Mnemonic } from "./calculateBip39Mnemonic";
-import { processKey } from "./processKey";
+import { readDiceRolls } from "./readDiceRolls";
 import { readPassphrase } from "./readPassphrase";
-import { sha256 } from "./sha256";
 import { showAddresses } from "./showAddresses";
+import { verifyWords } from "./verifyWords";
 import { waitForUser } from "./waitForUser";
 
 const main = async () => {
@@ -34,32 +33,7 @@ const main = async () => {
         stdout.write("\r\n");
         stdout.write("Log into your COLDCARD, select 'Import Existing', 'Dice Rolls'.\r\n");
         await waitForUser(process);
-        stdout.write("To perform a realistic test you should enter exactly as many dice rolls as you\r\n");
-        stdout.write("will enter for your real wallet. 99 or more rolls are recommended for maximum\r\n");
-        stdout.write("security. Roll the dice and enter the value on your COLDCARD and here.\r\n");
-        stdout.write("\r\n\r\n\r\n");
-        stdout.write("Press 1-6 for each roll to mix in, ENTER to finish or CTRL-C to abort.\r\n");
-        let input = "";
-        let key = "";
-
-        while (key !== "\r") {
-            stdout.moveCursor(0, -3);
-            // eslint-disable-next-line no-await-in-loop
-            [input, key] = await processKey(process, input);
-        }
-
-        stdout.write("\r\n");
-        const suffix = `${input.length < 99 ? " twice" : ""}`;
-        stdout.write(`Press the OK button on your COLDCARD${suffix}.\r\n`);
-        await waitForUser(process);
-
-        const words = calculateBip39Mnemonic(sha256(Buffer.from(input)));
-        stdout.write("Compare these 24 words to the ones calculated by your COLDCARD:\r\n");
-        stdout.write(words.reduce((p, c, i) => `${p}${`0${i + 1}`.slice(-2)}: ${c}\r\n`, ""));
-        stdout.write("\r\n");
-        await waitForUser(process);
-        stdout.write("Press the OK button on your COLDCARD and answer the test questions.\r\n");
-        await waitForUser(process);
+        const words = await verifyWords(process, await readDiceRolls(process));
         let currentPassphrase = "";
 
         // eslint-disable-next-line no-constant-condition
@@ -75,7 +49,7 @@ const main = async () => {
                 await waitForUser(process);
             }
 
-            await showAddresses(stdout, words, currentPassphrase);
+            await showAddresses(process, words, currentPassphrase);
             /* eslint-enable no-await-in-loop */
         }
     } catch (ex: unknown) {
