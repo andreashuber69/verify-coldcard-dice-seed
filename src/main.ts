@@ -62,19 +62,24 @@ const main = async () => {
         await waitForUser(process);
         stdout.write("Press the OK button on your COLDCARD and answer the test questions.\r\n");
         await waitForUser(process);
+        let currentPassphrase = "";
 
-        /* eslint-disable no-await-in-loop */
         // eslint-disable-next-line no-constant-condition
         while (true) {
-            const passphrase = await readPassphrase(process);
+            /* eslint-disable no-await-in-loop */
+            const newPassphrase = await readPassphrase(process);
             stdout.write("\r\n");
-            stdout.write("On your COLDCARD, select 'Passphrase', press the OK button and enter the\r\n");
-            stdout.write("same passphrase. Select 'APPLY', and press the OK button.\r\n");
-            await waitForUser(process);
+
+            if (newPassphrase !== currentPassphrase) {
+                currentPassphrase = newPassphrase;
+                stdout.write("On your COLDCARD, select 'Passphrase', press the OK button and enter the\r\n");
+                stdout.write("same passphrase. Select 'APPLY', and press the OK button.\r\n");
+                await waitForUser(process);
+            }
 
             stdout.write("Select 'Address Explorer' and press the 4 button on your COLDCARD.\r\n");
             await waitForUser(process);
-            const root = HDNode.fromSeedBuffer(await mnemonicToSeed(words.join(" "), passphrase));
+            const root = HDNode.fromSeedBuffer(await mnemonicToSeed(words.join(" "), currentPassphrase));
             const batchLength = 10;
             const getBatch = (startIndex: number) => getAddresses(root, "m/84'/0'/0'/0", startIndex, batchLength);
 
@@ -100,8 +105,8 @@ const main = async () => {
             }
 
             stdout.write("On your COLDCARD, press the X button twice.\r\n");
+            /* eslint-enable no-await-in-loop */
         }
-        /* eslint-enable no-await-in-loop */
     } catch (ex: unknown) {
         if (ex instanceof AbortError) {
             return 0;
