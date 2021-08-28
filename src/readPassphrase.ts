@@ -1,8 +1,8 @@
 import { createInterface } from "readline";
 import { AbortError } from "./AbortError";
+import type { IStdStreams } from "./IStdStreams";
 
-export const readPassphrase = async () => await new Promise<string>((resolve, reject) => {
-    const { stdin, stdout } = process;
+export const readPassphrase = async ({ stdin, stdout }: IStdStreams) => await new Promise<string>((resolve, reject) => {
     const readlineInterface = createInterface(stdin, stdout);
     readlineInterface.question(
         "Wallet passphrase (press Return for none): ",
