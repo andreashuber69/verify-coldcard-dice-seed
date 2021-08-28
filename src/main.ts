@@ -1,14 +1,12 @@
 #!/usr/bin/env node
 // https://github.com/andreashuber69/verify-coldcard-dice-seed#--
 import { ReadStream } from "tty";
-import { HDNode } from "@bitgo/utxo-lib";
-import { mnemonicToSeed } from "bip39";
 import { AbortError } from "./AbortError";
 import { calculateBip39Mnemonic } from "./calculateBip39Mnemonic";
-import { getAddresses } from "./getAddresses";
 import { processKey } from "./processKey";
 import { readPassphrase } from "./readPassphrase";
 import { sha256 } from "./sha256";
+import { showAddresses } from "./showAddresses";
 import { waitForUser } from "./waitForUser";
 
 const main = async () => {
@@ -77,34 +75,7 @@ const main = async () => {
                 await waitForUser(process);
             }
 
-            stdout.write("Select 'Address Explorer' and press the 4 button on your COLDCARD.\r\n");
-            await waitForUser(process);
-            const root = HDNode.fromSeedBuffer(await mnemonicToSeed(words.join(" "), currentPassphrase));
-            const batchLength = 10;
-            const getBatch = (startIndex: number) => getAddresses(root, "m/84'/0'/0'/0", startIndex, batchLength);
-
-            let batchStart = 0;
-            let batch = getBatch(batchStart);
-            const [[, firstAddress]] = batch;
-            stdout.write(`Select '${firstAddress.slice(0, 8)}-${firstAddress.slice(-7)}' on your COLDCARD.\r\n`);
-            await waitForUser(process);
-            stdout.write("You can now verify as many addresses as you like and abort whenever you're\r\n");
-            stdout.write("comfortable.\r\n");
-            let showNextBatch = true;
-
-            while (showNextBatch) {
-                stdout.write(`Addresses ${batchStart}..${batchStart + batchLength - 1}:\r\n`);
-                stdout.write("\r\n");
-                stdout.write(batch.reduce((p, [path, addr]) => `${p}${path} => ${addr}\r\n`, ""));
-                stdout.write("\r\n");
-                stdout.write("Press the 9 button on your COLDCARD.\r\n");
-                const prompt = "Press p for a new passphrase, CTRL-C to abort or any other key to continue: ";
-                showNextBatch = await waitForUser(process, prompt) !== "p";
-                batchStart += batchLength;
-                batch = getBatch(batchStart);
-            }
-
-            stdout.write("On your COLDCARD, press the X button twice.\r\n");
+            await showAddresses(stdout, words, currentPassphrase);
             /* eslint-enable no-await-in-loop */
         }
     } catch (ex: unknown) {
