@@ -1,3 +1,4 @@
+// https://github.com/andreashuber69/verify-coldcard-dice-seed#--
 import type { HDNode } from "@bitgo/utxo-lib";
 import { toBech32Address } from "./toBech32Address";
 

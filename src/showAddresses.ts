@@ -1,10 +1,11 @@
+// https://github.com/andreashuber69/verify-coldcard-dice-seed#--
 import { HDNode } from "@bitgo/utxo-lib";
 import { mnemonicToSeed } from "bip39";
 import { getAddresses } from "./getAddresses";
-import type { IStdStreams } from "./IStdStreams";
+import type { IInOut } from "./IInOut";
 import { waitForUser } from "./waitForUser";
 
-export const showAddresses = async ({ stdin, stdout }: IStdStreams, words: readonly string[], passphrase: string) => {
+export const showAddresses = async ({ stdin, stdout }: IInOut, words: readonly string[], passphrase: string) => {
     stdout.write("Select 'Address Explorer' and press the 4 button on your COLDCARD.\r\n");
     await waitForUser({ stdin, stdout });
     const root = HDNode.fromSeedBuffer(await mnemonicToSeed(words.join(" "), passphrase));

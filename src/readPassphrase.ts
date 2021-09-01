@@ -1,8 +1,11 @@
+// https://github.com/andreashuber69/verify-coldcard-dice-seed#--
 import { createInterface } from "readline";
 import { AbortError } from "./AbortError";
-import type { IStdStreams } from "./IStdStreams";
+import type { IGenericInOut } from "./IInOut";
 
-export const readPassphrase = async ({ stdin, stdout }: IStdStreams) => await new Promise<string>((resolve, reject) => {
+type IInOut = IGenericInOut<NodeJS.ReadableStream & Pick<NodeJS.ReadStream, "setRawMode">, NodeJS.WritableStream>;
+
+export const readPassphrase = async ({ stdin, stdout }: IInOut) => await new Promise<string>((resolve, reject) => {
     const readlineInterface = createInterface(stdin, stdout);
     readlineInterface.question(
         "Wallet passphrase (press Return for none): ",

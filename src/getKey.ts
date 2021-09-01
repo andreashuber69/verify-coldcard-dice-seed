@@ -1,7 +1,8 @@
-import type { ReadStream } from "tty";
+// https://github.com/andreashuber69/verify-coldcard-dice-seed#--
 import { AbortError } from "./AbortError";
+import type { IIn } from "./IInOut";
 
-export const getKey = async (stdin: ReadStream) => await new Promise<string>((resolve, reject) => {
+export const getKey = async (stdin: IIn) => await new Promise<string>((resolve, reject) => {
     stdin.resume();
 
     stdin.once("data", (key: unknown) => {
