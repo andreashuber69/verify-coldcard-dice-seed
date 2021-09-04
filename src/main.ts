@@ -7,6 +7,13 @@ import { readPassphrase } from "./readPassphrase";
 import { showAddresses } from "./showAddresses";
 import { verifyWords } from "./verifyWords";
 import { waitForUser } from "./waitForUser";
+// Simple typescript alternatives to calling require below lead to the outDir containing the file package.json and the
+// directory src with all the code. This is due to how the ts compiler automatically determines the rootDir from
+// imports. There are alternatives to calling require, but these seem overly complicated:
+// https://stackoverflow.com/questions/58172911/typescript-compiler-options-trying-to-get-flat-output-to-outdir
+// eslint-disable-next-line max-len
+// eslint-disable-next-line @typescript-eslint/no-var-requires, import/no-commonjs, @typescript-eslint/no-require-imports
+const { version } = require("../package.json") as { readonly version: string };
 
 const main = async () => {
     const { stdin, stdout } = process;
@@ -20,7 +27,7 @@ const main = async () => {
         stdin.setRawMode(true);
         stdin.setEncoding("utf-8");
 
-        stdout.write("Verify COLDCARD v4.1.2 dice seed\r\n");
+        stdout.write(`Verify COLDCARD Dice Seed v${version} (tested with COLDCARD firmware v4.1.2)\r\n`);
         stdout.write("\r\n");
         stdout.write("This application guides you through verifying that your COLDCARD correctly\r\n");
         stdout.write("derives seeds and addresses from dice rolls.\r\n");
