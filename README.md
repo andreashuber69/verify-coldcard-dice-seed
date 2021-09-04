@@ -40,7 +40,7 @@ This application is based on Node.js. Please download and install the version fo
 1. Open a command line window (i.e. CMD on Windows, Terminal on Linux) and enter the following command:
 
    ``` bash
-   npx verify-coldcard-dice-seed
+   npx verify-coldcard-dice-seed@latest
    ```
 
 2. First time usage only: Press the Enter key to acknowledge that the package needs to be installed.
@@ -107,19 +107,20 @@ COLDCARD copy correctly derives the seed but then generates addresses from a dif
 ## Sample Output
 
 ``` shell_session
-$ npx verify-coldcard-dice-seed
+$ npx verify-coldcard-dice-seed@latest
 Need to install the following packages:
-  verify-coldcard-dice-seed
-Ok to proceed? (y) 
-Verify COLDCARD v4.1.2 dice seed
+  verify-coldcard-dice-seed@latest
+Ok to proceed? (y) y
+Verify COLDCARD Dice Seed v1.0.9 (tested with COLDCARD firmware v4.1.2)
 
-This application guides you through VERIFYING whether your COLDCARD correctly
-generates 24 word seeds from dice rolls.
+This application guides you through verifying that your COLDCARD correctly
+derives seeds and addresses from dice rolls.
 
-CAUTION: The very point of a COLDCARD is that the 24 word seed of a real wallet
-is never entered outside of a coldcard. So, once you have tested your COLDCARD
-successfully, you should then generate the 24 word seed for your real wallet on
-your COLDCARD only.
+CAUTION: The very point of a COLDCARD is that the seed of a real wallet is
+never entered outside of a coldcard. You should therefore only use this
+application to verify the seed and address derivation of your COLDCARD. Once
+you are convinced that your COLDCARD works correctly, you should then generate
+the seed of your real wallet on your COLDCARD only.
 
 Log into your COLDCARD, select 'Import Existing', 'Dice Rolls'.
 Press any key to continue or CTRL-C to abort: 
@@ -166,6 +167,8 @@ Press any key to continue or CTRL-C to abort:
 Press the OK button on your COLDCARD and answer the test questions.
 Press any key to continue or CTRL-C to abort: 
 
+Wallet passphrase (press Return for none): 
+
 Select 'Address Explorer' and press the 4 button on your COLDCARD.
 Press any key to continue or CTRL-C to abort: 
 
@@ -173,7 +176,7 @@ Select 'bc1qh2ns-6nvprc4' on your COLDCARD.
 Press any key to continue or CTRL-C to abort: 
 
 You can now verify as many addresses as you like and abort whenever you're
-comfortable:
+comfortable.
 Addresses 0..9:
 
 m/84'/0'/0'/0/0 => bc1qh2nsjhtgknshf6mpsdm6rm3rtchvq836nvprc4
@@ -188,7 +191,7 @@ m/84'/0'/0'/0/8 => bc1qp2wk2vkhnqh2utumhsznl0xfnqvscrw453yw3k
 m/84'/0'/0'/0/9 => bc1quzclsfs88n9z56eqauganuz5m7pw2uhrkkl3y0
 
 Press the 9 button on your COLDCARD.
-Press any key to continue or CTRL-C to abort: 
+Press p for a new passphrase, CTRL-C to abort or any other key to continue: 
 
 Addresses 10..19:
 
@@ -204,25 +207,41 @@ m/84'/0'/0'/0/18 => bc1qwckfgdesfyvtuxx290kr546xsakjqhz3j6kdjv
 m/84'/0'/0'/0/19 => bc1q59m83tk3h7hyedtev9cvxxfe46xw58m7duwl67
 
 Press the 9 button on your COLDCARD.
+Press p for a new passphrase, CTRL-C to abort or any other key to continue: 
+
+On your COLDCARD, press the X button twice.
+Wallet passphrase (press Return for none): hello
+
+On your COLDCARD, select 'Passphrase', press the OK button and enter the
+same passphrase. Select 'APPLY', and press the OK button.
 Press any key to continue or CTRL-C to abort: 
 
-Addresses 20..29:
+Select 'Address Explorer' and press the 4 button on your COLDCARD.
+Press any key to continue or CTRL-C to abort: 
 
-m/84'/0'/0'/0/20 => bc1qynjmhatgm7netr65ndu8z0ectmjqzkuexefm4t
-m/84'/0'/0'/0/21 => bc1qyy2yk0xzwnw79z74qgnacsp3nwylwz2p5rew72
-m/84'/0'/0'/0/22 => bc1qkf07el78e6k678dj28wewryk36nfs500u6ljq8
-m/84'/0'/0'/0/23 => bc1qel4qv3zqk3euysfar78mwz03y44y9d5s52ueq9
-m/84'/0'/0'/0/24 => bc1qyjxdsd4wg7lha36rj59cpvgr8naw0telc2kx6a
-m/84'/0'/0'/0/25 => bc1qf0qalcnh0v85zzhpsk9a2vd4kdnxymrxanp9u2
-m/84'/0'/0'/0/26 => bc1q983kra2akjgzlxd8xt802wurkxgadxugg85zcn
-m/84'/0'/0'/0/27 => bc1qdw0euqp8wl45sdmj800kwk0v0gkzfqz24smddc
-m/84'/0'/0'/0/28 => bc1qcftmn8asj2ncuafajc0z93ze40wad5ufm0942m
-m/84'/0'/0'/0/29 => bc1qafs8fnvnv0ehn9la9p2j3w2ay6vztnxdfsxm6u
+Select 'bc1qcxer-aw7a3jc' on your COLDCARD.
+Press any key to continue or CTRL-C to abort: 
+
+You can now verify as many addresses as you like and abort whenever you're
+comfortable.
+Addresses 0..9:
+
+m/84'/0'/0'/0/0 => bc1qcxerhppmw3q33a33pj0jsydsa5fuzlaaw7a3jc
+m/84'/0'/0'/0/1 => bc1q8xmlm0cd3c5grq69qncyhau4vqt790krtdu54h
+m/84'/0'/0'/0/2 => bc1qwz7hq5jwtu9wmkh8q883durfczl5swu7pqha74
+m/84'/0'/0'/0/3 => bc1qns6vd79w5yems7qd9nkp95pa9xgwy7h4svd9kp
+m/84'/0'/0'/0/4 => bc1qwutfmef0ym8s89et9syfjjtz76uen7gd6mp9z4
+m/84'/0'/0'/0/5 => bc1qa6hwkjqevqfztvjjnr2r4ryzqa0l49nrespxju
+m/84'/0'/0'/0/6 => bc1qh0q5s7v62j5wqavgzk6lpl55qyxt48funrla9k
+m/84'/0'/0'/0/7 => bc1q4w5f4q9wgr2sp9harnpgl8jz4r3skgg4tg4pc7
+m/84'/0'/0'/0/8 => bc1q84s5rc2g02jkaxzl2hujlyrk7c84rxxeu7teh3
+m/84'/0'/0'/0/9 => bc1qkrye64arqhg7aas0ntzlkgckn09klx825sdk3u
 
 Press the 9 button on your COLDCARD.
-Press any key to continue or CTRL-C to abort: 
+Press p for a new passphrase, CTRL-C to abort or any other key to continue: 
 
-CAUTION: If you've set up your COLDCARD with a seed please clear it now by first
-going back to the main menu by pressing the X button as many times as necessary
-and then selecting 'Advanced', 'Danger Zone', 'Seed Functions', 'Destroy Seed'.
+CAUTION: If you've set up your COLDCARD with a seed please clear it now by
+first going back to the main menu (press the X button as many times as
+necessary) and then selecting 'Advanced', 'Danger Zone', 'Seed Functions',
+'Destroy Seed'.
 ```
