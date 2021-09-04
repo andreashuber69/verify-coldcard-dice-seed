@@ -1,81 +1,22 @@
 #!/usr/bin/env node
 // https://github.com/andreashuber69/verify-coldcard-dice-seed#--
-import { createInterface } from "readline";
 import { ReadStream } from "tty";
-import { address, crypto, HDNode, script } from "@bitgo/utxo-lib";
-import { mnemonicToSeed } from "bip39";
 import { AbortError } from "./AbortError";
-import { calculateBip39Mnemonic } from "./calculateBip39Mnemonic";
-import { sha256 } from "./sha256";
-
-const getKey = async (stdin: ReadStream) => await new Promise<string>((resolve, reject) => {
-    stdin.resume();
-
-    stdin.once("data", (key: unknown) => {
-        stdin.pause();
-
-        if (key === "\u0003") {
-            reject(new AbortError());
-        } else {
-            resolve(`${key}`);
-        }
-    });
-});
-
-const toBech32Address = (node: HDNode) =>
-    address.fromOutputScript(script.witnessPubKeyHash.output.encode(crypto.hash160(node.getPublicKeyBuffer())));
-
-const getAddresses = (rootNode: HDNode, accountRootPath: string, startIndex: number, length: number) => {
-    const accountRoot = rootNode.derivePath(accountRootPath);
-    const result = new Array<[string, string]>();
-
-    for (let index = startIndex; index < startIndex + length; ++index) {
-        result.push([`${accountRootPath}/${index}`, toBech32Address(accountRoot.derive(index))]);
-    }
-
-    return result;
-};
+import { readDiceRolls } from "./readDiceRolls";
+import { readPassphrase } from "./readPassphrase";
+import { showAddresses } from "./showAddresses";
+import { verifyWords } from "./verifyWords";
+import { waitForUser } from "./waitForUser";
+// Simple typescript alternatives to calling require below lead to the outDir containing the file package.json and the
+// directory src with all the code. This is due to how the ts compiler automatically determines the rootDir from
+// imports. There are alternatives to calling require, but these seem overly complicated:
+// https://stackoverflow.com/questions/58172911/typescript-compiler-options-trying-to-get-flat-output-to-outdir
+// eslint-disable-next-line max-len
+// eslint-disable-next-line @typescript-eslint/no-var-requires, import/no-commonjs, @typescript-eslint/no-require-imports
+const { version } = require("../package.json") as { readonly version: string };
 
 const main = async () => {
     const { stdin, stdout } = process;
-
-    const waitForUser = async (prompt?: string) => {
-        stdout.write(prompt ?? "Press any key to continue or CTRL-C to abort: ");
-        const key = await getKey(stdin);
-        stdout.write("\r\n\r\n");
-
-        return key;
-    };
-
-    const processKey = async (input: string): Promise<[string, string]> => {
-        stdout.write(`${input.length} rolls\r\n`);
-        stdout.write(`${sha256(Buffer.from(input))}\r\n\r\n`);
-        const key = await getKey(stdin);
-
-        return [`${input}${key >= "1" && key <= "6" ? key : ""}`, key];
-    };
-
-    const readPassphrase = async () => await new Promise<string>((resolve, reject) => {
-        const readlineInterface = createInterface(stdin, stdout);
-        readlineInterface.question(
-            "Wallet passphrase (press Return for none): ",
-            (l) => {
-                readlineInterface.close();
-                stdin.setRawMode(true);
-                resolve(l);
-            },
-        );
-
-        readlineInterface.once(
-            "SIGINT",
-            () => {
-                readlineInterface.close();
-                reject(new AbortError());
-            },
-        );
-
-        readlineInterface.on("SIGTSTP", () => undefined);
-    });
 
     try {
         if (!(stdin instanceof ReadStream)) {
@@ -86,7 +27,7 @@ const main = async () => {
         stdin.setRawMode(true);
         stdin.setEncoding("utf-8");
 
-        stdout.write("Verify COLDCARD v4.1.2 dice seed\r\n");
+        stdout.write(`Verify COLDCARD Dice Seed v${version} (tested with COLDCARD firmware v4.1.2)\r\n`);
         stdout.write("\r\n");
         stdout.write("This application guides you through verifying that your COLDCARD correctly\r\n");
         stdout.write("derives seeds and addresses from dice rolls.\r\n");
@@ -98,73 +39,26 @@ const main = async () => {
         stdout.write("the seed of your real wallet on your COLDCARD only.\r\n");
         stdout.write("\r\n");
         stdout.write("Log into your COLDCARD, select 'Import Existing', 'Dice Rolls'.\r\n");
-        await waitForUser();
-        stdout.write("To perform a realistic test you should enter exactly as many dice rolls as you\r\n");
-        stdout.write("will enter for your real wallet. 99 or more rolls are recommended for maximum\r\n");
-        stdout.write("security. Roll the dice and enter the value on your COLDCARD and here.\r\n");
-        stdout.write("\r\n\r\n\r\n");
-        stdout.write("Press 1-6 for each roll to mix in, ENTER to finish or CTRL-C to abort.\r\n");
-        let input = "";
-        let key = "";
+        await waitForUser(process);
+        const words = await verifyWords(process, await readDiceRolls(process));
+        let currentPassphrase = "";
 
-        while (key !== "\r") {
-            stdout.moveCursor(0, -3);
-            // eslint-disable-next-line no-await-in-loop
-            [input, key] = await processKey(input);
-        }
-
-        stdout.write("\r\n");
-        const suffix = `${input.length < 99 ? " twice" : ""}`;
-        stdout.write(`Press the OK button on your COLDCARD${suffix}.\r\n`);
-        await waitForUser();
-
-        const words = calculateBip39Mnemonic(sha256(Buffer.from(input)));
-        stdout.write("Compare these 24 words to the ones calculated by your COLDCARD:\r\n");
-        stdout.write(words.reduce((p, c, i) => `${p}${`0${i + 1}`.slice(-2)}: ${c}\r\n`, ""));
-        stdout.write("\r\n");
-        await waitForUser();
-        stdout.write("Press the OK button on your COLDCARD and answer the test questions.\r\n");
-        await waitForUser();
-
-        /* eslint-disable no-await-in-loop */
         // eslint-disable-next-line no-constant-condition
         while (true) {
-            const passphrase = await readPassphrase();
+            /* eslint-disable no-await-in-loop */
+            const newPassphrase = await readPassphrase(process);
             stdout.write("\r\n");
-            stdout.write("On your COLDCARD, select 'Passphrase', press the OK button and enter the\r\n");
-            stdout.write("same passphrase. Select 'APPLY', and press the OK button.\r\n");
-            await waitForUser();
 
-            stdout.write("Select 'Address Explorer' and press the 4 button on your COLDCARD.\r\n");
-            await waitForUser();
-            const root = HDNode.fromSeedBuffer(await mnemonicToSeed(words.join(" "), passphrase));
-            const batchLength = 10;
-            const getBatch = (startIndex: number) => getAddresses(root, "m/84'/0'/0'/0", startIndex, batchLength);
-
-            let batchStart = 0;
-            let batch = getBatch(batchStart);
-            const [[, firstAddress]] = batch;
-            stdout.write(`Select '${firstAddress.slice(0, 8)}-${firstAddress.slice(-7)}' on your COLDCARD.\r\n`);
-            await waitForUser();
-            stdout.write("You can now verify as many addresses as you like and abort whenever you're\r\n");
-            stdout.write("comfortable.\r\n");
-            let showNextBatch = true;
-
-            while (showNextBatch) {
-                stdout.write(`Addresses ${batchStart}..${batchStart + batchLength - 1}:\r\n`);
-                stdout.write("\r\n");
-                stdout.write(batch.reduce((p, [path, addr]) => `${p}${path} => ${addr}\r\n`, ""));
-                stdout.write("\r\n");
-                stdout.write("Press the 9 button on your COLDCARD.\r\n");
-                const prompt = "Press p for a new passphrase, CTRL-C to abort or any other key to continue: ";
-                showNextBatch = await waitForUser(prompt) !== "p";
-                batchStart += batchLength;
-                batch = getBatch(batchStart);
+            if (newPassphrase !== currentPassphrase) {
+                currentPassphrase = newPassphrase;
+                stdout.write("On your COLDCARD, select 'Passphrase', press the OK button and enter the\r\n");
+                stdout.write("same passphrase. Select 'APPLY', and press the OK button.\r\n");
+                await waitForUser(process);
             }
 
-            stdout.write("On your COLDCARD, press the X button twice.\r\n");
+            await showAddresses(process, words, currentPassphrase);
+            /* eslint-enable no-await-in-loop */
         }
-        /* eslint-enable no-await-in-loop */
     } catch (ex: unknown) {
         if (ex instanceof AbortError) {
             return 0;
@@ -178,7 +72,7 @@ const main = async () => {
         stdout.write("CAUTION: If you've set up your COLDCARD with a seed please clear it now by\r\n");
         stdout.write("first going back to the main menu (press the X button as many times as\r\n");
         stdout.write("necessary) and then selecting 'Advanced', 'Danger Zone', 'Seed Functions',\r\n");
-        stdout.write("'Destroy Seed'.");
+        stdout.write("'Destroy Seed'.\r\n");
     }
 };
 

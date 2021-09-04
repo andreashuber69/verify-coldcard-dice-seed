@@ -3,6 +3,7 @@
     "baseUrl": ".",
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
+    "importHelpers": true,
     "lib": ["ES2015"],
     "module": "CommonJS",
     "noFallthroughCasesInSwitch": true,
