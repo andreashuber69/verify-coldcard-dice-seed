@@ -291,6 +291,7 @@ module.exports = {
         "@typescript-eslint/no-confusing-void-expression": [
             "error",
             {
+                ignoreArrowShorthand: true,
                 ignoreVoidOperator: true,
             },
         ],
