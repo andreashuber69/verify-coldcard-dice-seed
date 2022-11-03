@@ -34,9 +34,8 @@ derived from the dice entropy you entered.
 
 This application is based on Node.js. Please download and install the package suitable for your operating system.
 
-NOTE: Due to incompatibilities with the SSL provider in node versions >=17, you must install a node version >=10.22 and
-<17. The latest 16.x release is currently 16.18.0, which can be found
-[here](https://nodejs.org/download/release/v16.18.0/).
+NOTE: Due to incompatibilities in node versions >=17, you must install a node version >=10.4 and <17. The latest 16.x
+release is currently 16.18.0, which can be found [here](https://nodejs.org/download/release/v16.18.0/).
 
 ## Usage
 
