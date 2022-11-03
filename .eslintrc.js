@@ -170,7 +170,7 @@ module.exports = {
             },
         ],
         "jsdoc/check-alignment": "warn",
-        "jsdoc/check-examples": "warn",
+        "jsdoc/check-examples": "off", // currently turned off due to https://github.com/eslint/eslint/issues/14745
         "jsdoc/check-indentation": [
             "warn",
             {
