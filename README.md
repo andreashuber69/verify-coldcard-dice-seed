@@ -47,7 +47,7 @@ NOTE: Due to incompatibilities with the SSL provider in node versions >=17, you 
    node -v
    ```
 
-   The output should show a version smaller than 17. If not, please see [Installation](#Installation).
+   The output should show a version smaller than 17. If not, please see [Installation](#installation).
 
 3. Enter the following command:
 
