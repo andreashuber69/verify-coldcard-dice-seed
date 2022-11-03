@@ -256,4 +256,4 @@ CAUTION: If you've set up your COLDCARD with a seed please clear it now by
 first going back to the main menu (press the X button as many times as
 necessary) and then selecting 'Advanced', 'Danger Zone', 'Seed Functions',
 'Destroy Seed'.
-``` cSpell:enable
+```
