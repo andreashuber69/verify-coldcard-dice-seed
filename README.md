@@ -32,22 +32,34 @@ derived from the dice entropy you entered.
 
 ## Installation
 
-This application is based on Node.js. Please download and install the version for your operating system
-[here](https://nodejs.org/en/download/).
+This application is based on Node.js. Please download and install the package suitable for your operating system.
+
+NOTE: Due to incompatibilities with the SSL provider in node versions >=17, you must install a node version >=10.4 and
+<17. The latest 16.x release is currently 16.18.0, which can be found
+[here](https://nodejs.org/download/release/v16.18.0/).
 
 ## Usage
 
-1. Open a command line window (i.e. CMD on Windows, Terminal on Linux) and enter the following command:
+1. Open a command line window (i.e. CMD on Windows, Terminal on Linux).
+2. Enter the following command:
+
+   ``` bash
+   node -v
+   ```
+
+   The output should show a version smaller than 17. If not, please see [Installation](#Installation).
+
+3. Enter the following command:
 
    ``` bash
    npx verify-coldcard-dice-seed@latest
    ```
 
-2. First time usage only: Press the Enter key to acknowledge that the package needs to be installed.
+4. First time usage only: Press the Enter key to acknowledge that the package needs to be installed.
 
-3. Follow the instructions in the command line window.
+5. Follow the instructions in the command line window.
 
-4. Optional: The application with all its dependencies occupies roughly 5MB on your hard drive. To reclaim that space,
+6. Optional: The application with all its dependencies occupies roughly 5MB on your hard drive. To reclaim that space,
    you can delete the npx cache (the following commands assume that you did not change the default locations):
    - Linux (& probably MacOS):
 
