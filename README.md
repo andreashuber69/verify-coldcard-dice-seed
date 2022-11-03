@@ -34,7 +34,7 @@ derived from the dice entropy you entered.
 
 This application is based on Node.js. Please download and install the package suitable for your operating system.
 
-NOTE: Due to incompatibilities with the SSL provider in node versions >=17, you must install a node version >=10.4 and
+NOTE: Due to incompatibilities with the SSL provider in node versions >=17, you must install a node version >=10.22 and
 <17. The latest 16.x release is currently 16.18.0, which can be found
 [here](https://nodejs.org/download/release/v16.18.0/).
 
@@ -47,7 +47,7 @@ NOTE: Due to incompatibilities with the SSL provider in node versions >=17, you 
    node -v
    ```
 
-   The output should show a version smaller than 17. If not, please see [Installation](#Installation).
+   The output should show a version smaller than 17. If not, please see [Installation](#installation).
 
 3. Enter the following command:
 
@@ -118,7 +118,7 @@ COLDCARD copy correctly derives the seed but then generates addresses from a dif
 
 ## Sample Output
 
-``` shell_session
+``` shell_session cSpell:disable
 $ npx verify-coldcard-dice-seed@latest
 Need to install the following packages:
   verify-coldcard-dice-seed@latest
