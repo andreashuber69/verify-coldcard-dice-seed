@@ -13,8 +13,8 @@
       "type": "node",
       "request": "launch",
       "name": "Launch Tests",
-      "runtimeExecutable": "${workspaceRoot}/node_modules/mocha/bin/mocha",
-      "runtimeArgs": ["--require", "ts-node/register", "${workspaceFolder}/src/**/*.spec.ts"],
+      "runtimeExecutable": "${workspaceRoot}/node_modules/ts-mocha/bin/ts-mocha",
+      "runtimeArgs": ["${workspaceFolder}/src/**/*.spec.ts"],
       "console": "integratedTerminal"
     }
   ]
