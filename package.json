@@ -1,6 +1,6 @@
 {
   "name": "verify-coldcard-dice-seed",
-  "version": "1.0.11",
+  "version": "1.0.12",
   "description": "Helps you to verify whether your COLDCARD correctly generates 24 word Bitcoin wallet seeds from dice rolls. It then displays the public addresses that should be generated from the wallet seed.",
   "keywords": [
     "bitcoin",
@@ -62,7 +62,7 @@
     "typescript": "^4.8.4"
   },
   "dependencies": {
-    "@bitgo/utxo-lib": "^2.4.1",
+    "@bitgo/utxo-lib": "^1.9.5",
     "bip39": "^3.0.4",
     "tslib": "^2.4.1"
   }
