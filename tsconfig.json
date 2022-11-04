@@ -9,9 +9,6 @@
     "noFallthroughCasesInSwitch": true,
     "noImplicitReturns": true,
     "outDir": "dist",
-    "paths": {
-      "@bitgo/utxo-lib": ["src/bitgo__utxo-lib"]
-    },
     "sourceMap": true,
     "strict": true,
     "target": "ES2015",
