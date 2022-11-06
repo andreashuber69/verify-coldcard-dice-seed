@@ -1,19 +1,19 @@
 #!/usr/bin/env node
 // https://github.com/andreashuber69/verify-coldcard-dice-seed#--
+import { createRequire } from "module";
 import { ReadStream } from "tty";
-import { AbortError } from "./AbortError";
-import { readDiceRolls } from "./readDiceRolls";
-import { readPassphrase } from "./readPassphrase";
-import { showAddresses } from "./showAddresses";
-import { verifyWords } from "./verifyWords";
-import { waitForUser } from "./waitForUser";
+import { AbortError } from "./AbortError.js";
+import { readDiceRolls } from "./readDiceRolls.js";
+import { readPassphrase } from "./readPassphrase.js";
+import { showAddresses } from "./showAddresses.js";
+import { verifyWords } from "./verifyWords.js";
+import { waitForUser } from "./waitForUser.js";
+
 // Simple typescript alternatives to calling require below lead to the outDir containing the file package.json and the
 // directory src with all the code. This is due to how the ts compiler automatically determines the rootDir from
 // imports. There are alternatives to calling require, but these seem overly complicated:
 // https://stackoverflow.com/questions/58172911/typescript-compiler-options-trying-to-get-flat-output-to-outdir
-// eslint-disable-next-line max-len
-// eslint-disable-next-line @typescript-eslint/no-var-requires, import/no-commonjs, @typescript-eslint/no-require-imports
-const { version } = require("../package.json") as { readonly version: string };
+const { version } = createRequire(import.meta.url)("../package.json") as { readonly version: string };
 
 const main = async () => {
     const { stdin, stdout } = process;

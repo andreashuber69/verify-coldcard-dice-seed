@@ -1,6 +1,6 @@
 // https://github.com/andreashuber69/verify-coldcard-dice-seed#--
-import { AbortError } from "./AbortError";
-import type { IIn } from "./IInOut";
+import { AbortError } from "./AbortError.js";
+import type { IIn } from "./IInOut.js";
 
 export const getKey = async (stdin: IIn) => await new Promise<string>((resolve, reject) => {
     stdin.resume();

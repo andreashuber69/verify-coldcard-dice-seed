@@ -21,8 +21,9 @@
     "name": "Andreas Huber"
   },
   "engines": {
-    "node": ">=10.4.0"
+    "node": ">=14.18.0"
   },
+  "type": "module",
   "main": "./dist/main.js",
   "bin": "./dist/main.js",
   "files": [
@@ -32,7 +33,7 @@
     "start": "tsc && node .",
     "prelint": "cspell '**/*.*' && markdownlint *.md",
     "lint": "eslint ./src --ext .js,.ts",
-    "test-no-coverage": "ts-mocha src/*.spec.ts",
+    "test-no-coverage": "ts-mocha --loader=ts-node/esm src/*.spec.ts",
     "test": "nyc --include 'src/*.ts' --extension .ts --require ts-node/register --reporter=html --reporter=text --all npm run test-no-coverage",
     "show-coverage": "lite-server --baseDir='coverage'",
     "preci": "npm run lint",
@@ -55,7 +56,7 @@
     "lite-server": "^2.6.1",
     "markdownlint-cli": "^0.32.2",
     "mocha": "^10.1.0",
-    "node-fetch": "^2.6.7",
+    "node-fetch": "^3.2.10",
     "nyc": "^15.1.0",
     "ts-mocha": "^10.0.0",
     "ts-node": "^10.9.1",

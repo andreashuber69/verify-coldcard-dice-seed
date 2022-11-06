@@ -1,6 +1,6 @@
 // https://github.com/andreashuber69/verify-coldcard-dice-seed#--
-import { getKey } from "./getKey";
-import type { IInOut } from "./IInOut";
+import { getKey } from "./getKey.js";
+import type { IInOut } from "./IInOut.js";
 
 export const waitForUser = async ({ stdin, stdout }: IInOut, prompt?: string) => {
     stdout.write(prompt ?? "Press any key to continue or CTRL-C to abort: ");

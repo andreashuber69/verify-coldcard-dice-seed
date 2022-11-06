@@ -1,7 +1,7 @@
 // https://github.com/andreashuber69/verify-coldcard-dice-seed#--
 import { createInterface } from "readline";
-import { AbortError } from "./AbortError";
-import type { IGenericInOut } from "./IInOut";
+import { AbortError } from "./AbortError.js";
+import type { IGenericInOut } from "./IInOut.js";
 
 type IInOut = IGenericInOut<NodeJS.ReadableStream & Pick<NodeJS.ReadStream, "setRawMode">, NodeJS.WritableStream>;
 

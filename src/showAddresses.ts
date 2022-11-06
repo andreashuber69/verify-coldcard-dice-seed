@@ -4,9 +4,9 @@ import { mnemonicToSeed } from "bip39";
 // cSpell: ignore secp
 // eslint-disable-next-line import/no-namespace
 import * as ecc from "tiny-secp256k1";
-import { getAddresses } from "./getAddresses";
-import type { IInOut } from "./IInOut";
-import { waitForUser } from "./waitForUser";
+import { getAddresses } from "./getAddresses.js";
+import type { IInOut } from "./IInOut.js";
+import { waitForUser } from "./waitForUser.js";
 
 const bip32 = BIP32Factory(ecc);
 

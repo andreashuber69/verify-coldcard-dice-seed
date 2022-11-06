@@ -1,7 +1,7 @@
 // https://github.com/andreashuber69/verify-coldcard-dice-seed#--
-import { getKey } from "./getKey";
-import type { IInOut } from "./IInOut";
-import { sha256 } from "./sha256";
+import { getKey } from "./getKey.js";
+import type { IInOut } from "./IInOut.js";
+import { sha256 } from "./sha256.js";
 
 export const processKey = async ({ stdin, stdout }: IInOut, input: string): Promise<[string, string]> => {
     stdout.write(`${input.length} rolls\r\n`);
