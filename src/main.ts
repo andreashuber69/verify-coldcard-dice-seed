@@ -26,7 +26,7 @@ try {
     stdin.setRawMode(true);
     stdin.setEncoding("utf-8");
 
-    stdout.write(`Verify COLDCARD Dice Seed v${version} (tested with COLDCARD firmware v4.1.2)\r\n`);
+    stdout.write(`Verify COLDCARD Dice Seed v${version} (tested with COLDCARD Mk4 firmware v5.0.7)\r\n`);
     stdout.write("\r\n");
     stdout.write("This application guides you through verifying that your COLDCARD correctly\r\n");
     stdout.write("derives seeds and addresses from dice rolls.\r\n");
@@ -37,7 +37,7 @@ try {
     stdout.write("you are convinced that your COLDCARD works correctly, you should then generate\r\n");
     stdout.write("the seed of your real wallet on your COLDCARD only.\r\n");
     stdout.write("\r\n");
-    stdout.write("Log into your COLDCARD, select 'Import Existing', 'Dice Rolls'.\r\n");
+    stdout.write("Log into your COLDCARD, select 'New Seed Words', '24 Word Dice Roll'.\r\n");
     await waitForUser(process);
     const words = await verifyWords(process, await readDiceRolls(process));
     let currentPassphrase = "";
