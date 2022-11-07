@@ -37,7 +37,7 @@
     "test": "nyc --include 'src/*.ts' --extension .ts --require ts-node/register --reporter=html --reporter=text --all npm run test-no-coverage",
     "show-coverage": "lite-server --baseDir='coverage'",
     "preci": "npm run lint",
-    "ci": "npm test && tsc"
+    "ci": "npm run test-no-coverage && tsc"
   },
   "devDependencies": {
     "@types/chai": "^4.3.3",
