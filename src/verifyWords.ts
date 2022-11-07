@@ -1,8 +1,8 @@
 // https://github.com/andreashuber69/verify-coldcard-dice-seed#--
-import { calculateBip39Mnemonic } from "./calculateBip39Mnemonic";
-import type { IInOut } from "./IInOut";
-import { sha256 } from "./sha256";
-import { waitForUser } from "./waitForUser";
+import { calculateBip39Mnemonic } from "./calculateBip39Mnemonic.js";
+import type { IInOut } from "./IInOut.js";
+import { sha256 } from "./sha256.js";
+import { waitForUser } from "./waitForUser.js";
 
 export const verifyWords = async ({ stdin, stdout }: IInOut, diceRolls: string) => {
     const words = calculateBip39Mnemonic(sha256(Buffer.from(diceRolls)));

@@ -1,7 +1,7 @@
 // https://github.com/andreashuber69/verify-coldcard-dice-seed#--
-import type { IInMovableOut } from "./IInOut";
-import { processKey } from "./processKey";
-import { waitForUser } from "./waitForUser";
+import type { IInMovableOut } from "./IInOut.js";
+import { processKey } from "./processKey.js";
+import { waitForUser } from "./waitForUser.js";
 
 export const readDiceRolls = async ({ stdin, stdout }: IInMovableOut) => {
     stdout.write("To perform a realistic test you should enter exactly as many dice rolls as you\r\n");

@@ -2,7 +2,7 @@
 module.exports = {
     env: {
         node: true,
-        es2020: true,
+        es2022: true,
     },
     extends: [
         "eslint:all",
@@ -93,13 +93,6 @@ module.exports = {
         "import/dynamic-import-chunkname": "error",
         "import/export": "off", // Already covered by typescript.
         "import/exports-last": "error",
-        "import/extensions": [
-            "error",
-            {
-                json: "always",
-                schema: "always",
-            },
-        ],
         "import/first": "error",
         // There are advantages and disadvantages to turning this on or off. "off" seems the better choice.
         "import/group-exports": "off",

@@ -3,7 +3,7 @@ import { expect } from "chai";
 import Mocha from "mocha";
 
 import fetch from "node-fetch";
-import { calculateBip39Mnemonic } from "./calculateBip39Mnemonic";
+import { calculateBip39Mnemonic } from "./calculateBip39Mnemonic.js";
 
 const addPassingTest = (suite: Mocha.Suite, entropy: string, words: string) => suite.addTest(
     new Mocha.Test(entropy, () => expect(calculateBip39Mnemonic(entropy).join(" ")).to.equal(words)),

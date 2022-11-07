@@ -1,6 +1,6 @@
 // https://github.com/andreashuber69/verify-coldcard-dice-seed#--
 import { wordlists } from "bip39";
-import { sha256 } from "./sha256";
+import { sha256 } from "./sha256.js";
 
 const toBigInt = (hexNumber: string) => BigInt(`0x${hexNumber || "0"}`);
 
