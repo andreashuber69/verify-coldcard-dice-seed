@@ -22,8 +22,8 @@ export const showAddresses = async ({ stdin, stdout }: IInOut, words: readonly s
     const [[, firstAddress]] = batch;
     stdout.write(`Select '${firstAddress.slice(0, 8)}-${firstAddress.slice(-7)}' on your COLDCARD.\r\n`);
     await waitForUser({ stdin, stdout });
-    stdout.write("You can now verify as many addresses as you like and abort whenever you're\r\n");
-    stdout.write("comfortable.\r\n");
+    stdout.write("You can now verify as many addresses as you like and stop whenever\r\n");
+    stdout.write("you're comfortable.\r\n");
     let showNextBatch = true;
 
     while (showNextBatch) {
@@ -32,7 +32,7 @@ export const showAddresses = async ({ stdin, stdout }: IInOut, words: readonly s
         stdout.write(batch.reduce((p, [path, addr]) => `${p}${path} => ${addr}\r\n`, ""));
         stdout.write("\r\n");
         stdout.write("Press the 9 button on your COLDCARD.\r\n");
-        const prompt = "Press p for a new passphrase, CTRL-C to abort or any other key to continue: ";
+        const prompt = "Press p for new passphrase, CTRL-C to stop or any other key to continue: ";
         // eslint-disable-next-line no-await-in-loop
         showNextBatch = await waitForUser({ stdin, stdout }, prompt) !== "p";
         batchStart += batchLength;

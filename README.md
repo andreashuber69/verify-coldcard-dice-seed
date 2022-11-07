@@ -32,10 +32,8 @@ derived from the dice entropy you entered.
 
 ## Installation
 
-This application is based on Node.js. Please download and install the package suitable for your operating system.
-
-NOTE: Due to incompatibilities in node versions >=17, you must install a node version >=10.4 and <17. The latest 16.x
-release is currently 16.18.0, which can be found [here](https://nodejs.org/download/release/v16.18.0/).
+This application is based on Node.js. Please download and install the package suitable for your operating system
+[here](https://nodejs.org/en/download/).
 
 ## Usage
 
@@ -43,22 +41,14 @@ release is currently 16.18.0, which can be found [here](https://nodejs.org/downl
 2. Enter the following command:
 
    ``` bash
-   node -v
-   ```
-
-   The output should show a version smaller than 17. If not, please see [Installation](#installation).
-
-3. Enter the following command:
-
-   ``` bash
    npx verify-coldcard-dice-seed@latest
    ```
 
-4. First time usage only: Press the Enter key to acknowledge that the package needs to be installed.
+3. First time usage only: Press the Enter key to acknowledge that the package needs to be installed.
 
-5. Follow the instructions in the command line window.
+4. Follow the instructions in the command line window.
 
-6. Optional: The application with all its dependencies occupies roughly 5MB on your hard drive. To reclaim that space,
+5. Optional: The application with all its dependencies occupies roughly 5MB on your hard drive. To reclaim that space,
    you can delete the npx cache (the following commands assume that you did not change the default locations):
    - Linux (& probably MacOS):
 
@@ -122,23 +112,25 @@ $ npx verify-coldcard-dice-seed@latest
 Need to install the following packages:
   verify-coldcard-dice-seed@latest
 Ok to proceed? (y) y
-Verify COLDCARD Dice Seed v1.0.9 (tested with COLDCARD firmware v4.1.2)
+*** Verify COLDCARD Dice Seed v1.0.14 ***
+(tested with COLDCARD Mk4 firmware v5.0.7)
 
-This application guides you through verifying that your COLDCARD correctly
-derives seeds and addresses from dice rolls.
+This application guides you through verifying that your COLDCARD
+correctly derives seeds and addresses from dice rolls.
 
-CAUTION: The very point of a COLDCARD is that the seed of a real wallet is
-never entered outside of a coldcard. You should therefore only use this
-application to verify the seed and address derivation of your COLDCARD. Once
-you are convinced that your COLDCARD works correctly, you should then generate
-the seed of your real wallet on your COLDCARD only.
+CAUTION: The very point of a COLDCARD is that the seed of a real wallet
+is never entered outside of a coldcard. You should therefore only use
+this application to verify the seed and address derivation of your
+COLDCARD. Once you are convinced that your COLDCARD works correctly, you
+should then generate the seed of your real wallet on your COLDCARD only.
 
-Log into your COLDCARD, select 'Import Existing', 'Dice Rolls'.
+Log into your COLDCARD, select 'New Seed Words', '24 Word Dice Roll'.
 Press any key to continue or CTRL-C to abort: 
 
-To perform a realistic test you should enter exactly as many dice rolls as you
-will enter for your real wallet. 99 or more rolls are recommended for maximum
-security. Roll the dice and enter the value on your COLDCARD and here.
+To perform a realistic test you should enter exactly as many dice rolls
+as you will enter for your real wallet. 99 or more rolls are recommended
+for maximum security. Roll the dice and enter the value on your COLDCARD
+and here.
 
 6 rolls
 8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92
@@ -186,8 +178,8 @@ Press any key to continue or CTRL-C to abort:
 Select 'bc1qh2ns-6nvprc4' on your COLDCARD.
 Press any key to continue or CTRL-C to abort: 
 
-You can now verify as many addresses as you like and abort whenever you're
-comfortable.
+You can now verify as many addresses as you like and stop whenever
+you're comfortable.
 Addresses 0..9:
 
 m/84'/0'/0'/0/0 => bc1qh2nsjhtgknshf6mpsdm6rm3rtchvq836nvprc4
@@ -202,7 +194,7 @@ m/84'/0'/0'/0/8 => bc1qp2wk2vkhnqh2utumhsznl0xfnqvscrw453yw3k
 m/84'/0'/0'/0/9 => bc1quzclsfs88n9z56eqauganuz5m7pw2uhrkkl3y0
 
 Press the 9 button on your COLDCARD.
-Press p for a new passphrase, CTRL-C to abort or any other key to continue: 
+Press p for new passphrase, CTRL-C to stop or any other key to continue: 
 
 Addresses 10..19:
 
@@ -218,7 +210,7 @@ m/84'/0'/0'/0/18 => bc1qwckfgdesfyvtuxx290kr546xsakjqhz3j6kdjv
 m/84'/0'/0'/0/19 => bc1q59m83tk3h7hyedtev9cvxxfe46xw58m7duwl67
 
 Press the 9 button on your COLDCARD.
-Press p for a new passphrase, CTRL-C to abort or any other key to continue: 
+Press p for new passphrase, CTRL-C to stop or any other key to continue: 
 
 On your COLDCARD, press the X button twice.
 Wallet passphrase (press Return for none): hello
@@ -233,8 +225,8 @@ Press any key to continue or CTRL-C to abort:
 Select 'bc1qcxer-aw7a3jc' on your COLDCARD.
 Press any key to continue or CTRL-C to abort: 
 
-You can now verify as many addresses as you like and abort whenever you're
-comfortable.
+You can now verify as many addresses as you like and stop whenever
+you're comfortable.
 Addresses 0..9:
 
 m/84'/0'/0'/0/0 => bc1qcxerhppmw3q33a33pj0jsydsa5fuzlaaw7a3jc
@@ -249,10 +241,10 @@ m/84'/0'/0'/0/8 => bc1q84s5rc2g02jkaxzl2hujlyrk7c84rxxeu7teh3
 m/84'/0'/0'/0/9 => bc1qkrye64arqhg7aas0ntzlkgckn09klx825sdk3u
 
 Press the 9 button on your COLDCARD.
-Press p for a new passphrase, CTRL-C to abort or any other key to continue: 
+Press p for new passphrase, CTRL-C to stop or any other key to continue: 
 
-CAUTION: If you've set up your COLDCARD with a seed please clear it now by
-first going back to the main menu (press the X button as many times as
-necessary) and then selecting 'Advanced', 'Danger Zone', 'Seed Functions',
-'Destroy Seed'.
+CAUTION: If you've set up your COLDCARD with a seed please clear it now
+by first going back to the main menu (press the X button as many times
+as necessary) and then selecting 'Advanced', 'Danger Zone',
+'Seed Functions', 'Destroy Seed'.
 ```

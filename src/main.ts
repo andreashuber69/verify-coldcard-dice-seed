@@ -26,16 +26,17 @@ try {
     stdin.setRawMode(true);
     stdin.setEncoding("utf-8");
 
-    stdout.write(`Verify COLDCARD Dice Seed v${version} (tested with COLDCARD Mk4 firmware v5.0.7)\r\n`);
+    stdout.write(`*** Verify COLDCARD Dice Seed v${version} ***\r\n`);
+    stdout.write("(tested with COLDCARD Mk4 firmware v5.0.7)\r\n");
     stdout.write("\r\n");
-    stdout.write("This application guides you through verifying that your COLDCARD correctly\r\n");
-    stdout.write("derives seeds and addresses from dice rolls.\r\n");
+    stdout.write("This application guides you through verifying that your COLDCARD\r\n");
+    stdout.write("correctly derives seeds and addresses from dice rolls.\r\n");
     stdout.write("\r\n");
-    stdout.write("CAUTION: The very point of a COLDCARD is that the seed of a real wallet is\r\n");
-    stdout.write("never entered outside of a coldcard. You should therefore only use this\r\n");
-    stdout.write("application to verify the seed and address derivation of your COLDCARD. Once\r\n");
-    stdout.write("you are convinced that your COLDCARD works correctly, you should then generate\r\n");
-    stdout.write("the seed of your real wallet on your COLDCARD only.\r\n");
+    stdout.write("CAUTION: The very point of a COLDCARD is that the seed of a real wallet\r\n");
+    stdout.write("is never entered outside of a coldcard. You should therefore only use\r\n");
+    stdout.write("this application to verify the seed and address derivation of your\r\n");
+    stdout.write("COLDCARD. Once you are convinced that your COLDCARD works correctly, you\r\n");
+    stdout.write("should then generate the seed of your real wallet on your COLDCARD only.\r\n");
     stdout.write("\r\n");
     stdout.write("Log into your COLDCARD, select 'New Seed Words', '24 Word Dice Roll'.\r\n");
     await waitForUser(process);
@@ -65,8 +66,8 @@ try {
     }
 } finally {
     stdout.write("\r\n\r\n");
-    stdout.write("CAUTION: If you've set up your COLDCARD with a seed please clear it now by\r\n");
-    stdout.write("first going back to the main menu (press the X button as many times as\r\n");
-    stdout.write("necessary) and then selecting 'Advanced', 'Danger Zone', 'Seed Functions',\r\n");
-    stdout.write("'Destroy Seed'.\r\n");
+    stdout.write("CAUTION: If you've set up your COLDCARD with a seed please clear it now\r\n");
+    stdout.write("by first going back to the main menu (press the X button as many times\r\n");
+    stdout.write("as necessary) and then selecting 'Advanced', 'Danger Zone',\r\n");
+    stdout.write("'Seed Functions', 'Destroy Seed'.\r\n");
 }
