@@ -27,7 +27,7 @@ try {
     stdin.setEncoding("utf-8");
 
     stdout.write(`*** Verify COLDCARD Dice Seed v${version} ***\r\n`);
-    stdout.write(`(tested with COLDCARD Mk4 firmware v5.0.7)\r\n`);
+    stdout.write("(tested with COLDCARD Mk4 firmware v5.0.7)\r\n");
     stdout.write("\r\n");
     stdout.write("This application guides you through verifying that your COLDCARD\r\n");
     stdout.write("correctly derives seeds and addresses from dice rolls.\r\n");
