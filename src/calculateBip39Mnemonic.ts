@@ -11,7 +11,13 @@ const calculateCheckSum = (hexEntropy: string, cs: number) => {
 };
 
 const getWords = (checkedEntropy: bigint, bits: number) => {
-    const allWords = wordlists.english;
+    const allWords = wordlists["english"];
+
+    if (!allWords) {
+        // cSpell: ignore wordlist
+        throw new Error("Missing english wordlist.");
+    }
+
     const bitsPerWord = Math.log2(allWords.length);
 
     if (bits % bitsPerWord !== 0) {
@@ -22,7 +28,13 @@ const getWords = (checkedEntropy: bigint, bits: number) => {
     const divisor = BigInt(allWords.length);
 
     for (let index = words.length - 1; index >= 0; --index) {
-        words[index] = allWords[Number(checkedEntropy % divisor)];
+        const word = allWords[Number(checkedEntropy % divisor)];
+
+        if (!word) {
+            throw new Error("Invalid wordlist!");
+        }
+
+        words[index] = word;
         // eslint-disable-next-line no-param-reassign
         checkedEntropy /= divisor;
     }

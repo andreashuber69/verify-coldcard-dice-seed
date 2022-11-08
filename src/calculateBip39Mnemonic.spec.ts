@@ -25,11 +25,11 @@ const execute = async () => {
 
     const vectors = JSON.parse(await response.text()) as Record<string, unknown>;
 
-    if (!("english" in vectors) || !(vectors.english instanceof Array)) {
+    if (!("english" in vectors) || !(vectors["english"] instanceof Array)) {
         throw new Error("Unexpected response");
     }
 
-    for (const vector of vectors.english) {
+    for (const vector of vectors["english"]) {
         if (!(vector instanceof Array) || (vector.length < 2) ||
             (typeof vector[0] !== "string") || (typeof vector[1] !== "string")) {
             throw new Error("Unexpected response");
