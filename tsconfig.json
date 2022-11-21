@@ -1,7 +1,6 @@
 {
   "extends": "@tsconfig/node-lts-strictest-esm/tsconfig.json",
   "compilerOptions": {
-    "baseUrl": ".",
     "importHelpers": true,
     "outDir": "dist",
     "sourceMap": true
