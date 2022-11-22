@@ -2,8 +2,7 @@
   "extends": "@tsconfig/node-lts-strictest-esm/tsconfig.json",
   "compilerOptions": {
     "importHelpers": true,
-    "outDir": "dist",
-    "sourceMap": true
+    "outDir": "dist"
   },
   "include": [
     "src/**/*"
