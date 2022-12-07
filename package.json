@@ -33,10 +33,10 @@
   "scripts": {
     "start": "tsc && node .",
     "prelint": "cspell '**/*.*' && markdownlint *.md",
-    "lint": "eslint src --ext .js,.ts",
-    "test-no-coverage": "ts-mocha --loader=ts-node/esm src/*.spec.ts",
+    "lint": "eslint ./src --ext .js,.ts",
+    "test-no-coverage": "ts-mocha --loader=ts-node/esm ./src/*.spec.ts",
     "test": "c8 --include 'src/*.ts' --reporter=html --reporter=text --all npm run test-no-coverage",
-    "show-coverage": "lite-server --baseDir='coverage'",
+    "show-coverage": "lite-server --baseDir=coverage",
     "preci": "npm run lint",
     "ci": "npm run test && tsc"
   },
