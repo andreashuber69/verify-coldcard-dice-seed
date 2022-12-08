@@ -48,8 +48,8 @@
     "@types/mocha": "^10.0.1",
     "@types/node": "^18.11.11",
     "@types/node-fetch": "^2.6.2",
-    "@typescript-eslint/eslint-plugin": "^5.45.1",
-    "@typescript-eslint/parser": "^5.45.1",
+    "@typescript-eslint/eslint-plugin": "^5.46.0",
+    "@typescript-eslint/parser": "^5.46.0",
     "c8": "^7.12.0",
     "chai": "^4.3.7",
     "cspell": "^6.17.0",
@@ -64,7 +64,7 @@
     "node-fetch": "^3.3.0",
     "ts-mocha": "^10.0.0",
     "ts-node": "^10.9.1",
-    "typescript": "^4.9.3"
+    "typescript": "^4.9.4"
   },
   "dependencies": {
     "bech32": "^2.0.0",
