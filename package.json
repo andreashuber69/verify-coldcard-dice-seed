@@ -28,7 +28,8 @@
   "bin": "dist/main.js",
   "files": [
     "/dist/",
-    "!/**/*.spec.*"
+    "!/**/*.spec.*",
+    "!/**/*.map"
   ],
   "scripts": {
     "start": "tsc && node .",
