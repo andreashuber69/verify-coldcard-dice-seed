@@ -2,9 +2,9 @@
 import { once } from "events";
 
 import { AbortError } from "./AbortError.js";
-import type { IIn } from "./IInOut.js";
+import type { In } from "./InOut.js";
 
-export const getKey = async (stdin: IIn) => {
+export const getKey = async (stdin: In) => {
     stdin.resume();
 
     try {

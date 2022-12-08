@@ -1,9 +1,9 @@
 // https://github.com/andreashuber69/verify-coldcard-dice-seed#--
-import type { IInMovableOut } from "./IInOut.js";
+import type { InMovableOut } from "./InOut.js";
 import { processKey } from "./processKey.js";
 import { waitForUser } from "./waitForUser.js";
 
-export const readDiceRolls = async ({ stdin, stdout }: IInMovableOut) => {
+export const readDiceRolls = async ({ stdin, stdout }: InMovableOut) => {
     stdout.write("To perform a realistic test you should enter exactly as many dice rolls\r\n");
     stdout.write("as you will enter for your real wallet. 99 or more rolls are recommended\r\n");
     stdout.write("for maximum security. Roll the dice and enter the value on your COLDCARD\r\n");

@@ -5,12 +5,12 @@ import { mnemonicToSeed } from "bip39";
 // eslint-disable-next-line import/no-namespace
 import * as ecc from "tiny-secp256k1";
 import { getAddresses } from "./getAddresses.js";
-import type { IInOut } from "./IInOut.js";
+import type { InOut } from "./InOut.js";
 import { waitForUser } from "./waitForUser.js";
 
 const bip32 = BIP32Factory(ecc);
 
-export const showAddresses = async ({ stdin, stdout }: IInOut, words: readonly string[], passphrase: string) => {
+export const showAddresses = async ({ stdin, stdout }: InOut, words: readonly string[], passphrase: string) => {
     stdout.write("Select 'Address Explorer' and press the 4 button on your COLDCARD.\r\n");
     await waitForUser({ stdin, stdout });
     const root = bip32.fromSeed(await mnemonicToSeed(words.join(" "), passphrase));
