@@ -43,7 +43,7 @@ const getWords = (checkedEntropy: bigint, bits: number) => {
 };
 
 /**
- * @description Calculates the mnemonic from the given entropy according to BIP-0039
+ * Calculates the mnemonic from the given entropy according to BIP-0039
  * (https://github.com/bitcoin/bips/blob/master/bip-0039.mediawiki).
  * @param hexEntropy The entropy to use for the mnemonic as a hexadecimal string. Due to constraints imposed by
  * BIP-0039, the string length must be a multiple of 8. In violation of BIP-0039 however, for testing purposes it is
