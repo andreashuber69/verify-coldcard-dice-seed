@@ -19,7 +19,7 @@ try {
     const { version } = createRequire(import.meta.url)("../package.json") as { readonly version: string };
 
     if (!(stdin instanceof ReadStream)) {
-        throw new Error("stdin is not an instance of tty.ReadStream");
+        throw new TypeError("stdin is not an instance of tty.ReadStream");
     }
 
     stdin.pause();
