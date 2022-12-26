@@ -24,7 +24,7 @@ try {
 
     stdin.pause();
     stdin.setRawMode(true);
-    stdin.setEncoding("utf-8");
+    stdin.setEncoding("utf8");
 
     stdout.write(`*** Verify COLDCARD Dice Seed v${version} ***\r\n`);
     stdout.write("(tested with COLDCARD Mk4 firmware v5.0.7)\r\n");
