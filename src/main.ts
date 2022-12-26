@@ -59,9 +59,9 @@ try {
         await showAddresses(process, words, currentPassphrase);
         /* eslint-enable no-await-in-loop */
     }
-} catch (ex: unknown) {
-    if (!(ex instanceof AbortError)) {
-        console.error(ex);
+} catch (error: unknown) {
+    if (!(error instanceof AbortError)) {
+        console.error(error);
         process.exitCode = 1;
     }
 } finally {
