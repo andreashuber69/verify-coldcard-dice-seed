@@ -24,5 +24,5 @@ export const readPassphrase = async ({ stdin, stdout }: InOut) => await new Prom
         },
     );
 
-    readlineInterface.on("SIGTSTP", () => undefined);
+    readlineInterface.on("SIGTSTP", () => { /* intentionally empty */ });
 });
