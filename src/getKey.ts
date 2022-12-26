@@ -1,5 +1,5 @@
 // https://github.com/andreashuber69/verify-coldcard-dice-seed#--
-import { once } from "events";
+import { once } from "node:events";
 
 import { AbortError } from "./AbortError.js";
 import type { In } from "./InOut.js";
