@@ -34,7 +34,7 @@
   "scripts": {
     "start": "tsc && node .",
     "prelint": "cspell '**/*.*' && markdownlint '*.md'",
-    "lint": "eslint './src' --ext .js,.ts",
+    "lint": "eslint --ext .js,.ts './src'",
     "test-no-coverage": "ts-mocha --loader=ts-node/esm './src/*.spec.ts'",
     "test": "c8 --include 'src/*.ts' --reporter=html --reporter=text --all npm run test-no-coverage",
     "show-coverage": "lite-server --baseDir=coverage",
