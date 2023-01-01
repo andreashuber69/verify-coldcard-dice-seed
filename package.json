@@ -34,7 +34,7 @@
   "scripts": {
     "start": "tsc && node .",
     "prelint": "cspell '**/*.*' && markdownlint '*.md'",
-    "lint": "eslint --ext .js,.ts './src'",
+    "lint": "eslint --ext .js,.ts --report-unused-disable-directives './src'",
     "test-no-coverage": "ts-mocha --loader=ts-node/esm './src/*.spec.ts'",
     "test": "c8 --include 'src/*.ts' --reporter=html --reporter=text --all npm run test-no-coverage",
     "show-coverage": "lite-server --baseDir=coverage",
@@ -42,7 +42,7 @@
     "ci": "npm run test && tsc"
   },
   "devDependencies": {
-    "@andreashuber69/eslint-config": "^1.0.20",
+    "@andreashuber69/eslint-config": "^1.0.22",
     "@tsconfig/node-lts-strictest-esm": "^18.12.1",
     "@types/chai": "^4.3.4",
     "@types/mocha": "^10.0.1",
@@ -50,7 +50,7 @@
     "@types/node-fetch": "^2.6.2",
     "c8": "^7.12.0",
     "chai": "^4.3.7",
-    "cspell": "^6.18.0",
+    "cspell": "^6.18.1",
     "lite-server": "^2.6.1",
     "markdownlint-cli": "^0.32.2",
     "mocha": "^10.2.0",
