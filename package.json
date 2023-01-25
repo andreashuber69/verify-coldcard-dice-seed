@@ -42,7 +42,7 @@
     "ci": "npm run test && tsc"
   },
   "devDependencies": {
-    "@andreashuber69/eslint-config": "^1.1.2",
+    "@andreashuber69/eslint-config": "^1.1.4",
     "@tsconfig/node-lts-strictest-esm": "^18.12.1",
     "@types/chai": "^4.3.4",
     "@types/mocha": "^10.0.1",
