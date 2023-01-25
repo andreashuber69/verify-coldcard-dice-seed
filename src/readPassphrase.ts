@@ -1,11 +1,11 @@
-// https://github.com/andreashuber69/verify-coldcard-dice-seed#--
-import { createInterface } from "readline";
+// https://github.com/andreashuber69/verify-coldcard-dice-seed/blob/develop/README.md#----verify-coldcard-dice-seed
+import { createInterface } from "node:readline";
 import { AbortError } from "./AbortError.js";
-import type { IGenericInOut } from "./IInOut.js";
+import type { GenericInOut } from "./InOut.js";
 
-type IInOut = IGenericInOut<NodeJS.ReadableStream & Pick<NodeJS.ReadStream, "setRawMode">, NodeJS.WritableStream>;
+type InOut = GenericInOut<NodeJS.ReadableStream & Pick<NodeJS.ReadStream, "setRawMode">, NodeJS.WritableStream>;
 
-export const readPassphrase = async ({ stdin, stdout }: IInOut) => await new Promise<string>((resolve, reject) => {
+export const readPassphrase = async ({ stdin, stdout }: InOut) => await new Promise<string>((resolve, reject) => {
     const readlineInterface = createInterface(stdin, stdout);
     readlineInterface.question(
         "Wallet passphrase (press Return for none): ",
@@ -24,5 +24,5 @@ export const readPassphrase = async ({ stdin, stdout }: IInOut) => await new Pro
         },
     );
 
-    readlineInterface.on("SIGTSTP", () => undefined);
+    readlineInterface.on("SIGTSTP", () => { /* intentionally empty */ });
 });

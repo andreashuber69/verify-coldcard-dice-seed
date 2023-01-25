@@ -1,7 +1,7 @@
 #!/usr/bin/env node
-// https://github.com/andreashuber69/verify-coldcard-dice-seed#--
-import { createRequire } from "module";
-import { ReadStream } from "tty";
+// https://github.com/andreashuber69/verify-coldcard-dice-seed/blob/develop/README.md#----verify-coldcard-dice-seed
+import { createRequire } from "node:module";
+import { ReadStream } from "node:tty";
 import { AbortError } from "./AbortError.js";
 import { readDiceRolls } from "./readDiceRolls.js";
 import { readPassphrase } from "./readPassphrase.js";
@@ -19,12 +19,12 @@ try {
     const { version } = createRequire(import.meta.url)("../package.json") as { readonly version: string };
 
     if (!(stdin instanceof ReadStream)) {
-        throw new Error("stdin is not an instance of tty.ReadStream");
+        throw new TypeError("stdin is not an instance of tty.ReadStream");
     }
 
     stdin.pause();
     stdin.setRawMode(true);
-    stdin.setEncoding("utf-8");
+    stdin.setEncoding("utf8");
 
     stdout.write(`*** Verify COLDCARD Dice Seed v${version} ***\r\n`);
     stdout.write("(tested with COLDCARD Mk4 firmware v5.0.7)\r\n");
@@ -59,9 +59,9 @@ try {
         await showAddresses(process, words, currentPassphrase);
         /* eslint-enable no-await-in-loop */
     }
-} catch (ex: unknown) {
-    if (!(ex instanceof AbortError)) {
-        console.error(ex);
+} catch (error: unknown) {
+    if (!(error instanceof AbortError)) {
+        console.error(error);
         process.exitCode = 1;
     }
 } finally {

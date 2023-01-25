@@ -1,10 +1,10 @@
-// https://github.com/andreashuber69/verify-coldcard-dice-seed#--
+// https://github.com/andreashuber69/verify-coldcard-dice-seed/blob/develop/README.md#----verify-coldcard-dice-seed
 export class AbortError extends Error {
     public constructor(message?: string) {
         super(message);
+        this.name = "AbortError";
 
-        // eslint-disable-next-line max-len
-        // https://github.com/Microsoft/TypeScript-wiki/blob/master/Breaking-Changes.md#extending-built-ins-like-error-array-and-map-may-no-longer-work
-        Object.setPrototypeOf(this, AbortError.prototype);
+        // https://www.typescriptlang.org/docs/handbook/release-notes/typescript-2-2.html#support-for-newtarget
+        Object.setPrototypeOf(this, new.target.prototype);
     }
 }

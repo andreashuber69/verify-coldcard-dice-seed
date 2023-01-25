@@ -1,4 +1,4 @@
-# https://github.com/andreashuber69/verify-coldcard-dice-seed#--
+# https://github.com/andreashuber69/verify-coldcard-dice-seed/blob/develop/README.md#----verify-coldcard-dice-seed
 # cSpell: disable
 os: linux
 dist: xenial
@@ -17,10 +17,10 @@ script:
 
 deploy:
   provider: npm
-  skip_cleanup: true
+  cleanup: false
   email:
     secure: "FaPzcc+An6CABeIx4uMXEThGpkC3CEVouoA8zJQgHd5zp++BacI+z4r56cc0T0pf2ZWLo5BGIc4vqZ+Bh8JzwxkKvj45YlTKZeM237ZPgcJ+IXkvaLUxvTJav2a5w4ocRmRxp9NeLDC46yaVJuCK3GjobTiCbGO+Y86jQ7GnuM3gZ9YWw1CjGeUcs3TVT6WaK+nwT9H8T9T2G0aTQA1ypSBncQgAX27iXrIXC9JNsKLR1ER91yrWzfQN7sN+r46ZYz1lzFb/QI0jUIp9+oC8+Mk1jPCswi0w8mflaZU1hoEosQJkrTw7ONNPgz9TBCAuj3iWCXJ8ux8V765gMUYQqY5Gi6+6fwhOENTqAYBMEiFe/u7CR1TIou6G3O1cG0df/qsu5Q+T48kHCPkajOjEOmrgBT4htuEPAuNMQ8lYY2uUUIpvPtQRE3l2Ocl6QGVg/4oC7qi4+TjmPcFOqQ6Do8LqIhFq8WMCGd/Q/EbLaEQBgeaGbU57Gf+k+uEtcdi6PHz9/qrmoa1YV2Q020LxvtgtJAI9ZGapr7UAUpmc+OTlDz3IvPuDR8pKlrh8DDap3SKq6BSfGmKATqDzES9yBg5BmJglrm0cQFQmMLkvTHFgzle7ssAc88vv3Hg3292Y7JP/zfiyUW8teiommzAnfxkECo52jsVxTWANmvwETBM="
-  api_key:
+  api_token:
     secure: "0aMZt1AW+HaD+2a2sgRju0UxBjENF3cpdD3UfJ6iSQjSxVWfZCmq7v9horrpp8IaULeW2vKlRgbHXUnIOn+haqVxY1p75RzXjzGTnIMtyqwL++R1BIsLcfv+84jWJa739bkD5YshrAviD7Dy9TBg5iHCNlNQeqCHfzkkV1V71y15BHOp68S1RAxFcGVjsN8aqILFxLnAE89UVHtTZiEJBHwXUFYw3F/8zitNqzPRnY/mSSLsWuxl9cy4AXPkK4ZEMeHVT+P85URvzYXSLa2sPSqGGvM7/dy8MoFy5YaPMLmu8exJmRhMWmj2iifV+cBolJO+tJ/SYGOhjaevSuNPwSu56+IPeggrGXJN+gIPautdLM/tFvDcw2mAI4sAeLAcZzB19oW9NskugGqHTwMTuidxJuoSXeXOGnQfYUNXoOAuBgzDFPKPiNohmBXTSyVXoMAbJRVoWoHUz+DIsZ42JjUK2rRMArfRF7P8W7aHvL8ahUIQ3dSH9xtfKOUgP+QyEBq59qeDeW88AxJJUQ1ypB5okHTb5HKpfh1RWW/vbH1l4MlxcqTlBJoN0azkYTKSNzRXuO3wb1wOiIYeTVWBk1NIDj+BVxL81KPcS/gdRTTd3VyfkqMf1ThOKeQDWC8p30EupRJscVBY+Rh6ldHdaPOYwH2HvvjQJHVdZUQpUqA="
   on:
     branch: master

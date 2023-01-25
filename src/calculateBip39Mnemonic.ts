@@ -1,4 +1,4 @@
-// https://github.com/andreashuber69/verify-coldcard-dice-seed#--
+// https://github.com/andreashuber69/verify-coldcard-dice-seed/blob/develop/README.md#----verify-coldcard-dice-seed
 import { wordlists } from "bip39";
 import { sha256 } from "./sha256.js";
 
@@ -11,7 +11,13 @@ const calculateCheckSum = (hexEntropy: string, cs: number) => {
 };
 
 const getWords = (checkedEntropy: bigint, bits: number) => {
-    const allWords = wordlists.english;
+    const allWords = wordlists["english"];
+
+    if (!allWords) {
+        // cSpell: ignore wordlist
+        throw new Error("Missing english wordlist.");
+    }
+
     const bitsPerWord = Math.log2(allWords.length);
 
     if (bits % bitsPerWord !== 0) {
@@ -22,7 +28,13 @@ const getWords = (checkedEntropy: bigint, bits: number) => {
     const divisor = BigInt(allWords.length);
 
     for (let index = words.length - 1; index >= 0; --index) {
-        words[index] = allWords[Number(checkedEntropy % divisor)];
+        const word = allWords[Number(checkedEntropy % divisor)];
+
+        if (!word) {
+            throw new Error("Invalid wordlist!");
+        }
+
+        words[index] = word;
         // eslint-disable-next-line no-param-reassign
         checkedEntropy /= divisor;
     }
@@ -31,7 +43,7 @@ const getWords = (checkedEntropy: bigint, bits: number) => {
 };
 
 /**
- * @description Calculates the mnemonic from the given entropy according to BIP-0039
+ * Calculates the mnemonic from the given entropy according to BIP-0039
  * (https://github.com/bitcoin/bips/blob/master/bip-0039.mediawiki).
  * @param hexEntropy The entropy to use for the mnemonic as a hexadecimal string. Due to constraints imposed by
  * BIP-0039, the string length must be a multiple of 8. In violation of BIP-0039 however, for testing purposes it is

@@ -1,21 +1,20 @@
-// https://github.com/andreashuber69/verify-coldcard-dice-seed#--
+// https://github.com/andreashuber69/verify-coldcard-dice-seed/blob/develop/README.md#----verify-coldcard-dice-seed
 import { BIP32Factory } from "bip32";
 import { mnemonicToSeed } from "bip39";
 // cSpell: ignore secp
 // eslint-disable-next-line import/no-namespace
 import * as ecc from "tiny-secp256k1";
 import { getAddresses } from "./getAddresses.js";
-import type { IInOut } from "./IInOut.js";
+import type { InOut } from "./InOut.js";
 import { waitForUser } from "./waitForUser.js";
 
 const bip32 = BIP32Factory(ecc);
 
-export const showAddresses = async ({ stdin, stdout }: IInOut, words: readonly string[], passphrase: string) => {
+export const showAddresses = async ({ stdin, stdout }: InOut, words: readonly string[], passphrase: string) => {
     stdout.write("Select 'Address Explorer' and press the 4 button on your COLDCARD.\r\n");
     await waitForUser({ stdin, stdout });
     const root = bip32.fromSeed(await mnemonicToSeed(words.join(" "), passphrase));
-    const batchLength = 10;
-    const getBatch = (startIndex: number) => getAddresses(root, "m/84'/0'/0'/0", startIndex, batchLength);
+    const getBatch = (startIndex: number) => getAddresses(root, "m/84'/0'/0'/0", startIndex);
 
     let batchStart = 0;
     let batch = getBatch(batchStart);
@@ -27,7 +26,7 @@ export const showAddresses = async ({ stdin, stdout }: IInOut, words: readonly s
     let showNextBatch = true;
 
     while (showNextBatch) {
-        stdout.write(`Addresses ${batchStart}..${batchStart + batchLength - 1}:\r\n`);
+        stdout.write(`Addresses ${batchStart}..${batchStart + batch.length - 1}:\r\n`);
         stdout.write("\r\n");
         stdout.write(batch.reduce((p, [path, addr]) => `${p}${path} => ${addr}\r\n`, ""));
         stdout.write("\r\n");
@@ -35,7 +34,7 @@ export const showAddresses = async ({ stdin, stdout }: IInOut, words: readonly s
         const prompt = "Press p for new passphrase, CTRL-C to stop or any other key to continue: ";
         // eslint-disable-next-line no-await-in-loop
         showNextBatch = await waitForUser({ stdin, stdout }, prompt) !== "p";
-        batchStart += batchLength;
+        batchStart += batch.length;
         batch = getBatch(batchStart);
     }
 
