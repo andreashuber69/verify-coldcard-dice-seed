@@ -1,5 +1,6 @@
 <h1 align="center">
-  <img width="128" src="https://raw.githubusercontent.com/andreashuber69/verify-coldcard-dice-seed/master/doc/icon.svg?sanitize=true">
+  <img width="128" src="https://raw.githubusercontent.com/andreashuber69/verify-coldcard-dice-seed/master/doc/icon.svg?sanitize=true"><br>
+  verify-coldcard-dice-seed
 </h1>
 <p align="center">
   <a href="https://github.com/andreashuber69/verify-coldcard-dice-seed/releases/latest">
@@ -18,8 +19,6 @@
     <img src="https://img.shields.io/github/license/andreashuber69/verify-coldcard-dice-seed.svg" alt="License">
   </a>
 </p>
-
-<h1 align="center">Verify COLDCARD Dice Seed</h1>
 
 This application guides you through verifying that your COLDCARD correctly derives seeds and addresses from dice rolls.
 
