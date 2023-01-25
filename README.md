@@ -3,8 +3,8 @@
   verify-coldcard-dice-seed
 </h1>
 <p align="center">
-  <a href="https://github.com/andreashuber69/verify-coldcard-dice-seed/releases/latest">
-    <img src="https://img.shields.io/github/release/andreashuber69/verify-coldcard-dice-seed.svg" alt="Version">
+  <a href="https://www.npmjs.com/package/verify-coldcard-dice-seed">
+    <img src="https://img.shields.io/npm/v/verify-coldcard-dice-seed" alt="NPM Version">
   </a>
   <a href="https://github.com/andreashuber69/verify-coldcard-dice-seed/releases/latest">
     <img src="https://img.shields.io/github/release-date/andreashuber69/verify-coldcard-dice-seed.svg" alt="Release Date">
