@@ -1,4 +1,4 @@
-// https://github.com/andreashuber69/verify-coldcard-dice-seed#--
+// https://github.com/andreashuber69/verify-coldcard-dice-seed/blob/develop/README.md#----verify-coldcard-dice-seed
 import { createInterface } from "node:readline";
 import { AbortError } from "./AbortError.js";
 import type { GenericInOut } from "./InOut.js";

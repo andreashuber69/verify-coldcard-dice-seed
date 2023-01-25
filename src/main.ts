@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// https://github.com/andreashuber69/verify-coldcard-dice-seed#--
+// https://github.com/andreashuber69/verify-coldcard-dice-seed/blob/develop/README.md#----verify-coldcard-dice-seed
 import { createRequire } from "node:module";
 import { ReadStream } from "node:tty";
 import { AbortError } from "./AbortError.js";

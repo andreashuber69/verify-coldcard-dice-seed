@@ -1,4 +1,4 @@
-// https://github.com/andreashuber69/verify-coldcard-dice-seed#--
+// https://github.com/andreashuber69/verify-coldcard-dice-seed/blob/develop/README.md#----verify-coldcard-dice-seed
 type InNames = "once" | "pause" | "resume";
 
 export type GenericIn<T extends keyof NodeJS.ReadStream> = Pick<NodeJS.ReadStream, T>;

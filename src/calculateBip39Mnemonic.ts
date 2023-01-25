@@ -1,4 +1,4 @@
-// https://github.com/andreashuber69/verify-coldcard-dice-seed#--
+// https://github.com/andreashuber69/verify-coldcard-dice-seed/blob/develop/README.md#----verify-coldcard-dice-seed
 import { wordlists } from "bip39";
 import { sha256 } from "./sha256.js";
 
