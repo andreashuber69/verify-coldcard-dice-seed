@@ -16,7 +16,10 @@
     <img src="https://img.shields.io/github/issues-raw/andreashuber69/verify-coldcard-dice-seed.svg" alt="Issues">
   </a>
   <a href="https://codeclimate.com/github/andreashuber69/verify-coldcard-dice-seed/maintainability">
-    <img src="https://api.codeclimate.com/v1/badges/117c9f61c524756193a5/maintainability" />
+    <img src="https://api.codeclimate.com/v1/badges/117c9f61c524756193a5/maintainability" alt="Code Climate Maintainability">
+  </a>
+  <a href="https://coveralls.io/github/andreashuber69/verify-coldcard-dice-seed?branch=develop">
+    <img src="https://coveralls.io/repos/github/andreashuber69/verify-coldcard-dice-seed/badge.svg?branch=develop" alt="Coveralls">
   </a>
   <a href="https://github.com/andreashuber69/verify-coldcard-dice-seed/blob/develop/LICENSE">
     <img src="https://img.shields.io/github/license/andreashuber69/verify-coldcard-dice-seed.svg" alt="License">
