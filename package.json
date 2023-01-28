@@ -35,11 +35,12 @@
     "start": "tsc && node .",
     "prelint": "cspell '**/*.*' && markdownlint '*.md'",
     "lint": "eslint --ext .js,.ts --report-unused-disable-directives './src'",
+    "build": "tsc",
     "test-no-coverage": "ts-mocha --loader=ts-node/esm './src/*.spec.ts'",
     "test": "c8 --include 'src/*.ts' --reporter=html --reporter=text --all npm run test-no-coverage",
     "show-coverage": "lite-server --baseDir=coverage",
     "preci": "npm run lint",
-    "ci": "npm run test && tsc"
+    "ci": "npm test && npm run build"
   },
   "devDependencies": {
     "@andreashuber69/eslint-config": "^1.1.4",
