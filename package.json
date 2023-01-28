@@ -29,7 +29,8 @@
   "files": [
     "/dist/",
     "!/**/*.spec.*",
-    "!/**/*.map"
+    "!/**/*.map",
+    "/*.md"
   ],
   "scripts": {
     "start": "tsc && node .",
