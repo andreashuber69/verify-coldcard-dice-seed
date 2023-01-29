@@ -1,25 +1,21 @@
 {
   "version": "0.2",
-  "language": "en",
   "words": [
     "bech",
     "bitcoinjs",
-    "coinkite",
     "coldcard",
     "utxo",
     "wordlists"
   ],
   "flagWords": [],
   "dictionaries": [
+    "bash",
     "typescript"
   ],
   "ignorePaths": [
-    "**/*.svg",
-    "coverage/**",
-    "dist/**",
-    "node_modules/**",
-    "package.json",
-    "package-lock.json",
-    "tsconfig.json"
+    "/coverage/**",
+    "/dist/**",
+    "/node_modules/**",
+    "/package.json"
   ]
 }
