@@ -1,5 +1,4 @@
 # https://github.com/andreashuber69/verify-coldcard-dice-seed/blob/develop/README.md#----verify-coldcard-dice-seed
-# cSpell: disable
 os: linux
 dist: xenial
 language: node_js

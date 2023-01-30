@@ -7,7 +7,6 @@
     "utxo",
     "wordlists"
   ],
-  "flagWords": [],
   "dictionaries": [
     "bash",
     "typescript"
@@ -15,7 +14,6 @@
   "ignorePaths": [
     "/coverage/**",
     "/dist/**",
-    "/node_modules/**",
     "/package.json"
   ]
 }
