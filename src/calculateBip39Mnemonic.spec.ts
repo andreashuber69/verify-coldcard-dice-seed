@@ -6,21 +6,21 @@ import fetch from "node-fetch";
 
 import { calculateBip39Mnemonic } from "./calculateBip39Mnemonic.js";
 
-const allWords = wordlists["english"];
+const wordlist = wordlists["english"];
 
-if (!allWords) {
+if (!wordlist) {
     // cSpell: ignore wordlist
     throw new Error("Missing english wordlist.");
 }
 
 const addPassingTest = (s: Mocha.Suite, entropy: string, words: string) => s.addTest(
-    new Mocha.Test(entropy, () => expect(calculateBip39Mnemonic(entropy, allWords).join(" ")).to.equal(words)),
+    new Mocha.Test(entropy, () => expect(calculateBip39Mnemonic(entropy, wordlist).join(" ")).to.equal(words)),
 );
 
 const addFailingTest = (s: Mocha.Suite, entropy: string, errorMessage: string) => s.addTest(
     new Mocha.Test(
         entropy,
-        () => expect(() => calculateBip39Mnemonic(entropy, allWords)).to.throw(RangeError, errorMessage),
+        () => expect(() => calculateBip39Mnemonic(entropy, wordlist)).to.throw(RangeError, errorMessage),
     ),
 );
 

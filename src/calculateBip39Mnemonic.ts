@@ -9,18 +9,18 @@ const calculateCheckSum = (hexEntropy: string, cs: number) => {
     return toBigInt(entropySha256) >> BigInt((entropySha256.length * 4) - cs);
 };
 
-const getWords = (checkedEntropy: bigint, bits: number, allWords: readonly string[]) => {
-    const bitsPerWord = Math.log2(allWords.length);
+const getWords = (checkedEntropy: bigint, bits: number, wordlist: readonly string[]) => {
+    const bitsPerWord = Math.log2(wordlist.length);
 
     if (bits % bitsPerWord !== 0) {
         throw new RangeError("checkedEntropy has an unexpected number of bits");
     }
 
     const words = new Array<string>(bits / bitsPerWord);
-    const divisor = BigInt(allWords.length);
+    const divisor = BigInt(wordlist.length);
 
     for (let index = words.length - 1; index >= 0; --index) {
-        const word = allWords[Number(checkedEntropy % divisor)];
+        const word = wordlist[Number(checkedEntropy % divisor)];
 
         if (!word) {
             throw new Error("Invalid wordlist!");
@@ -40,9 +40,9 @@ const getWords = (checkedEntropy: bigint, bits: number, allWords: readonly strin
  * @param hexEntropy The entropy to use for the mnemonic as a hexadecimal string. Due to constraints imposed by
  * BIP-0039, the string length must be a multiple of 8. In violation of BIP-0039 however, for testing purposes it is
  * allowed to pass strings with lengths smaller than 32.
- * @param allWords The words to encode hexEntropy with.
+ * @param wordlist The words to encode hexEntropy with.
  */
-export const calculateBip39Mnemonic = (hexEntropy: string, allWords: readonly string[]) => {
+export const calculateBip39Mnemonic = (hexEntropy: string, wordlist: readonly string[]) => {
     if (hexEntropy.length % 8 !== 0) {
         throw new RangeError("hexEntropy length must be a multiple of 8");
     }
@@ -53,5 +53,5 @@ export const calculateBip39Mnemonic = (hexEntropy: string, allWords: readonly st
     // Shift left by cs bits to make room for checksum
     const entropy = toBigInt(hexEntropy) << BigInt(cs);
 
-    return getWords(entropy + calculateCheckSum(hexEntropy, cs), ent + cs, allWords);
+    return getWords(entropy + calculateCheckSum(hexEntropy, cs), ent + cs, wordlist);
 };

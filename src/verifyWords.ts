@@ -5,15 +5,15 @@ import type { InOut } from "./InOut.js";
 import { sha256 } from "./sha256.js";
 import { waitForUser } from "./waitForUser.js";
 
-const allWords = wordlists["english"];
+const wordlist = wordlists["english"];
 
-if (!allWords) {
+if (!wordlist) {
     // cSpell: ignore wordlist
     throw new Error("Missing english wordlist.");
 }
 
 export const verifyWords = async ({ stdin, stdout }: InOut, diceRolls: string) => {
-    const words = calculateBip39Mnemonic(sha256(Buffer.from(diceRolls)), allWords);
+    const words = calculateBip39Mnemonic(sha256(Buffer.from(diceRolls)), wordlist);
     stdout.write("Compare these 24 words to the ones calculated by your COLDCARD:\r\n");
     stdout.write(words.reduce((p, c, i) => `${p}${`0${i + 1}`.slice(-2)}: ${c}\r\n`, ""));
     stdout.write("\r\n");
