@@ -12,8 +12,8 @@ const calculateCheckSum = (hexEntropy: string, cs: number) => {
 const getWords = (checkedEntropy: bigint, bits: number, wordlist: readonly string[]) => {
     const bitsPerWord = Math.log2(wordlist.length);
 
-    if (bits % bitsPerWord !== 0) {
-        throw new RangeError("checkedEntropy has an unexpected number of bits");
+    if (!Number.isInteger(bitsPerWord) || (bits % bitsPerWord !== 0)) {
+        throw new RangeError(`wordlist.length is invalid: ${wordlist.length}`);
     }
 
     const words = new Array<string>(bits / bitsPerWord);
@@ -23,7 +23,7 @@ const getWords = (checkedEntropy: bigint, bits: number, wordlist: readonly strin
         const word = wordlist[Number(checkedEntropy % divisor)];
 
         if (!word) {
-            throw new Error("Invalid wordlist!");
+            throw new RangeError("wordlist is invalid");
         }
 
         words[index] = word;
