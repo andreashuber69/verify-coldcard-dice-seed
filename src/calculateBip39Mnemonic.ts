@@ -1,5 +1,4 @@
 // https://github.com/andreashuber69/verify-coldcard-dice-seed/blob/develop/README.md#----verify-coldcard-dice-seed
-import { wordlists } from "bip39";
 import { sha256 } from "./sha256.js";
 
 const toBigInt = (hexNumber: string) => BigInt(`0x${hexNumber || "0"}`);
@@ -41,8 +40,9 @@ const getWords = (checkedEntropy: bigint, bits: number, allWords: readonly strin
  * @param hexEntropy The entropy to use for the mnemonic as a hexadecimal string. Due to constraints imposed by
  * BIP-0039, the string length must be a multiple of 8. In violation of BIP-0039 however, for testing purposes it is
  * allowed to pass strings with lengths smaller than 32.
+ * @param allWords The words to encode hexEntropy with.
  */
-export const calculateBip39Mnemonic = (hexEntropy: string) => {
+export const calculateBip39Mnemonic = (hexEntropy: string, allWords: readonly string[]) => {
     if (hexEntropy.length % 8 !== 0) {
         throw new RangeError("hexEntropy length must be a multiple of 8");
     }
@@ -52,13 +52,6 @@ export const calculateBip39Mnemonic = (hexEntropy: string) => {
     const cs = ent / 32;
     // Shift left by cs bits to make room for checksum
     const entropy = toBigInt(hexEntropy) << BigInt(cs);
-
-    const allWords = wordlists["english"];
-
-    if (!allWords) {
-        // cSpell: ignore wordlist
-        throw new Error("Missing english wordlist.");
-    }
 
     return getWords(entropy + calculateCheckSum(hexEntropy, cs), ent + cs, allWords);
 };

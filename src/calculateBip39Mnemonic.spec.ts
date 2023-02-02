@@ -1,16 +1,27 @@
 // https://github.com/andreashuber69/verify-coldcard-dice-seed/blob/develop/README.md#----verify-coldcard-dice-seed
+import { wordlists } from "bip39";
 import { expect } from "chai";
 import Mocha from "mocha";
-
 import fetch from "node-fetch";
+
 import { calculateBip39Mnemonic } from "./calculateBip39Mnemonic.js";
 
+const allWords = wordlists["english"];
+
+if (!allWords) {
+    // cSpell: ignore wordlist
+    throw new Error("Missing english wordlist.");
+}
+
 const addPassingTest = (s: Mocha.Suite, entropy: string, words: string) => s.addTest(
-    new Mocha.Test(entropy, () => expect(calculateBip39Mnemonic(entropy).join(" ")).to.equal(words)),
+    new Mocha.Test(entropy, () => expect(calculateBip39Mnemonic(entropy, allWords).join(" ")).to.equal(words)),
 );
 
 const addFailingTest = (s: Mocha.Suite, entropy: string, errorMessage: string) => s.addTest(
-    new Mocha.Test(entropy, () => expect(() => calculateBip39Mnemonic(entropy)).to.throw(RangeError, errorMessage)),
+    new Mocha.Test(
+        entropy,
+        () => expect(() => calculateBip39Mnemonic(entropy, allWords)).to.throw(RangeError, errorMessage),
+    ),
 );
 
 

@@ -5,6 +5,7 @@
     "bitcoinjs",
     "coldcard",
     "utxo",
+    "wordlist",
     "wordlists"
   ],
   "dictionaries": [
