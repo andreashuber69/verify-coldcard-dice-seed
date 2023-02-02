@@ -10,14 +10,7 @@ const calculateCheckSum = (hexEntropy: string, cs: number) => {
     return toBigInt(entropySha256) >> BigInt((entropySha256.length * 4) - cs);
 };
 
-const getWords = (checkedEntropy: bigint, bits: number) => {
-    const allWords = wordlists["english"];
-
-    if (!allWords) {
-        // cSpell: ignore wordlist
-        throw new Error("Missing english wordlist.");
-    }
-
+const getWords = (checkedEntropy: bigint, bits: number, allWords: readonly string[]) => {
     const bitsPerWord = Math.log2(allWords.length);
 
     if (bits % bitsPerWord !== 0) {
@@ -60,5 +53,12 @@ export const calculateBip39Mnemonic = (hexEntropy: string) => {
     // Shift left by cs bits to make room for checksum
     const entropy = toBigInt(hexEntropy) << BigInt(cs);
 
-    return getWords(entropy + calculateCheckSum(hexEntropy, cs), ent + cs);
+    const allWords = wordlists["english"];
+
+    if (!allWords) {
+        // cSpell: ignore wordlist
+        throw new Error("Missing english wordlist.");
+    }
+
+    return getWords(entropy + calculateCheckSum(hexEntropy, cs), ent + cs, allWords);
 };
