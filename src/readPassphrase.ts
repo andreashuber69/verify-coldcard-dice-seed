@@ -7,6 +7,7 @@ type InOut = GenericInOut<NodeJS.ReadableStream & Pick<NodeJS.ReadStream, "setRa
 
 export const readPassphrase = async ({ stdin, stdout }: InOut) => await new Promise<string>((resolve, reject) => {
     const readlineInterface = createInterface(stdin, stdout);
+
     readlineInterface.question(
         "Wallet passphrase (press Return for none): ",
         (l) => {
