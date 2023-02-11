@@ -1,16 +1,32 @@
 // https://github.com/andreashuber69/verify-coldcard-dice-seed/blob/develop/README.md#----verify-coldcard-dice-seed
+import { wordlists } from "bip39";
 import { expect } from "chai";
 import Mocha from "mocha";
-
 import fetch from "node-fetch";
+
 import { calculateBip39Mnemonic } from "./calculateBip39Mnemonic.js";
 
+const wordlist = wordlists["english"];
+
+if (!wordlist) {
+    // cSpell: ignore wordlist
+    throw new Error("Missing english wordlist.");
+}
+
 const addPassingTest = (s: Mocha.Suite, entropy: string, words: string) => s.addTest(
-    new Mocha.Test(entropy, () => expect(calculateBip39Mnemonic(entropy).join(" ")).to.equal(words)),
+    new Mocha.Test(entropy, () => expect(calculateBip39Mnemonic(entropy, wordlist).join(" ")).to.equal(words)),
 );
 
-const addFailingTest = (s: Mocha.Suite, entropy: string, errorMessage: string) => s.addTest(
-    new Mocha.Test(entropy, () => expect(() => calculateBip39Mnemonic(entropy)).to.throw(RangeError, errorMessage)),
+const addFailingTest = (
+    s: Mocha.Suite,
+    entropy: string,
+    newWordlist: readonly string[],
+    errorMessage: string,
+) => s.addTest(
+    new Mocha.Test(
+        entropy,
+        () => expect(() => calculateBip39Mnemonic(entropy, newWordlist)).to.throw(RangeError, errorMessage),
+    ),
 );
 
 
@@ -43,8 +59,13 @@ for (const vector of vectors["english"]) {
 addPassingTest(suite, "", "");
 addPassingTest(suite, "00000000", "abandon abandon ability");
 addPassingTest(suite, "ffffffff", "zoo zoo zoo");
-addFailingTest(suite, "3", "hexEntropy length must be a multiple of 8");
-addFailingTest(suite, "777777777", "hexEntropy length must be a multiple of 8");
+addFailingTest(suite, "3", wordlist, "hexEntropy length must be a multiple of 8");
+addFailingTest(suite, "777777777", wordlist, "hexEntropy length must be a multiple of 8");
+addFailingTest(suite, "ffffffff", wordlist.slice(1), "wordlist.length is invalid: 2047");
+addFailingTest(suite, "ffffffff", wordlist.slice(1024), "wordlist.length is invalid: 1024");
+const invalidWordlist = wordlist.slice(-1);
+invalidWordlist.push("");
+addFailingTest(suite, "ffffffff", invalidWordlist, "wordlist is invalid");
 
 const suiteRun = mocha.run();
 process.on("exit", () => process.exit(suiteRun.stats?.failures ?? 0));
