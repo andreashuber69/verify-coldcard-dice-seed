@@ -19,7 +19,7 @@
     <img src="https://api.codeclimate.com/v1/badges/117c9f61c524756193a5/maintainability" alt="Maintainability">
   </a>
   <a href="https://coveralls.io/github/andreashuber69/verify-coldcard-dice-seed?branch=develop">
-    <img src="https://coveralls.io/repos/github/andreashuber69/verify-coldcard-dice-seed/badge.svg?branch=develop" alt="Coveralls">
+    <img src="https://coveralls.io/repos/github/andreashuber69/verify-coldcard-dice-seed/badge.svg?branch=develop" alt="Coverage">
   </a>
   <a href="https://github.com/andreashuber69/verify-coldcard-dice-seed/blob/develop/LICENSE">
     <img src="https://img.shields.io/github/license/andreashuber69/verify-coldcard-dice-seed.svg" alt="License">
@@ -115,9 +115,9 @@ COLDCARD copy correctly derives the seed but then generates addresses from a dif
 ``` shell_session cSpell:disable
 $ npx verify-coldcard-dice-seed@latest
 Need to install the following packages:
-  verify-coldcard-dice-seed@latest
+  verify-coldcard-dice-seed@1.0.18
 Ok to proceed? (y) y
-*** Verify COLDCARD Dice Seed v1.0.14 ***
+*** Verify COLDCARD Dice Seed v1.0.18 ***
 (tested with COLDCARD Mk4 firmware v5.0.7)
 
 This application guides you through verifying that your COLDCARD
@@ -173,6 +173,9 @@ Compare these 24 words to the ones calculated by your COLDCARD:
 Press any key to continue or CTRL-C to abort: 
 
 Press the OK button on your COLDCARD and answer the test questions.
+Press any key to continue or CTRL-C to abort: 
+
+Press the X button on your COLDCARD to keep NFC disabled.
 Press any key to continue or CTRL-C to abort: 
 
 Wallet passphrase (press Return for none): 
@@ -250,6 +253,6 @@ Press p for new passphrase, CTRL-C to stop or any other key to continue:
 
 CAUTION: If you've set up your COLDCARD with a seed please clear it now
 by first going back to the main menu (press the X button as many times
-as necessary) and then selecting 'Advanced', 'Danger Zone',
+as necessary) and then selecting 'Advanced/Tools', 'Danger Zone',
 'Seed Functions', 'Destroy Seed'.
 ```
