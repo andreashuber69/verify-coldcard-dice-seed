@@ -35,21 +35,30 @@ seed of your real wallet on your COLDCARD only. Since the COLDCARD electronics h
 verifying seed derivation or generating a real wallet, you can be reasonably sure that your real wallet was indeed
 derived from the dice entropy you entered.
 
-## Installation
+## Prerequisites
 
-This application is based on Node.js. Please download and install the package suitable for your operating system
-[here](https://nodejs.org/en/download/).
+This application is based on the latest LTS version of Node.js. You either need to have
+[Node.js](https://nodejs.org/en/download/) on your system, **or** run it in a [Docker](https://docker.com) container,
+see below for details.
 
 ## Usage
 
 1. Open a command line window (i.e. CMD on Windows, Terminal on Linux).
-2. Enter the following command:
+2. Enter one of the following commands (see [Prerequisites](#prerequisites) for more information):
 
-   ``` bash
-   npx verify-coldcard-dice-seed@latest
-   ```
+   - Node.js is available:
 
-3. First time usage only: Press the Enter key to acknowledge that the package needs to be installed.
+     ``` bash
+     npx verify-coldcard-dice-seed@latest
+     ```
+
+   - Docker is available:
+
+     ``` bash
+     docker run -it --rm node:lts-alpine npx verify-coldcard-dice-seed@latest
+     ```
+
+3. If necessary, press the Enter key to acknowledge that the package needs to be installed.
 
 4. Follow the instructions in the command line window.
 
