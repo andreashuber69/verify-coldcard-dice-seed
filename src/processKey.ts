@@ -7,6 +7,5 @@ export const processKey = async ({ stdin, stdout }: InOut, input: string): Promi
     stdout.write(`${input.length} rolls\r\n`);
     stdout.write(`${sha256(Buffer.from(input))}\r\n\r\n`);
     const key = await getKey(stdin);
-
     return [`${input}${key >= "1" && key <= "6" ? key : ""}`, key];
 };

@@ -22,6 +22,5 @@ export const verifyWords = async ({ stdin, stdout }: InOut, diceRolls: string) =
     await waitForUser({ stdin, stdout });
     stdout.write("Press the X button on your COLDCARD to keep NFC disabled.\r\n");
     await waitForUser({ stdin, stdout });
-
     return words;
 };

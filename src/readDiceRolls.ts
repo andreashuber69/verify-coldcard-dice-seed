@@ -23,6 +23,5 @@ export const readDiceRolls = async ({ stdin, stdout }: InMovableOut) => {
     const suffix = `${rolls.length < 99 ? " twice" : ""}`;
     stdout.write(`Press the OK button on your COLDCARD${suffix}.\r\n`);
     await waitForUser({ stdin, stdout });
-
     return rolls;
 };
