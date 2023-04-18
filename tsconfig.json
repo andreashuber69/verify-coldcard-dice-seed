@@ -1,6 +1,7 @@
 {
   "extends": "@tsconfig/node-lts-strictest-esm/tsconfig.json",
   "compilerOptions": {
+    "ignoreDeprecations": "5.0",
     "importHelpers": true,
     "outDir": "dist",
     "sourceMap": true

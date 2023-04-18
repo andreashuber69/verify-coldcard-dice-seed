@@ -5,7 +5,6 @@ const toBigInt = (hexNumber: string) => BigInt(`0x${hexNumber || "0"}`);
 
 const calculateCheckSum = (hexEntropy: string, cs: number) => {
     const entropySha256 = sha256(Buffer.from(hexEntropy, "hex"));
-
     return toBigInt(entropySha256) >> BigInt((entropySha256.length * 4) - cs);
 };
 
@@ -52,6 +51,5 @@ export const calculateBip39Mnemonic = (hexEntropy: string, wordlist: readonly st
     const cs = ent / 32;
     // Shift left by cs bits to make room for checksum
     const entropy = toBigInt(hexEntropy) << BigInt(cs);
-
     return getWords(entropy + calculateCheckSum(hexEntropy, cs), ent + cs, wordlist);
 };
