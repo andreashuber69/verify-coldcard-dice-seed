@@ -124,10 +124,10 @@ COLDCARD copy correctly derives the seed but then generates addresses from a dif
 ``` shell_session cSpell:disable
 $ npx verify-coldcard-dice-seed@latest
 Need to install the following packages:
-  verify-coldcard-dice-seed@1.0.18
+  verify-coldcard-dice-seed@1.0.19
 Ok to proceed? (y) y
-*** Verify COLDCARD Dice Seed v1.0.18 ***
-(tested with COLDCARD Mk4 firmware v5.0.7)
+*** Verify COLDCARD Dice Seed v1.0.19 ***
+(tested with COLDCARD Mk4 firmware v5.1.2)
 
 This application guides you through verifying that your COLDCARD
 correctly derives seeds and addresses from dice rolls.
@@ -142,42 +142,41 @@ Log into your COLDCARD, select 'New Seed Words', '24 Word Dice Roll'.
 Press any key to continue or CTRL-C to abort: 
 
 To perform a realistic test you should enter exactly as many dice rolls
-as you will enter for your real wallet. 99 or more rolls are recommended
-for maximum security. Roll the dice and enter the value on your COLDCARD
-and here.
+as you will enter for your real wallet. 99 or more rolls are REQUIRED.
+Roll the dice and enter the value on your COLDCARD and here.
 
-6 rolls
-8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92
+99 rolls
+5588d3630bd19f6375b7bd922457af34ea9c74f00807566a1cf808e445dc8c20
 Press 1-6 for each roll to mix in, ENTER to finish or CTRL-C to abort.
 
-Press the OK button on your COLDCARD twice.
+Press the OK button on your COLDCARD.
 Press any key to continue or CTRL-C to abort: 
 
 Compare these 24 words to the ones calculated by your COLDCARD:
-01: mirror
-02: reject
-03: rookie
-04: talk
-05: pudding
-06: throw
-07: happy
-08: era
-09: myth
-10: already
-11: payment
-12: own
-13: sentence
-14: push
-15: head
-16: sting
-17: video
-18: explain
-19: letter
-20: bomb
-21: casual
-22: hotel
-23: rather
-24: garment
+01: few
+02: educate
+03: sugar
+04: bless
+05: boring
+06: random
+07: strategy
+08: waste
+09: mutual
+10: cargo
+11: type
+12: hawk
+13: prefer
+14: denial
+15: scan
+16: abstract
+17: filter
+18: extend
+19: dignity
+20: balcony
+21: dust
+22: unusual
+23: correct
+24: bubble
 
 Press any key to continue or CTRL-C to abort: 
 
@@ -192,41 +191,40 @@ Wallet passphrase (press Return for none):
 Select 'Address Explorer' and press the 4 button on your COLDCARD.
 Press any key to continue or CTRL-C to abort: 
 
-Select 'bc1qh2ns-6nvprc4' on your COLDCARD.
+Select 'bc1qvjc0-nn3uyys' on your COLDCARD.
 Press any key to continue or CTRL-C to abort: 
 
 You can now verify as many addresses as you like and stop whenever
 you're comfortable.
 Addresses 0..9:
 
-m/84'/0'/0'/0/0 => bc1qh2nsjhtgknshf6mpsdm6rm3rtchvq836nvprc4
-m/84'/0'/0'/0/1 => bc1qz0apv5phxqar45crmskrp9qcz050c5r2fr8g2r
-m/84'/0'/0'/0/2 => bc1q5edhylv4eaqkdmpxvla224739v4jpykymct666
-m/84'/0'/0'/0/3 => bc1qrmlczy4wdjduz5xmdyjpakhdvfjjg6gpfdkn9x
-m/84'/0'/0'/0/4 => bc1qnp4fdnx0qtwd86t9tep4gf75smtfjyfh97t6qg
-m/84'/0'/0'/0/5 => bc1qtwdpry0z2thx4n5zg38dqya3trlem53vreydy5
-m/84'/0'/0'/0/6 => bc1qdtysrkjx0jfde8yckw60k9duz3hx7lcnd679ww
-m/84'/0'/0'/0/7 => bc1qv8x3lgptf0mq0nzalzkmlkljg4q6jwt3gejjhn
-m/84'/0'/0'/0/8 => bc1qp2wk2vkhnqh2utumhsznl0xfnqvscrw453yw3k
-m/84'/0'/0'/0/9 => bc1quzclsfs88n9z56eqauganuz5m7pw2uhrkkl3y0
+m/84'/0'/0'/0/0 => bc1qvjc0ndgk8ap8uy495enag3qtcl4lua6nn3uyys
+m/84'/0'/0'/0/1 => bc1qwazuu4zpl9j2julxq4gv2s0d3y3tw3p9z4s79s
+m/84'/0'/0'/0/2 => bc1qfzvrcl5ysvmdxyna8edke2vat75kdaaamhnna5
+m/84'/0'/0'/0/3 => bc1qvt3rxz9dn2rvrfwzk89vpc38t4qzwxsn056wth
+m/84'/0'/0'/0/4 => bc1qejkee38r525an3klzlz6pqvq78rcsjx4py5nz8
+m/84'/0'/0'/0/5 => bc1qjws6tswmzn042y4f277d0nh9pqqawlalrymltg
+m/84'/0'/0'/0/6 => bc1qfra5etle3vxpsw6c7vkvjmjuq6ujklzzh3ygp4
+m/84'/0'/0'/0/7 => bc1qahk9jhdp4c9u6r43dfp20ge9ed7g5zjzeapc0r
+m/84'/0'/0'/0/8 => bc1qqfath89pls4a897s2hjjn8ttydvq7jtkh0f9e0
+m/84'/0'/0'/0/9 => bc1qpyf9jjtx8gyj8xq5az2svmgk6w4vkhm4vclyl0
 
-Press the 9 button on your COLDCARD.
 Press p for new passphrase, CTRL-C to stop or any other key to continue: 
 
+Press the 9 button on your COLDCARD.
 Addresses 10..19:
 
-m/84'/0'/0'/0/10 => bc1q7ya3xhxz490vaq9nl4wpretqpvf69w7r6nkztv
-m/84'/0'/0'/0/11 => bc1qmhtta3yynxzvgtewjdgrj63vaf4zfr8mgu75g0
-m/84'/0'/0'/0/12 => bc1quewmx3um8uxpc62cdkhy7jfm8xaftcl60fpjv3
-m/84'/0'/0'/0/13 => bc1qpxhptvcj5ut28w2072hxedrj6ef7v29lfx9vc8
-m/84'/0'/0'/0/14 => bc1q8nppjt789hh65rspmq78j6q0dr3a6x4v72marl
-m/84'/0'/0'/0/15 => bc1qq29gx84plw3nr2dcfdw0k9kmkzw0wl98jkhvqh
-m/84'/0'/0'/0/16 => bc1qlv9quqsztdv5ekz20ef49ugfz2cg78tltncw9v
-m/84'/0'/0'/0/17 => bc1qq0pmh7c7khhc2va8fycwyhy0x48js5ffnctj9u
-m/84'/0'/0'/0/18 => bc1qwckfgdesfyvtuxx290kr546xsakjqhz3j6kdjv
-m/84'/0'/0'/0/19 => bc1q59m83tk3h7hyedtev9cvxxfe46xw58m7duwl67
+m/84'/0'/0'/0/10 => bc1qyuz4ahvhalzv3pfqyp6r9d6exegsevm0qfy58y
+m/84'/0'/0'/0/11 => bc1qjv6stx8l4gvqhwn3nra25ekgukgmkmr3lzrdxa
+m/84'/0'/0'/0/12 => bc1qxkxqhs69h3xxfutc4xk4chmczx5eg20alargyn
+m/84'/0'/0'/0/13 => bc1qsuux3gwhs2tzdw236qyupt3n5whlnd4yxdxv2r
+m/84'/0'/0'/0/14 => bc1qt933vma6tk2kknhkwc47d5vq0yp08zsxhlks3u
+m/84'/0'/0'/0/15 => bc1qxnjlujkzt5tn4xs9gl4cr6m4j76u7cwx6gezkk
+m/84'/0'/0'/0/16 => bc1qr9ytvtyq85vdtjvs0qddzj5fm4cralyhs3t9mt
+m/84'/0'/0'/0/17 => bc1qmmugyzl277ksjq6mc0ucn7mhmvtr64u3dzxgpd
+m/84'/0'/0'/0/18 => bc1q3el0j40zt58yxqrzurlnj6k0u6skwa9q70yaha
+m/84'/0'/0'/0/19 => bc1qvce0chqk9jds24kg943pqhkyscfu0r50ex7m0z
 
-Press the 9 button on your COLDCARD.
 Press p for new passphrase, CTRL-C to stop or any other key to continue: 
 
 On your COLDCARD, press the X button twice.
@@ -239,25 +237,24 @@ Press any key to continue or CTRL-C to abort:
 Select 'Address Explorer' and press the 4 button on your COLDCARD.
 Press any key to continue or CTRL-C to abort: 
 
-Select 'bc1qcxer-aw7a3jc' on your COLDCARD.
+Select 'bc1q7l4x-xkevtmd' on your COLDCARD.
 Press any key to continue or CTRL-C to abort: 
 
 You can now verify as many addresses as you like and stop whenever
 you're comfortable.
 Addresses 0..9:
 
-m/84'/0'/0'/0/0 => bc1qcxerhppmw3q33a33pj0jsydsa5fuzlaaw7a3jc
-m/84'/0'/0'/0/1 => bc1q8xmlm0cd3c5grq69qncyhau4vqt790krtdu54h
-m/84'/0'/0'/0/2 => bc1qwz7hq5jwtu9wmkh8q883durfczl5swu7pqha74
-m/84'/0'/0'/0/3 => bc1qns6vd79w5yems7qd9nkp95pa9xgwy7h4svd9kp
-m/84'/0'/0'/0/4 => bc1qwutfmef0ym8s89et9syfjjtz76uen7gd6mp9z4
-m/84'/0'/0'/0/5 => bc1qa6hwkjqevqfztvjjnr2r4ryzqa0l49nrespxju
-m/84'/0'/0'/0/6 => bc1qh0q5s7v62j5wqavgzk6lpl55qyxt48funrla9k
-m/84'/0'/0'/0/7 => bc1q4w5f4q9wgr2sp9harnpgl8jz4r3skgg4tg4pc7
-m/84'/0'/0'/0/8 => bc1q84s5rc2g02jkaxzl2hujlyrk7c84rxxeu7teh3
-m/84'/0'/0'/0/9 => bc1qkrye64arqhg7aas0ntzlkgckn09klx825sdk3u
+m/84'/0'/0'/0/0 => bc1q7l4xx50meu9046hd6tv8t3spxy6n045xkevtmd
+m/84'/0'/0'/0/1 => bc1qkycah2855gac7t0l2u5zzrf2ar32umehs0ehdj
+m/84'/0'/0'/0/2 => bc1qvw85hkn8vxt9cnw2unzl5fu4a43a79k0nzlgyn
+m/84'/0'/0'/0/3 => bc1qft3chtdus6khz5g8g5exu43xrazkaegjwhazpz
+m/84'/0'/0'/0/4 => bc1qjt6hp7exp8l5y88hgm98t398t324luyjg8ts9t
+m/84'/0'/0'/0/5 => bc1qdm9j0xag80fms07veh9gyuwjqjxanmvxask7lr
+m/84'/0'/0'/0/6 => bc1qwyq0vhqz6tl0dqfntmra2750f9xu6nrzflgn3n
+m/84'/0'/0'/0/7 => bc1qz4admgpfllplsh2quezud9xdkp6t7jzjg3ucuf
+m/84'/0'/0'/0/8 => bc1q9emwn3tgzw5xp86wm6axn8lev9c2zlh0l4v8pu
+m/84'/0'/0'/0/9 => bc1qtkwch7amd0c4nwshqcuh3haex62vxx4936rmyk
 
-Press the 9 button on your COLDCARD.
 Press p for new passphrase, CTRL-C to stop or any other key to continue: 
 
 CAUTION: If you've set up your COLDCARD with a seed please clear it now
