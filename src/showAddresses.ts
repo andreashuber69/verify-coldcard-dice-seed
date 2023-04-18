@@ -26,11 +26,14 @@ export const showAddresses = async ({ stdin, stdout }: InOut, words: readonly st
     let showNextBatch = true;
 
     while (showNextBatch) {
+        if (batchStart > 0) {
+            stdout.write("Press the 9 button on your COLDCARD.\r\n");
+        }
+
         stdout.write(`Addresses ${batchStart}..${batchStart + batch.length - 1}:\r\n`);
         stdout.write("\r\n");
         stdout.write(batch.reduce((p, [path, addr]) => `${p}${path} => ${addr}\r\n`, ""));
         stdout.write("\r\n");
-        stdout.write("Press the 9 button on your COLDCARD.\r\n");
         const prompt = "Press p for new passphrase, CTRL-C to stop or any other key to continue: ";
         // eslint-disable-next-line no-await-in-loop
         showNextBatch = await waitForUser({ stdin, stdout }, prompt) !== "p";
