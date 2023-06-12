@@ -7,10 +7,10 @@
     // The base sets the option below to "error" leading to a depreciation warning with TS >= 5.0. To avoid the warning,
     // we set it back to its default and use the new option verbatimModuleSyntax instead.
     "importsNotUsedAsValues": "remove",
-    "verbatimModuleSyntax": true,
     "importHelpers": true,
     "outDir": "dist",
-    "sourceMap": true
+    "sourceMap": true,
+    "verbatimModuleSyntax": true
   },
   "include": [
     "src/**/*"
