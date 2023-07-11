@@ -13,6 +13,8 @@
     // https://www.npmjs.com/package/@tsconfig/node-lts-strictest-esm?activeTab=code with
     // https://www.npmjs.com/package/@tsconfig/node14?activeTab=code
     "lib": ["es2020"],
+    // The base erroneously sets "node", see https://github.com/tsconfig/bases/issues/204
+    "moduleResolution": "node16",
     // NOTE: "module" must be left at es2022 for top-level await to work. Top-level await was introduced in es2020,
     // so this is likely a TS bug.
     "outDir": "dist",
