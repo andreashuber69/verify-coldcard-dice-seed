@@ -13,11 +13,11 @@ if (!wordlist) {
     throw new Error("Missing english wordlist.");
 }
 
-const addPassingTest = (entropy: string, words: string) =>
+const expectWords = (entropy: string, words: string) =>
     it(entropy, () => assert(calculateBip39Mnemonic(entropy, wordlist).join(" ") === words));
 
 
-const addFailingTest = (entropy: string, newWordlist: readonly string[], errorMessage: string) => it(
+const expectError = (entropy: string, newWordlist: readonly string[], errorMessage: string) => it(
     entropy,
     () => {
         try {
@@ -52,21 +52,21 @@ describe(calculateBip39Mnemonic.name, () => {
 
             // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
             const [entropy, words] = vector;
-            addPassingTest(entropy, words);
+            expectWords(entropy, words);
         }
 
-        addPassingTest("", "");
-        addPassingTest("00000000", "abandon abandon ability");
-        addPassingTest("ffffffff", "zoo zoo zoo");
+        expectWords("", "");
+        expectWords("00000000", "abandon abandon ability");
+        expectWords("ffffffff", "zoo zoo zoo");
     });
 
     describe("should throw the expected exception", () => {
-        addFailingTest("3", wordlist, "hexEntropy length must be a multiple of 8");
-        addFailingTest("777777777", wordlist, "hexEntropy length must be a multiple of 8");
-        addFailingTest("ffffffff", wordlist.slice(1), "wordlist.length is invalid: 2047");
-        addFailingTest("ffffffff", wordlist.slice(1024), "wordlist.length is invalid: 1024");
+        expectError("3", wordlist, "hexEntropy length must be a multiple of 8");
+        expectError("777777777", wordlist, "hexEntropy length must be a multiple of 8");
+        expectError("ffffffff", wordlist.slice(1), "wordlist.length is invalid: 2047");
+        expectError("ffffffff", wordlist.slice(1024), "wordlist.length is invalid: 1024");
         const invalidWordlist = wordlist.slice(-1);
         invalidWordlist.push("");
-        addFailingTest("ffffffff", invalidWordlist, "wordlist is invalid");
+        expectError("ffffffff", invalidWordlist, "wordlist is invalid");
     });
 });
