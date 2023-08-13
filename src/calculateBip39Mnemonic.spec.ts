@@ -39,29 +39,34 @@ if (!response.ok) {
 const vectors = JSON.parse(await response.text()) as Record<string, unknown>;
 
 describe(calculateBip39Mnemonic.name, () => {
-    if (!("english" in vectors) || !Array.isArray(vectors["english"])) {
-        throw new Error("Unexpected response");
-    }
-
-    for (const vector of vectors["english"]) {
-        if (!Array.isArray(vector) || (vector.length < 2) ||
-            (typeof vector[0] !== "string") || (typeof vector[1] !== "string")) {
+    describe("should calculate the expected words", () => {
+        if (!("english" in vectors) || !Array.isArray(vectors["english"])) {
             throw new Error("Unexpected response");
         }
 
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-        const [entropy, words] = vector;
-        addPassingTest(entropy, words);
-    }
+        for (const vector of vectors["english"]) {
+            if (!Array.isArray(vector) || (vector.length < 2) ||
+                (typeof vector[0] !== "string") || (typeof vector[1] !== "string")) {
+                throw new Error("Unexpected response");
+            }
 
-    addPassingTest("", "");
-    addPassingTest("00000000", "abandon abandon ability");
-    addPassingTest("ffffffff", "zoo zoo zoo");
-    addFailingTest("3", wordlist, "hexEntropy length must be a multiple of 8");
-    addFailingTest("777777777", wordlist, "hexEntropy length must be a multiple of 8");
-    addFailingTest("ffffffff", wordlist.slice(1), "wordlist.length is invalid: 2047");
-    addFailingTest("ffffffff", wordlist.slice(1024), "wordlist.length is invalid: 1024");
-    const invalidWordlist = wordlist.slice(-1);
-    invalidWordlist.push("");
-    addFailingTest("ffffffff", invalidWordlist, "wordlist is invalid");
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+            const [entropy, words] = vector;
+            addPassingTest(entropy, words);
+        }
+
+        addPassingTest("", "");
+        addPassingTest("00000000", "abandon abandon ability");
+        addPassingTest("ffffffff", "zoo zoo zoo");
+    });
+
+    describe("should throw the expected exception", () => {
+        addFailingTest("3", wordlist, "hexEntropy length must be a multiple of 8");
+        addFailingTest("777777777", wordlist, "hexEntropy length must be a multiple of 8");
+        addFailingTest("ffffffff", wordlist.slice(1), "wordlist.length is invalid: 2047");
+        addFailingTest("ffffffff", wordlist.slice(1024), "wordlist.length is invalid: 1024");
+        const invalidWordlist = wordlist.slice(-1);
+        invalidWordlist.push("");
+        addFailingTest("ffffffff", invalidWordlist, "wordlist is invalid");
+    });
 });
