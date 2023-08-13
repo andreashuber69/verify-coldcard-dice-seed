@@ -50,6 +50,7 @@ describe(calculateBip39Mnemonic.name, () => {
                 throw new Error("Unexpected response");
             }
 
+            // https://github.com/typescript-eslint/typescript-eslint/issues/7464
             // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
             const [entropy, words] = vector;
             expectWords(entropy, words);
