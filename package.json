@@ -38,8 +38,8 @@
     "lint": "eslint --report-unused-disable-directives 'src/**'",
     "prebuild": "npm run lint",
     "build": "tsc",
-    "test-no-coverage": "ts-mocha --loader=ts-node/esm 'src/**/*.spec.ts'",
-    "test": "c8 --exclude 'src/**/*.spec.ts' --reporter=text --reporter=lcov npm run test-no-coverage",
+    "test-no-coverage": "node --loader tsx --test src/*.spec.ts",
+    "test": "c8 --exclude 'src/*.spec.ts' --reporter=text --reporter=lcov npm run test-no-coverage",
     "show-coverage": "vite 'coverage/lcov-report' --logLevel error --open",
     "preci": "npm run build",
     "ci": "npm test"
@@ -55,18 +55,13 @@
   "devDependencies": {
     "@andreashuber69/eslint-config": "^1.1.44",
     "@tsconfig/node-lts-strictest-esm": "^18.12.1",
-    "@types/chai": "^4.3.5",
-    "@types/mocha": "^10.0.1",
-    "@types/node": "^14.18.54",
+    "@types/node": "^18.17.5",
     "c8": "^8.0.1",
-    "chai": "^4.3.7",
     "coveralls": "^3.1.1",
     "cspell": "^7.0.0",
     "markdownlint-cli": "^0.35.0",
-    "mocha": "^10.2.0",
     "node-fetch": "^3.3.2",
-    "ts-mocha": "^10.0.0",
-    "ts-node": "^10.9.1",
+    "tsx": "^3.12.7",
     "typescript": "^5.1.6",
     "vite": "^4.4.9"
   }
