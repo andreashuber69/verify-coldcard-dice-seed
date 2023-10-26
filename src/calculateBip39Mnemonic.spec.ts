@@ -13,11 +13,11 @@ if (!wordlist) {
     throw new Error("Missing english wordlist.");
 }
 
-const expectWords = (entropy: string, words: string) =>
-    it(entropy, () => assert(calculateBip39Mnemonic(entropy, wordlist).join(" ") === words));
+const expectWords = async (entropy: string, words: string) =>
+    await it(entropy, () => assert(calculateBip39Mnemonic(entropy, wordlist).join(" ") === words));
 
 
-const expectError = (entropy: string, newWordlist: readonly string[], errorMessage: string) => it(
+const expectError = async (entropy: string, newWordlist: readonly string[], errorMessage: string) => await it(
     entropy,
     () => {
         try {
@@ -38,8 +38,8 @@ if (!response.ok) {
 
 const vectors = JSON.parse(await response.text()) as Record<string, unknown>;
 
-describe(calculateBip39Mnemonic.name, () => {
-    describe("should calculate the expected words", () => {
+await describe(calculateBip39Mnemonic.name, async () => {
+    await describe("should calculate the expected words", async () => {
         if (!("english" in vectors) || !Array.isArray(vectors["english"])) {
             throw new Error("Unexpected response");
         }
@@ -53,21 +53,22 @@ describe(calculateBip39Mnemonic.name, () => {
             // https://github.com/typescript-eslint/typescript-eslint/issues/7464
             // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
             const [entropy, words] = vector;
-            expectWords(entropy, words);
+            // eslint-disable-next-line no-await-in-loop
+            await expectWords(entropy, words);
         }
 
-        expectWords("", "");
-        expectWords("00000000", "abandon abandon ability");
-        expectWords("ffffffff", "zoo zoo zoo");
+        await expectWords("", "");
+        await expectWords("00000000", "abandon abandon ability");
+        await expectWords("ffffffff", "zoo zoo zoo");
     });
 
-    describe("should throw the expected exception", () => {
-        expectError("3", wordlist, "hexEntropy length must be a multiple of 8");
-        expectError("777777777", wordlist, "hexEntropy length must be a multiple of 8");
-        expectError("ffffffff", wordlist.slice(1), "wordlist.length is invalid: 2047");
-        expectError("ffffffff", wordlist.slice(1024), "wordlist.length is invalid: 1024");
+    await describe("should throw the expected exception", async () => {
+        await expectError("3", wordlist, "hexEntropy length must be a multiple of 8");
+        await expectError("777777777", wordlist, "hexEntropy length must be a multiple of 8");
+        await expectError("ffffffff", wordlist.slice(1), "wordlist.length is invalid: 2047");
+        await expectError("ffffffff", wordlist.slice(1024), "wordlist.length is invalid: 1024");
         const invalidWordlist = wordlist.slice(-1);
         invalidWordlist.push("");
-        expectError("ffffffff", invalidWordlist, "wordlist is invalid");
+        await expectError("ffffffff", invalidWordlist, "wordlist is invalid");
     });
 });
