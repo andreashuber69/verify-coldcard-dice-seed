@@ -1,5 +1,7 @@
 <h1 align="center">
-  <img width="128" src="https://raw.githubusercontent.com/andreashuber69/verify-coldcard-dice-seed/develop/doc/icon.svg?sanitize=true"><br>
+  <img
+    width="128" alt="logo"
+    src="https://raw.githubusercontent.com/andreashuber69/verify-coldcard-dice-seed/develop/doc/icon.svg?sanitize=true"><br>
   verify-coldcard-dice-seed
 </h1>
 <p align="center">
