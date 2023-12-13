@@ -44,6 +44,9 @@
     "preci": "npm run build",
     "ci": "npm test"
   },
+  "overrides": {
+    "tsconfig-paths": "^4.2.0"
+  },
   "dependencies": {
     "bech32": "^2.0.0",
     "bip32": "^4.0.0",
@@ -53,9 +56,9 @@
     "tslib": "^2.6.2"
   },
   "devDependencies": {
-    "@andreashuber69/eslint-config": "^1.1.70",
-    "@tsconfig/node-lts-strictest-esm": "^18.12.1",
-    "@types/node": "^20.10.4",
+    "@andreashuber69/eslint-config": "^1.1.73",
+    "@tsconfig/node14": "^14.1.0",
+    "@tsconfig/strictest": "^2.0.2",
     "c8": "^8.0.1",
     "coveralls": "^3.1.1",
     "cspell": "^8.1.3",
