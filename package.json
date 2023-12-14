@@ -1,6 +1,6 @@
 {
   "name": "verify-coldcard-dice-seed",
-  "version": "1.0.19",
+  "version": "1.0.20",
   "description": "Verify whether your COLDCARD correctly generates seeds and addresses from dice rolls.",
   "keywords": [
     "bitcoin",
