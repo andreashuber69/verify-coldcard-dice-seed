@@ -19,7 +19,7 @@ export const showAddresses = async ({ stdin, stdout }: InOut, words: readonly st
     let batchStart = 0;
     let batch = getBatch(batchStart);
     const [[, firstAddress]] = batch;
-    stdout.write(`Select '${firstAddress.slice(0, 8)}-${firstAddress.slice(-7)}' on your COLDCARD.\r\n`);
+    stdout.write(`Select '${firstAddress.slice(0, 6)}-${firstAddress.slice(-6)}' on your COLDCARD.\r\n`);
     await waitForUser({ stdin, stdout });
     stdout.write("You can now verify as many addresses as you like and stop whenever\r\n");
     stdout.write("you're comfortable.\r\n");

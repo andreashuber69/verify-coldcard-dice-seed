@@ -1,10 +1,15 @@
 {
-  "extends": "@tsconfig/node-lts-strictest-esm/tsconfig.json",
+  // The following only works with the eslint-plugin-import package due to an override in package.json, see
+  // https://github.com/import-js/eslint-plugin-import/issues/2751#issuecomment-1496216195
+  "extends": [
+    "@tsconfig/strictest/tsconfig",
+    "@tsconfig/node14/tsconfig"
+  ],
   "compilerOptions": {
-    "ignoreDeprecations": "5.0",
     "importHelpers": true,
     "outDir": "dist",
-    "sourceMap": true
+    "sourceMap": true,
+    "verbatimModuleSyntax": true
   },
   "include": [
     "src/**/*"

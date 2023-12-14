@@ -1,5 +1,7 @@
 <h1 align="center">
-  <img width="128" src="https://raw.githubusercontent.com/andreashuber69/verify-coldcard-dice-seed/develop/doc/icon.svg?sanitize=true"><br>
+  <img
+    width="128" alt="logo"
+    src="https://raw.githubusercontent.com/andreashuber69/verify-coldcard-dice-seed/develop/doc/icon.svg?sanitize=true"><br>
   verify-coldcard-dice-seed
 </h1>
 <p align="center">
@@ -37,9 +39,8 @@ derived from the dice entropy you entered.
 
 ## Prerequisites
 
-This application is based on the latest LTS version of Node.js. You either need to have
-[Node.js](https://nodejs.org/en/download/) on your system, **or** run it in a [Docker](https://docker.com) container,
-see below for details.
+This application is based on Node.js. You either need to have [Node.js](https://nodejs.org/en/download/) on your system,
+**or** run it in a [Docker](https://docker.com) container, see below for details.
 
 ## Usage
 
@@ -51,6 +52,8 @@ see below for details.
      ``` bash
      npx verify-coldcard-dice-seed@latest
      ```
+
+     (if the above gives you an error, please enter `node -v` and check that your version is >=14.18)
 
    - Docker is available:
 
