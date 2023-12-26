@@ -5,17 +5,14 @@ import { AbortError } from "./AbortError.js";
 import type { In } from "./InOut.js";
 
 export const getKey = async (stdin: In) => {
+    using cleanup = new DisposableStack();
     stdin.resume();
+    cleanup.defer(() => stdin.pause());
+    const key = `${await once(stdin, "data")}`;
 
-    try {
-        const key = `${await once(stdin, "data")}`;
-
-        if (key === "\u0003") {
-            throw new AbortError();
-        }
-
-        return key;
-    } finally {
-        stdin.pause();
+    if (key === "\u0003") {
+        throw new AbortError();
     }
+
+    return key;
 };
