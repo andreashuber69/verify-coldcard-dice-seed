@@ -48,9 +48,6 @@
     "preci": "npm run build",
     "ci": "npm test"
   },
-  "overrides": {
-    "tsconfig-paths": "^4.2.0"
-  },
   "dependencies": {
     "bech32": "^2.0.0",
     "bip32": "^4.0.0",
