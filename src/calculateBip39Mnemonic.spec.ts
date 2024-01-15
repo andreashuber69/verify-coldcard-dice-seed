@@ -13,15 +13,17 @@ if (!wordlist) {
     throw new Error("Missing english wordlist.");
 }
 
-const expectWords = async (entropy: string, words: string) =>
-    await it(entropy, () => assert(calculateBip39Mnemonic(entropy, wordlist).join(" ") === words));
+const expectWords = async (entropy: string, words: string) => {
+    const wordCount = words.length === 0 ? 0 : words.split(" ").length;
+    await it(entropy, () => assert(calculateBip39Mnemonic(entropy, wordCount, wordlist).join(" ") === words));
+};
 
 
 const expectError = async (entropy: string, newWordlist: readonly string[], errorMessage: string) => await it(
     entropy,
     () => {
         try {
-            calculateBip39Mnemonic(entropy, newWordlist);
+            calculateBip39Mnemonic(entropy, Math.floor(entropy.length / 8) * 3, newWordlist);
             assert(false, "Expected error to be thrown!");
         } catch (error: unknown) {
             assert(error instanceof RangeError && error.message === errorMessage);
@@ -63,8 +65,24 @@ await describe(calculateBip39Mnemonic.name, async () => {
     });
 
     await describe("should throw the expected exception", async () => {
-        await expectError("3", wordlist, "hexEntropy length must be a multiple of 8");
-        await expectError("777777777", wordlist, "hexEntropy length must be a multiple of 8");
+        await it("ffffffff", () => {
+            try {
+                calculateBip39Mnemonic("ffffffff", 2, wordlist);
+                assert(false, "Expected error to be thrown!");
+            } catch (error: unknown) {
+                assert(error instanceof RangeError && error.message === "wordCount must be a multiple of 3");
+            }
+        });
+
+        await it("fffffff", () => {
+            try {
+                calculateBip39Mnemonic("fffffff", 3, wordlist);
+                assert(false, "Expected error to be thrown!");
+            } catch (error: unknown) {
+                assert(error instanceof RangeError && error.message === "hexEntropy length must be >= 8");
+            }
+        });
+
         await expectError("ffffffff", wordlist.slice(1), "wordlist.length is invalid: 2047");
         await expectError("ffffffff", wordlist.slice(1024), "wordlist.length is invalid: 1024");
         const invalidWordlist = wordlist.slice(-1);
