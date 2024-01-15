@@ -7,7 +7,6 @@
   ],
   "compilerOptions": {
     "importHelpers": true,
-    "lib": ["esnext.disposable"],
     "outDir": "dist",
     "sourceMap": true,
     "verbatimModuleSyntax": true
