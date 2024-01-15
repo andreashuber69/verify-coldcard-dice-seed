@@ -3,9 +3,10 @@ import type { InMovableOut } from "./InOut.js";
 import { processKey } from "./processKey.js";
 import { waitForUser } from "./waitForUser.js";
 
-export const readDiceRolls = async ({ stdin, stdout }: InMovableOut) => {
+export const readDiceRolls = async ({ stdin, stdout }: InMovableOut, generate24Words: boolean) => {
+    const requiredRolls = generate24Words ? 99 : 50;
     stdout.write("To perform a realistic test you should enter exactly as many dice rolls\r\n");
-    stdout.write("as you will enter for your real wallet. 99 or more rolls are REQUIRED.\r\n");
+    stdout.write(`as you will enter for your real wallet. ${requiredRolls} or more rolls are REQUIRED.\r\n`);
     stdout.write("Roll the dice and enter the value on your COLDCARD and here.\r\n");
     stdout.write("\r\n\r\n\r\n\r\n");
     let rolls = "";
@@ -14,7 +15,7 @@ export const readDiceRolls = async ({ stdin, stdout }: InMovableOut) => {
     while (key !== "\r") {
         stdout.moveCursor(0, -3);
         // eslint-disable-next-line no-await-in-loop
-        [rolls, key] = await processKey({ stdin, stdout }, rolls);
+        [rolls, key] = await processKey({ stdin, stdout }, rolls, requiredRolls);
     }
 
     stdout.write("\r\n");
