@@ -3,8 +3,14 @@ import { sha256 } from "./sha256.js";
 
 const toBigInt = (hexNumber: string) => BigInt(`0x${hexNumber || "0"}`);
 
-const calculateCheckSum = (hexEntropy: string, cs: number) => {
-    const entropySha256 = sha256(Buffer.from(hexEntropy, "hex"));
+const calculateCheckSum = async (hexEntropy: string, cs: number) => {
+    const buffer = new Uint8Array(hexEntropy.length / 2);
+
+    for (let index = 0; index < hexEntropy.length; index += 2) {
+        buffer[index / 2] = Number.parseInt(hexEntropy.slice(index, index + 2), 16);
+    }
+
+    const entropySha256 = await sha256(buffer);
     return toBigInt(entropySha256) >> BigInt((entropySha256.length * 4) - cs);
 };
 
@@ -42,7 +48,7 @@ const getWords = (checkedEntropy: bigint, bits: number, wordlist: readonly strin
  * @param wordCount The number of words the mnemonic must contain. Must be a multiple of 3.
  * @param wordlist The words to encode hexEntropy with.
  */
-export const calculateBip39Mnemonic = (hexEntropy: string, wordCount: number, wordlist: readonly string[]) => {
+export const calculateBip39Mnemonic = async (hexEntropy: string, wordCount: number, wordlist: readonly string[]) => {
     // The following steps implement https://github.com/bitcoin/bips/blob/master/bip-0039.mediawiki:
     const cs = wordCount / 3;
 
@@ -60,5 +66,5 @@ export const calculateBip39Mnemonic = (hexEntropy: string, wordCount: number, wo
 
     // Shift left by cs bits to make room for checksum
     const entropy = toBigInt(trimmedHexEntropy) << BigInt(cs);
-    return getWords(entropy + calculateCheckSum(trimmedHexEntropy, cs), 33 * cs, wordlist);
+    return getWords(entropy + await calculateCheckSum(trimmedHexEntropy, cs), 33 * cs, wordlist);
 };
