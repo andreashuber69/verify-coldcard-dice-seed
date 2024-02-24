@@ -30,7 +30,7 @@
 
 This application guides you through verifying that your COLDCARD correctly derives seeds and addresses from dice rolls.
 
-CAUTION: The very point of a COLDCARD is that the seed (usually expressed as a 24 word mnemonic) of a real wallet is
+CAUTION: The very point of a COLDCARD is that the seed (usually expressed as a 12 word mnemonic) of a real wallet is
 never entered outside of a coldcard. You should therefore only use this application to verify the seed and address
 derivation of your COLDCARD. Once you are convinced that your COLDCARD works correctly, you should then generate the
 seed of your real wallet on your COLDCARD only. Since the COLDCARD electronics has no way of knowing whether you're
@@ -53,7 +53,7 @@ This application is based on Node.js. You either need to have [Node.js](https://
      npx verify-coldcard-dice-seed@latest
      ```
 
-     (if the above gives you an error, please enter `node -v` and check that your version is >=14.18)
+     (if the above gives you an error, please enter `node -v` and check that your version is >=20.11)
 
    - Docker is available:
 
