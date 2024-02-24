@@ -1,7 +1,7 @@
 {
   "extends": [
     "@tsconfig/strictest/tsconfig",
-    "@tsconfig/node14/tsconfig"
+    "@tsconfig/node20/tsconfig"
   ],
   "compilerOptions": {
     "importHelpers": true,

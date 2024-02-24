@@ -21,7 +21,7 @@
     "name": "Andreas Huber"
   },
   "engines": {
-    "node": ">=14.18"
+    "node": ">=20.11"
   },
   "type": "module",
   "main": "dist/main.js",
@@ -62,8 +62,9 @@
   },
   "devDependencies": {
     "@andreashuber69/eslint-config": "^1.1.92",
-    "@tsconfig/node14": "^14.1.0",
+    "@tsconfig/node20": "^20.1.2",
     "@tsconfig/strictest": "^2.0.3",
+    "@types/node": "^20.11.20",
     "c8": "^9.1.0",
     "coveralls": "^3.1.1",
     "cspell": "^8.4.1",
