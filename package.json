@@ -1,6 +1,6 @@
 {
   "name": "verify-coldcard-dice-seed",
-  "version": "1.0.23",
+  "version": "1.0.24",
   "description": "Verify whether your COLDCARD correctly generates seeds and addresses from dice rolls.",
   "keywords": [
     "bitcoin",
@@ -46,7 +46,11 @@
     "test-built": "c8 --exclude 'dist/*.spec.js' --reporter=text --reporter=lcov npm run test-no-coverage-built",
     "show-coverage": "vite 'coverage/lcov-report' --logLevel error --open",
     "preci": "npm run build",
-    "ci": "npm test"
+    "ci": "npm test",
+    "preversion": "git checkout develop && git push && git pull",
+    "version": "git flow release start v`cat package.json | jq -r '.version' && git stash push >/dev/null 2>&1` && git stash pop",
+    "postversion": "git commit -a -m \"Start release v`cat package.json | jq -r '.version'`\"",
+    "finish-release": "git flow release finish -p -m \"Finish release\" v`cat package.json | jq -r '.version'`"
   },
   "dependencies": {
     "bech32": "^2.0.0",
@@ -57,16 +61,16 @@
     "tslib": "^2.6.2"
   },
   "devDependencies": {
-    "@andreashuber69/eslint-config": "^1.1.80",
+    "@andreashuber69/eslint-config": "^1.1.90",
     "@tsconfig/node14": "^14.1.0",
-    "@tsconfig/strictest": "^2.0.2",
+    "@tsconfig/strictest": "^2.0.3",
     "c8": "^9.1.0",
     "coveralls": "^3.1.1",
-    "cspell": "^8.3.2",
-    "markdownlint-cli": "^0.38.0",
+    "cspell": "^8.4.1",
+    "markdownlint-cli": "^0.39.0",
     "node-fetch": "^3.3.2",
-    "tsx": "^4.7.0",
+    "tsx": "^4.7.1",
     "typescript": "^5.3.3",
-    "vite": "^5.0.11"
+    "vite": "^5.1.4"
   }
 }
