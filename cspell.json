@@ -4,6 +4,7 @@
     "bech",
     "bitcoinjs",
     "coldcard",
+    "secp",
     "utxo",
     "wordlist",
     "wordlists"

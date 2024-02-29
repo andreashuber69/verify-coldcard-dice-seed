@@ -4,6 +4,7 @@
     "@tsconfig/node20/tsconfig"
   ],
   "compilerOptions": {
+    "lib": ["DOM"],
     "importHelpers": true,
     "outDir": "dist",
     "sourceMap": true,
