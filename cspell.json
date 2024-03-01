@@ -17,6 +17,7 @@
     "/cc-test-reporter",
     "/coverage/**",
     "/dist/**",
-    "/package.json"
+    "/package.json",
+    "/site/**"
   ]
 }
