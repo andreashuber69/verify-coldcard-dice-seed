@@ -9,6 +9,7 @@ const config = defineConfig({
     ],
     build: {
         target: "esnext",
+        outDir: "site",
     },
 });
 
