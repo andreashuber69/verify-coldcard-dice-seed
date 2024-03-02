@@ -50,8 +50,8 @@
     "ci": "npm test",
     "preversion": "tsx ./preversion.ts",
     "version": "tsx ./version.ts",
-    "postversion": "git commit -a -m \"Start release v`cat package.json | jq -r '.version'`\"",
-    "finish-release": "git flow release finish -p -m \"Finish release\" v`cat package.json | jq -r '.version'`"
+    "postversion": "git commit -a -m \"chore: start release v`cat package.json | jq -r '.version'`\"",
+    "finish-release": "git flow release finish -p -m \"chore: finish release\" v`cat package.json | jq -r '.version'`"
   },
   "dependencies": {
     "bech32": "^2.0.0",
