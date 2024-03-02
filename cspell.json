@@ -19,6 +19,6 @@
     "/coverage/**",
     "/dist/**",
     "/package.json",
-    "/site/**"
+    "/github_pages/**"
   ]
 }
