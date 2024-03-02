@@ -8,6 +8,7 @@ const config = defineConfig({
         (wasm as unknown as () => Plugin)(),
         nodePolyfills(),
     ],
+    base: "",
     build: {
         target: "esnext",
         outDir: "github_pages",
