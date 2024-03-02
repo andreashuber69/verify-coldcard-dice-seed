@@ -4,13 +4,10 @@
     "@tsconfig/node20/tsconfig"
   ],
   "compilerOptions": {
-    "lib": ["DOM"],
-    "importHelpers": true,
-    "outDir": "dist",
-    "sourceMap": true,
-    "verbatimModuleSyntax": true
+    "verbatimModuleSyntax": true,
+    "noEmit": true
   },
   "include": [
-    "src/**/*"
+    "./*.ts"
   ]
 }
