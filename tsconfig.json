@@ -4,8 +4,9 @@
     "@tsconfig/node20/tsconfig"
   ],
   "compilerOptions": {
+    "noEmit": true,
     "verbatimModuleSyntax": true,
-    "noEmit": true
+    "resolveJsonModule": true
   },
   "include": [
     "./*.ts"

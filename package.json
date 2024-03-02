@@ -48,8 +48,8 @@
     "show-coverage": "vite 'coverage/lcov-report' --logLevel error --open",
     "preci": "npm run build",
     "ci": "npm test",
-    "preversion": "git checkout develop && git push && git pull",
-    "version": "git flow release start v`cat package.json | jq -r '.version' && git stash push >/dev/null 2>&1` && git stash pop",
+    "preversion": "tsx ./preversion.ts",
+    "version": "tsx ./version.ts",
     "postversion": "git commit -a -m \"Start release v`cat package.json | jq -r '.version'`\"",
     "finish-release": "git flow release finish -p -m \"Finish release\" v`cat package.json | jq -r '.version'`"
   },
