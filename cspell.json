@@ -6,6 +6,7 @@
     "coldcard",
     "secp",
     "utxo",
+    "VERSIONCONSTANT",
     "wordlist",
     "wordlists"
   ],

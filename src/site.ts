@@ -18,5 +18,8 @@ const words = "abandon abandon abandon abandon abandon abandon abandon abandon a
 const root = BIP32Factory(ecc).fromSeed(await mnemonicToSeed(words, ""));
 const batch = getAddresses(root, "m/84'/0'/0'/0", 0);
 
+const version = "1.0.24"; // VERSIONCONSTANT
+getElement(HTMLElement, "#version").textContent = `v${version}`;
+
 const listElement = getElement(HTMLElement, "#list");
-listElement.innerHTML = batch.map(([_, address]) => `<li class="monospace">${address}</li>`).join("");
+listElement.innerHTML = batch.map(([_, address]) => `<p class="monospace">${address}</li>`).join("");
