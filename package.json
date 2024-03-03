@@ -49,6 +49,8 @@
     "show-coverage": "vite 'coverage/lcov-report' --logLevel error --open",
     "preci": "npm run build",
     "ci": "npm test",
+    "watch": "vite build --watch",
+    "serve": "vite preview --open",
     "preversion": "tsx ./preversion.ts",
     "version": "tsx ./version.ts",
     "postversion": "git commit -a -m \"chore: start release v`cat package.json | jq -r '.version'`\"",
