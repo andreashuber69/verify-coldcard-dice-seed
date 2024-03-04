@@ -10,7 +10,7 @@ const config = defineConfig({
     ],
     base: "",
     build: {
-        target: "esnext",
+        target: "es2022",
         outDir: "github_pages",
     },
 });

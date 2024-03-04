@@ -1,7 +1,7 @@
 {
   "extends": "../tsconfig.json",
   "compilerOptions": {
-    "lib": ["DOM"],
+    "lib": ["ESNext", "DOM"],
     "importHelpers": true,
     "outDir": "../dist",
     "sourceMap": true,
