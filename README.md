@@ -30,6 +30,9 @@
 
 This application guides you through verifying that your COLDCARD correctly derives seeds and addresses from dice rolls.
 
+> NEW: If you don't need step by step instructions on how to use your COLDCARD, it's probably much easier to use the
+> [web version](https://andreashuber69.github.io/verify-coldcard-dice-seed) of this application.
+
 CAUTION: The very point of a COLDCARD is that the seed (usually expressed as a 12 word mnemonic) of a real wallet
 **never** leaves the COLDCARD. You should therefore only use this application to verify the seed and address
 derivation of your COLDCARD. Once you are convinced that your COLDCARD works correctly, you should then generate the
