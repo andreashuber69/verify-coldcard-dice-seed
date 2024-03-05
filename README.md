@@ -34,7 +34,7 @@ This application guides you through verifying that your COLDCARD correctly deriv
 > [web version](https://andreashuber69.github.io/verify-coldcard-dice-seed) of this application.
 
 CAUTION: The very point of a COLDCARD is that the seed (usually expressed as a 12 word mnemonic) of a real wallet
-**never** leaves the COLDCARD. You should therefore only use this application to verify the seed and address
+**never** appears on any other device. You should therefore only use this application to verify the seed and address
 derivation of your COLDCARD. Once you are convinced that your COLDCARD works correctly, you should then generate the
 seed of your real wallet on your COLDCARD only. Since the COLDCARD electronics has no way of knowing whether you're
 verifying seed derivation or generating a real wallet, you can be reasonably sure that your real wallet was indeed

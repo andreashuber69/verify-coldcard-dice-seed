@@ -7,7 +7,7 @@
   <title>Verify COLDCARD Dice Seed</title>
   <meta name="description" content="Verify COLDCARD Dice Seed">
   <script type="module" src="src/site.ts"></script>
-  <link rel="stylesheet" href="@picocss/pico/css/pico.min.css">
+  <link rel="stylesheet" href="node_modules/@picocss/pico/css/pico.min.css">
   <style>
     .monospace { font-family: 'Courier New', Courier, monospace; }
   </style>
@@ -30,11 +30,11 @@
         Node.js application.</p>
       <p>
         <mark>CAUTION: The very point of a COLDCARD is that the seed (usually expressed as a 12 word mnemonic) of a real
-          wallet <b>never</b> leaves the COLDCARD. You should therefore only use this application to verify the seed and
-          address derivation of your COLDCARD. Once you are convinced that your COLDCARD works correctly, you should
-          then generate the seed of your real wallet on your COLDCARD only. Since the COLDCARD electronics has no way of
-          knowing whether you're verifying seed derivation or generating a real wallet, you can be reasonably sure that
-          your real wallet was indeed derived from the dice entropy you entered.</mark>
+            wallet <b>never</b> appears on any other device. You should therefore only use this application to verify
+            the seed and address derivation of your COLDCARD. Once you are convinced that your COLDCARD works correctly,
+            you should then generate the seed of your real wallet on your COLDCARD only. Since the COLDCARD electronics
+            has no way of knowing whether you're verifying seed derivation or generating a real wallet, you can be
+            reasonably sure that your real wallet was indeed derived from the dice entropy you entered.</mark>
       </p>
       <br>
       <form>
