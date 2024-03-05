@@ -1,7 +1,6 @@
 // https://github.com/andreashuber69/verify-coldcard-dice-seed/blob/develop/README.md#----verify-coldcard-dice-seed
 import { BIP32Factory } from "bip32";
 import { mnemonicToSeed } from "bip39";
-// cSpell: ignore secp
 // eslint-disable-next-line import/no-namespace
 import * as ecc from "tiny-secp256k1";
 import { getAddresses } from "./getAddresses.js";

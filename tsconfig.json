@@ -1,15 +1,14 @@
 {
   "extends": [
     "@tsconfig/strictest/tsconfig",
-    "@tsconfig/node14/tsconfig"
+    "@tsconfig/node20/tsconfig"
   ],
   "compilerOptions": {
-    "importHelpers": true,
-    "outDir": "dist",
-    "sourceMap": true,
-    "verbatimModuleSyntax": true
+    "noEmit": true,
+    "verbatimModuleSyntax": true,
+    "resolveJsonModule": true
   },
   "include": [
-    "src/**/*"
+    "./*.ts"
   ]
 }

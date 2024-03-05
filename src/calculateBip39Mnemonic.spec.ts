@@ -15,15 +15,19 @@ if (!wordlist) {
 
 const expectWords = async (entropy: string, words: string) => {
     const wordCount = words.length === 0 ? 0 : words.split(" ").length;
-    await it(entropy, () => assert(calculateBip39Mnemonic(entropy, wordCount, wordlist).join(" ") === words));
+
+    await it(
+        entropy,
+        async () => assert((await calculateBip39Mnemonic(entropy, wordCount, wordlist)).join(" ") === words),
+    );
 };
 
 
 const expectError = async (entropy: string, newWordlist: readonly string[], errorMessage: string) => await it(
     entropy,
-    () => {
+    async () => {
         try {
-            calculateBip39Mnemonic(entropy, Math.floor(entropy.length / 8) * 3, newWordlist);
+            await calculateBip39Mnemonic(entropy, Math.floor(entropy.length / 8) * 3, newWordlist);
             assert(false, "Expected error to be thrown!");
         } catch (error: unknown) {
             assert(error instanceof RangeError && error.message === errorMessage);
@@ -65,18 +69,18 @@ await describe(calculateBip39Mnemonic.name, async () => {
     });
 
     await describe("should throw the expected exception", async () => {
-        await it("ffffffff", () => {
+        await it("ffffffff", async () => {
             try {
-                calculateBip39Mnemonic("ffffffff", 2, wordlist);
+                await calculateBip39Mnemonic("ffffffff", 2, wordlist);
                 assert(false, "Expected error to be thrown!");
             } catch (error: unknown) {
                 assert(error instanceof RangeError && error.message === "wordCount must be a multiple of 3");
             }
         });
 
-        await it("fffffff", () => {
+        await it("fffffff", async () => {
             try {
-                calculateBip39Mnemonic("fffffff", 3, wordlist);
+                await calculateBip39Mnemonic("fffffff", 3, wordlist);
                 assert(false, "Expected error to be thrown!");
             } catch (error: unknown) {
                 assert(error instanceof RangeError && error.message === "hexEntropy length must be >= 8");

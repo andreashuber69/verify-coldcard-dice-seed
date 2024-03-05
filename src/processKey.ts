@@ -5,7 +5,7 @@ import { sha256 } from "./sha256.js";
 
 export const processKey = async ({ stdin, stdout }: InOut, input: string, requiredRolls: number) => {
     stdout.write(`${input.length} rolls\r\n`);
-    stdout.write(`${sha256(Buffer.from(input))}\r\n`);
+    stdout.write(`${await sha256(new TextEncoder().encode(input))}\r\n`);
     const canFinish = input.length >= requiredRolls;
     stdout.write(`Press 1-6 for each roll to mix in${canFinish ? ", ENTER to finish" : ""} or CTRL-C to abort.\r\n`);
     const key = await getKey(stdin);

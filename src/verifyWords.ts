@@ -13,7 +13,7 @@ export const verifyWords = async ({ stdin, stdout }: InOut, diceRolls: string, w
         throw new Error("Missing english wordlist.");
     }
 
-    const words = calculateBip39Mnemonic(sha256(Buffer.from(diceRolls)), wordCount, wordlist);
+    const words = await calculateBip39Mnemonic(await sha256(new TextEncoder().encode(diceRolls)), wordCount, wordlist);
     stdout.write("Compare these words to the ones calculated by your COLDCARD:\r\n");
     stdout.write(words.reduce((p, c, i) => `${p}${`0${i + 1}`.slice(-2)}: ${c}\r\n`, ""));
     stdout.write("\r\n");

@@ -4,7 +4,9 @@
     "bech",
     "bitcoinjs",
     "coldcard",
+    "secp",
     "utxo",
+    "VERSIONCONSTANT",
     "wordlist",
     "wordlists"
   ],
@@ -16,6 +18,7 @@
     "/cc-test-reporter",
     "/coverage/**",
     "/dist/**",
-    "/package.json"
+    "/package.json",
+    "/github_pages/**"
   ]
 }

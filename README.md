@@ -30,8 +30,11 @@
 
 This application guides you through verifying that your COLDCARD correctly derives seeds and addresses from dice rolls.
 
-CAUTION: The very point of a COLDCARD is that the seed (usually expressed as a 24 word mnemonic) of a real wallet is
-never entered outside of a coldcard. You should therefore only use this application to verify the seed and address
+> NEW: If you don't need step by step instructions on how to use your COLDCARD, it's probably much easier to use the
+> [web version](https://andreashuber69.github.io/verify-coldcard-dice-seed) of this application.
+
+CAUTION: The very point of a COLDCARD is that the seed (usually expressed as a 12 word mnemonic) of a real wallet
+**never** leaves the COLDCARD. You should therefore only use this application to verify the seed and address
 derivation of your COLDCARD. Once you are convinced that your COLDCARD works correctly, you should then generate the
 seed of your real wallet on your COLDCARD only. Since the COLDCARD electronics has no way of knowing whether you're
 verifying seed derivation or generating a real wallet, you can be reasonably sure that your real wallet was indeed
@@ -53,7 +56,7 @@ This application is based on Node.js. You either need to have [Node.js](https://
      npx verify-coldcard-dice-seed@latest
      ```
 
-     (if the above gives you an error, please enter `node -v` and check that your version is >=14.18)
+     (if the above gives you an error, please enter `node -v` and check that your version is >=20.11)
 
    - Docker is available:
 
@@ -127,9 +130,9 @@ COLDCARD copy correctly derives the seed but then generates addresses from a dif
 ``` shell_session cSpell:disable
 $ npx verify-coldcard-dice-seed@latest
 Need to install the following packages:
-  verify-coldcard-dice-seed@1.0.23
+  verify-coldcard-dice-seed@1.0.25
 Ok to proceed? (y) y
-*** Verify COLDCARD Dice Seed v1.0.23 ***
+*** Verify COLDCARD Dice Seed v1.0.25 ***
 (tested with COLDCARD Mk4 firmware v5.2.2)
 
 This application guides you through verifying that your COLDCARD

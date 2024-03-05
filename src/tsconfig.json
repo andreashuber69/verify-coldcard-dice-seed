@@ -1,0 +1,13 @@
+{
+  "extends": "../tsconfig.json",
+  "compilerOptions": {
+    "lib": ["ESNext", "DOM"],
+    "importHelpers": true,
+    "outDir": "../dist",
+    "sourceMap": true,
+    "noEmit": false
+  },
+  "include": [
+    "./*.ts"
+  ]
+}
