@@ -50,7 +50,7 @@
     "preci": "npm run build",
     "ci": "npm test",
     "dev": "vite --open",
-    "preview": "vite preview --open",
+    "preview": "vite build && vite preview --open",
     "preversion": "tsx ./preversion.ts",
     "version": "tsx ./version.ts",
     "postversion": "git commit -a -m \"chore: start release v`cat package.json | jq -r '.version'`\"",
