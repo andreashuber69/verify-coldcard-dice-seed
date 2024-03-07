@@ -130,9 +130,9 @@ COLDCARD copy correctly derives the seed but then generates addresses from a dif
 ``` shell_session cSpell:disable
 $ npx verify-coldcard-dice-seed@latest
 Need to install the following packages:
-  verify-coldcard-dice-seed@1.0.26
+  verify-coldcard-dice-seed@1.0.27
 Ok to proceed? (y) y
-*** Verify COLDCARD Dice Seed v1.0.26 ***
+*** Verify COLDCARD Dice Seed v1.0.27 ***
 (tested with COLDCARD Mk4 firmware v5.2.2)
 
 This application guides you through verifying that your COLDCARD
