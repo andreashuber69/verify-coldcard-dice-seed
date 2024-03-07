@@ -5,10 +5,11 @@
   ],
   "compilerOptions": {
     "noEmit": true,
-    "verbatimModuleSyntax": true,
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
+    "verbatimModuleSyntax": true
   },
   "include": [
+    ".eslintrc.cjs",
     "./*.ts"
   ]
 }

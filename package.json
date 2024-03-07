@@ -1,6 +1,6 @@
 {
   "name": "verify-coldcard-dice-seed",
-  "version": "1.0.27",
+  "version": "1.0.28",
   "description": "Verify whether your COLDCARD correctly generates seeds and addresses from dice rolls.",
   "keywords": [
     "bitcoin",
@@ -38,7 +38,7 @@
   "scripts": {
     "start": "npm run build && node .",
     "prelint": "cspell '**' && markdownlint '**/*.md'",
-    "lint": "eslint --report-unused-disable-directives '**/*.ts'",
+    "lint": "eslint --ext .cjs,.ts --report-unused-disable-directives .",
     "prebuild": "npm run lint",
     "build": "tsc -p ./src/tsconfig.json",
     "postbuild": "vite build",
