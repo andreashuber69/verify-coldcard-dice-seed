@@ -60,6 +60,9 @@ const onInput = async () => {
     diceRollsElement.ariaInvalid = `${tooShort || patternMismatch || valueMissing}`;
     const mnemonic = await getMnemonic(rolls);
 
+    showMnemonic();
+    addressesElement.innerHTML = "";
+
     if (mnemonic) {
         showMnemonic(mnemonic);
 
@@ -73,9 +76,6 @@ const onInput = async () => {
         }
 
         addressesElement.innerHTML = addressesHtml;
-    } else {
-        showMnemonic();
-        addressesElement.innerHTML = "";
     }
 };
 
