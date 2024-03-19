@@ -4,6 +4,7 @@ import { mnemonicToSeed, wordlists } from "bip39";
 import * as ecc from "tiny-secp256k1";
 import { calculateBip39Mnemonic } from "./calculateBip39Mnemonic.js";
 import { getAddresses } from "./getAddresses.js";
+import { getElement } from "./getElement.js";
 import { sha256 } from "./sha256.js";
 
 const wordlist = wordlists["english"];
@@ -12,17 +13,6 @@ if (!wordlist) {
     // cSpell: ignore wordlist
     throw new Error("Missing english wordlist.");
 }
-
-
-const getElement = <T extends HTMLElement>(ctor: abstract new () => T, selector: string) => {
-    const result = document.querySelector(selector);
-
-    if (!(result instanceof ctor)) {
-        throw new TypeError(`The selector ${selector} does not match an element of type ${ctor}.`);
-    }
-
-    return result;
-};
 
 const generate24WordsElement = getElement(HTMLInputElement, "#generate-24-words");
 const diceRollsElement = getElement(HTMLInputElement, "#dice-rolls");
