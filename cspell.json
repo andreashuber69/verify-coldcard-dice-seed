@@ -4,6 +4,7 @@
     "bech",
     "bitcoinjs",
     "coldcard",
+    "preact",
     "secp",
     "utxo",
     "VERSIONCONSTANT",
