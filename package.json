@@ -63,7 +63,7 @@
     "tslib": "^2.6.2"
   },
   "devDependencies": {
-    "@andreashuber69/eslint-config": "^1.2.0",
+    "@andreashuber69/eslint-config": "^1.2.1",
     "@picocss/pico": "^1.5.13",
     "@preact/preset-vite": "^2.8.2",
     "@tsconfig/node20": "^20.1.2",

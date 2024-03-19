@@ -1,10 +1,12 @@
 import { BIP32Factory } from "bip32";
 import { mnemonicToSeed, wordlists } from "bip39";
+import { render } from "preact";
 // eslint-disable-next-line import/no-namespace
 import * as ecc from "tiny-secp256k1";
 import { calculateBip39Mnemonic } from "./calculateBip39Mnemonic.js";
 import { getAddresses } from "./getAddresses.js";
 import { getElement } from "./getElement.js";
+import { Main } from "./Main.js";
 import { sha256 } from "./sha256.js";
 
 const wordlist = wordlists["english"];
@@ -13,6 +15,8 @@ if (!wordlist) {
     // cSpell: ignore wordlist
     throw new Error("Missing english wordlist.");
 }
+
+render(<Main />, getElement(HTMLElement, "#main"));
 
 const generate24WordsElement = getElement(HTMLInputElement, "#generate-24-words");
 const diceRollsElement = getElement(HTMLInputElement, "#dice-rolls");
