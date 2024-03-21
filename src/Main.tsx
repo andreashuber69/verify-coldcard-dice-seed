@@ -1,5 +1,5 @@
+/* eslint-disable react/no-array-index-key */
 /* eslint-disable react/jsx-no-bind */
-/* eslint-disable @typescript-eslint/unbound-method */
 import { BIP32Factory } from "bip32";
 import { mnemonicToSeed, wordlists } from "bip39";
 import { Component } from "preact";
@@ -18,7 +18,7 @@ interface ViewModel {
     addresses: Array<readonly [string, string]>;
 }
 
-// eslint-disable-next-line react/prefer-stateless-function, react/require-optimization
+// eslint-disable-next-line react/require-optimization
 export class Main extends Component<Record<string, never>, ViewModel> {
     public constructor() {
         super();
@@ -92,9 +92,8 @@ export class Main extends Component<Record<string, never>, ViewModel> {
                 <label htmlFor="dice-rolls">
                   Dice Rolls (1-6)
                   <input
-                    ref={this.diceRollsRef} id="dice-rolls" pattern="[1-6]*"
-                    minLength={this.generate24WordsRef.current?.checked ? 99 : 50} placeholder="31415..." type="text"
-                    required onInput={this.handleInput} />
+                    ref={this.diceRollsRef} id="dice-rolls" pattern="[1-6]*" placeholder="31415..." type="text"
+                    required aria-invalid onInput={this.handleInput} />
                 </label>
                 <label htmlFor="passphrase">
                   Passphrase
@@ -107,7 +106,7 @@ export class Main extends Component<Record<string, never>, ViewModel> {
             <section>
               <h2>Seed</h2>
               <div className="monospace">
-                {mnemonic.map((w, i) => <span key={w}>{`${i + 1}`.padStart(2, "0")}{`: ${w}`}</span>)}
+                {mnemonic.map((w, i) => <span key={i}>{`${i + 1}`.padStart(2, "0")}{`: ${w}`}<br /></span>)}
               </div>
             </section>
             <section>
@@ -134,10 +133,12 @@ export class Main extends Component<Record<string, never>, ViewModel> {
     private readonly handleInput = () => void this.handleInputImpl();
 
     private async handleInputImpl() {
+        const generate24WordsElement = Main.getElement(this.generate24WordsRef);
         const diceRollsElement = Main.getElement(this.diceRollsRef);
-        const rolls = diceRollsElement.value;
+        diceRollsElement.minLength = generate24WordsElement.checked ? 99 : 50;
         const { tooShort, patternMismatch, valueMissing } = diceRollsElement.validity;
         diceRollsElement.ariaInvalid = `${tooShort || patternMismatch || valueMissing}`;
+        const rolls = diceRollsElement.value;
         const hash = await sha256(new TextEncoder().encode(rolls));
 
         // eslint-disable-next-line react/no-set-state
@@ -145,9 +146,9 @@ export class Main extends Component<Record<string, never>, ViewModel> {
 
         if (diceRollsElement.ariaInvalid === "true") {
             // eslint-disable-next-line react/no-set-state
-            this.setState({ addresses: [] });
+            this.setState({ mnemonic: [], addresses: [] });
         } else {
-            const wordCount = Main.getElement(this.generate24WordsRef).checked ? 24 : 12;
+            const wordCount = generate24WordsElement.checked ? 24 : 12;
             const mnemonic = await calculateBip39Mnemonic(hash, wordCount, this.wordlist);
             const passphraseElement = Main.getElement(this.passphraseRef).value;
             const root = Main.bip32.fromSeed(await mnemonicToSeed(mnemonic.join(" "), passphraseElement));
