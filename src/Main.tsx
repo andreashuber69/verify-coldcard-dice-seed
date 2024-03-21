@@ -1,8 +1,49 @@
+/* eslint-disable react/jsx-no-bind */
+/* eslint-disable @typescript-eslint/unbound-method */
+import { BIP32Factory } from "bip32";
+import { mnemonicToSeed, wordlists } from "bip39";
 import { Component } from "preact";
+import type { Ref } from "preact/hooks";
+import { useRef } from "preact/hooks";
+// eslint-disable-next-line import/no-namespace
+import * as ecc from "tiny-secp256k1";
+import { calculateBip39Mnemonic } from "./calculateBip39Mnemonic.js";
+import { getAddresses } from "./getAddresses.js";
+import { sha256 } from "./sha256.js";
+
+interface ViewModel {
+    rollCount: number;
+    hash: string;
+    mnemonic: string[];
+    addresses: Array<readonly [string, string]>;
+}
 
 // eslint-disable-next-line react/prefer-stateless-function, react/require-optimization
-export class Main extends Component {
+export class Main extends Component<Record<string, never>, ViewModel> {
+    public constructor() {
+        super();
+        this.state = { rollCount: 0, hash: "", mnemonic: [], addresses: [] };
+        const wordlist = wordlists["english"];
+
+        if (!wordlist) {
+            // cSpell: ignore wordlist
+            throw new Error("Missing english wordlist.");
+        }
+
+        this.wordlist = wordlist;
+    }
+
+    public generate24WordsRef?: Ref<HTMLInputElement>;
+    public diceRollsRef?: Ref<HTMLInputElement>;
+    public passphraseRef?: Ref<HTMLInputElement>;
+
     public render() {
+        const { rollCount, hash, mnemonic, addresses } = this.state;
+
+        this.generate24WordsRef = useRef<HTMLInputElement>(null);
+        this.diceRollsRef = useRef<HTMLInputElement>(null);
+        this.passphraseRef = useRef<HTMLInputElement>(null);
+
         return (
           <>
             <section>
@@ -42,50 +83,82 @@ export class Main extends Component {
               <br />
               <form>
                 <label htmlFor="generate-24-words">
-                  <input id="generate-24-words" role="switch" type="checkbox" />
+                  <input
+                    ref={this.generate24WordsRef} id="generate-24-words" role="switch" type="checkbox"
+                    onInput={() => this.handleInput()} />
                   Generate 24 words (instead of the standard 12)
                 </label>
                 <br />
                 <label htmlFor="dice-rolls">
                   Dice Rolls (1-6)
-                  <input id="dice-rolls" pattern="[1-6]*" placeholder="31415..." type="text" required />
+                  <input
+                    ref={this.diceRollsRef} id="dice-rolls" pattern="[1-6]*"
+                    minLength={this.generate24WordsRef.current?.checked ? 99 : 50} placeholder="31415..." type="text"
+                    required onInput={this.handleInput} />
                 </label>
                 <label htmlFor="passphrase">
                   Passphrase
-                  <input id="passphrase" type="text" />
+                  <input ref={this.passphraseRef} id="passphrase" type="text" onInput={this.handleInput} />
                 </label>
-                <div id="rolls-count" className="monospace" />
-                <div id="hash" className="monospace" />
+                <div id="rolls-count" className="monospace">{`${rollCount} rolls`}</div>
+                <div id="hash" className="monospace">{hash}</div>
               </form>
             </section>
             <section>
               <h2>Seed</h2>
               <div className="monospace">
-                <div className="grid">
-                  <span id="word01" /><span id="word02" /><span id="word03" /><span id="word04" />
-                </div>
-                <div className="grid">
-                  <span id="word05" /><span id="word06" /><span id="word07" /><span id="word08" />
-                </div>
-                <div className="grid">
-                  <span id="word09" /><span id="word10" /><span id="word11" /><span id="word12" />
-                </div>
-                <div className="grid">
-                  <span id="word13" /><span id="word14" /><span id="word15" /><span id="word16" />
-                </div>
-                <div className="grid">
-                  <span id="word17" /><span id="word18" /><span id="word19" /><span id="word20" />
-                </div>
-                <div className="grid">
-                  <span id="word21" /><span id="word22" /><span id="word23" /><span id="word24" />
-                </div>
+                {mnemonic.map((w, i) => <span key={w}>{`${i + 1}`.padStart(2, "0")}{`: ${w}`}</span>)}
               </div>
             </section>
             <section>
               <h2>Addresses</h2>
-              <div id="addresses" className="monospace" />
+              <div id="addresses" className="monospace">
+                {addresses.map(([p, a]) => <span key={p}>{p}{" => "}{a}<br /></span>)}
+              </div>
             </section>
           </>
         );
+    }
+
+    private static readonly bip32 = BIP32Factory(ecc);
+
+    private static getElement<T>(ref: Ref<T> | undefined) {
+        if (!ref?.current) {
+            throw new TypeError("ref.current is nullish.");
+        }
+
+        return ref.current;
+    }
+
+    private readonly wordlist: readonly string[];
+    private readonly handleInput = () => void this.handleInputImpl();
+
+    private async handleInputImpl() {
+        const diceRollsElement = Main.getElement(this.diceRollsRef);
+        const rolls = diceRollsElement.value;
+        const { tooShort, patternMismatch, valueMissing } = diceRollsElement.validity;
+        diceRollsElement.ariaInvalid = `${tooShort || patternMismatch || valueMissing}`;
+        const hash = await sha256(new TextEncoder().encode(rolls));
+
+        // eslint-disable-next-line react/no-set-state
+        this.setState({ rollCount: rolls.length, hash });
+
+        if (diceRollsElement.ariaInvalid === "true") {
+            // eslint-disable-next-line react/no-set-state
+            this.setState({ addresses: [] });
+        } else {
+            const wordCount = Main.getElement(this.generate24WordsRef).checked ? 24 : 12;
+            const mnemonic = await calculateBip39Mnemonic(hash, wordCount, this.wordlist);
+            const passphraseElement = Main.getElement(this.passphraseRef).value;
+            const root = Main.bip32.fromSeed(await mnemonicToSeed(mnemonic.join(" "), passphraseElement));
+            const addresses = new Array<readonly [string, string]>();
+
+            for (let startIndex = 0; startIndex < 50; startIndex = addresses.length) {
+                addresses.push(...getAddresses(root, "m/84'/0'/0'/0", startIndex));
+            }
+
+            // eslint-disable-next-line react/no-set-state
+            this.setState({ mnemonic, addresses });
+        }
     }
 }

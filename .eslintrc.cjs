@@ -6,4 +6,8 @@ module.exports = {
     },
     extends: ["@andreashuber69"],
     ignorePatterns: ["/coverage/", "/dist/", "/github_pages/"],
+    rules: {
+        // eslint-disable-next-line @typescript-eslint/naming-convention
+        "react/sort-comp": "off",
+    },
 };
