@@ -25,14 +25,13 @@ export class Main extends Component<Record<string, never>, ViewModel> {
         const wordlist = wordlists["english"];
 
         if (!wordlist) {
-            // cSpell: ignore wordlist
             throw new Error("Missing english wordlist.");
         }
 
         this.wordlist = wordlist;
     }
 
-    public render() {
+    public override render() {
         const { rollCount, hash, mnemonic, addresses } = this.state;
         this.generate24WordsRef = useRef<HTMLInputElement>(null);
         this.diceRollsRef = useRef<HTMLInputElement>(null);
@@ -87,7 +86,7 @@ export class Main extends Component<Record<string, never>, ViewModel> {
                   Dice Rolls (1-6)
                   <input
                     ref={this.diceRollsRef} id="dice-rolls" pattern="[1-6]*" placeholder="31415..." type="text"
-                    required aria-invalid onInput={this.handleInput} />
+                    required onInput={this.handleInput} />
                 </label>
                 <label htmlFor="passphrase">
                   Passphrase
@@ -111,6 +110,10 @@ export class Main extends Component<Record<string, never>, ViewModel> {
             </section>
           </>
         );
+    }
+
+    public override componentDidMount() {
+        this.handleInput();
     }
 
     private static readonly bip32 = BIP32Factory(ecc);
