@@ -17,7 +17,6 @@ interface ViewModel {
     addresses: Array<readonly [string, string]>;
 }
 
-// eslint-disable-next-line react/require-optimization
 export class Main extends Component<Record<string, never>, ViewModel> {
     public constructor() {
         super();
@@ -136,8 +135,7 @@ export class Main extends Component<Record<string, never>, ViewModel> {
         const generate24WordsElement = Main.getElement(this.generate24WordsRef);
         const diceRollsElement = Main.getElement(this.diceRollsRef);
         diceRollsElement.minLength = generate24WordsElement.checked ? 99 : 50;
-        const { tooShort, patternMismatch, valueMissing } = diceRollsElement.validity;
-        diceRollsElement.ariaInvalid = `${tooShort || patternMismatch || valueMissing}`;
+        diceRollsElement.ariaInvalid = `${!diceRollsElement.validity.valid}`;
         const rolls = diceRollsElement.value;
         const hash = await sha256(new TextEncoder().encode(rolls));
 

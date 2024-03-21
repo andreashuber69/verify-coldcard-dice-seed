@@ -8,6 +8,8 @@ module.exports = {
     ignorePatterns: ["/coverage/", "/dist/", "/github_pages/"],
     rules: {
         // eslint-disable-next-line @typescript-eslint/naming-convention
+        "react/require-optimization": "off",
+        // eslint-disable-next-line @typescript-eslint/naming-convention
         "react/sort-comp": "off",
     },
 };
