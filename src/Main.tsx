@@ -10,6 +10,12 @@ import { calculateBip39Mnemonic } from "./calculateBip39Mnemonic.js";
 import { getAddresses } from "./getAddresses.js";
 import { sha256 } from "./sha256.js";
 
+interface Props {
+    readonly generate24WordsRef: Ref<HTMLInputElement>;
+    readonly diceRollsRef: Ref<HTMLInputElement>;
+    readonly passphraseRef: Ref<HTMLInputElement>;
+}
+
 interface ViewModel {
     rollCount: number;
     hash: string;
@@ -17,7 +23,22 @@ interface ViewModel {
     addresses: Array<readonly [string, string]>;
 }
 
-export class Main extends Component<Record<string, never>, ViewModel> {
+// eslint-disable-next-line @stylistic/max-len
+// eslint-disable-next-line @typescript-eslint/naming-convention, prefer-arrow/prefer-arrow-functions, @typescript-eslint/no-shadow
+const WithHooks = (BaseComponent: new () => Component<Props, ViewModel>) => function WithHooks() {
+    const generate24WordsRef = useRef<HTMLInputElement>(null);
+    const diceRollsRef = useRef<HTMLInputElement>(null);
+    const passphraseRef = useRef<HTMLInputElement>(null);
+
+    return (
+      <BaseComponent
+        generate24WordsRef={generate24WordsRef}
+        diceRollsRef={diceRollsRef} passphraseRef={passphraseRef} />
+    );
+};
+
+// eslint-disable-next-line react/no-multi-comp
+export class Main extends Component<Props, ViewModel> {
     public constructor() {
         super();
         this.state = { rollCount: 0, hash: "", mnemonic: [], addresses: [] };
@@ -31,10 +52,8 @@ export class Main extends Component<Record<string, never>, ViewModel> {
     }
 
     public override render() {
+        const { generate24WordsRef, diceRollsRef, passphraseRef } = this.props;
         const { rollCount, hash, mnemonic, addresses } = this.state;
-        this.generate24WordsRef = useRef<HTMLInputElement>(null);
-        this.diceRollsRef = useRef<HTMLInputElement>(null);
-        this.passphraseRef = useRef<HTMLInputElement>(null);
 
         return (
           <>
@@ -76,7 +95,7 @@ export class Main extends Component<Record<string, never>, ViewModel> {
               <form>
                 <label htmlFor="generate-24-words">
                   <input
-                    ref={this.generate24WordsRef} id="generate-24-words" role="switch" type="checkbox"
+                    ref={generate24WordsRef} id="generate-24-words" role="switch" type="checkbox"
                     onInput={this.handleInput} />
                   Generate 24 words (instead of the standard 12)
                 </label>
@@ -84,12 +103,12 @@ export class Main extends Component<Record<string, never>, ViewModel> {
                 <label htmlFor="dice-rolls">
                   Dice Rolls (1-6)
                   <input
-                    ref={this.diceRollsRef} id="dice-rolls" pattern="[1-6]*" placeholder="31415..." type="text"
+                    ref={diceRollsRef} id="dice-rolls" pattern="[1-6]*" placeholder="31415..." type="text"
                     required onInput={this.handleInput} />
                 </label>
                 <label htmlFor="passphrase">
                   Passphrase
-                  <input ref={this.passphraseRef} id="passphrase" type="text" onInput={this.handleInput} />
+                  <input ref={passphraseRef} id="passphrase" type="text" onInput={this.handleInput} />
                 </label>
                 <div id="rolls-count" className="monospace">{`${rollCount} rolls`}</div>
                 <div id="hash" className="monospace">{hash}</div>
@@ -125,15 +144,14 @@ export class Main extends Component<Record<string, never>, ViewModel> {
         return ref.current;
     }
 
-    private generate24WordsRef?: Ref<HTMLInputElement>;
-    private diceRollsRef?: Ref<HTMLInputElement>;
-    private passphraseRef?: Ref<HTMLInputElement>;
     private readonly wordlist: readonly string[];
     private readonly handleInput = () => void this.handleInputImpl();
 
     private async handleInputImpl() {
-        const generate24WordsElement = Main.getElement(this.generate24WordsRef);
-        const diceRollsElement = Main.getElement(this.diceRollsRef);
+        const { generate24WordsRef, diceRollsRef, passphraseRef } = this.props;
+
+        const generate24WordsElement = Main.getElement(generate24WordsRef);
+        const diceRollsElement = Main.getElement(diceRollsRef);
         diceRollsElement.minLength = generate24WordsElement.checked ? 99 : 50;
         diceRollsElement.ariaInvalid = `${!diceRollsElement.validity.valid}`;
         const rolls = diceRollsElement.value;
@@ -148,7 +166,7 @@ export class Main extends Component<Record<string, never>, ViewModel> {
         } else {
             const wordCount = generate24WordsElement.checked ? 24 : 12;
             const mnemonic = await calculateBip39Mnemonic(hash, wordCount, this.wordlist);
-            const passphraseElement = Main.getElement(this.passphraseRef).value;
+            const passphraseElement = Main.getElement(passphraseRef).value;
             const root = Main.bip32.fromSeed(await mnemonicToSeed(mnemonic.join(" "), passphraseElement));
             const addresses = new Array<readonly [string, string]>();
 
@@ -161,3 +179,6 @@ export class Main extends Component<Record<string, never>, ViewModel> {
         }
     }
 }
+
+// eslint-disable-next-line @typescript-eslint/naming-convention
+export const MainWithHooks = WithHooks(Main);

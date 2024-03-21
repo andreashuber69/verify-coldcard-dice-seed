@@ -1,5 +1,5 @@
 import { render } from "preact";
 import { getElement } from "./getElement.js";
-import { Main } from "./Main.js";
+import { MainWithHooks } from "./Main.js";
 
-render(<Main />, getElement(HTMLElement, "#main"));
+render(<MainWithHooks />, getElement(HTMLElement, "#main"));
