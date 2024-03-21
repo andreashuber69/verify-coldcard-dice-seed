@@ -9,7 +9,6 @@ export const verifyWords = async ({ stdin, stdout }: InOut, diceRolls: string, w
     const wordlist = wordlists["english"];
 
     if (!wordlist) {
-        // cSpell: ignore wordlist
         throw new Error("Missing english wordlist.");
     }
 

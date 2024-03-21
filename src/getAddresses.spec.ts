@@ -3,7 +3,6 @@ import assert from "node:assert";
 import { describe, it } from "node:test";
 import { BIP32Factory } from "bip32";
 import { mnemonicToSeed } from "bip39";
-// cSpell: ignore secp
 // eslint-disable-next-line import/no-namespace
 import * as ecc from "tiny-secp256k1";
 import { getAddresses } from "./getAddresses.js";
