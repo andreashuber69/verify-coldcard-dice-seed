@@ -33,13 +33,8 @@ export class Main extends Component<Record<string, never>, ViewModel> {
         this.wordlist = wordlist;
     }
 
-    public generate24WordsRef?: Ref<HTMLInputElement>;
-    public diceRollsRef?: Ref<HTMLInputElement>;
-    public passphraseRef?: Ref<HTMLInputElement>;
-
     public render() {
         const { rollCount, hash, mnemonic, addresses } = this.state;
-
         this.generate24WordsRef = useRef<HTMLInputElement>(null);
         this.diceRollsRef = useRef<HTMLInputElement>(null);
         this.passphraseRef = useRef<HTMLInputElement>(null);
@@ -129,6 +124,9 @@ export class Main extends Component<Record<string, never>, ViewModel> {
         return ref.current;
     }
 
+    private generate24WordsRef?: Ref<HTMLInputElement>;
+    private diceRollsRef?: Ref<HTMLInputElement>;
+    private passphraseRef?: Ref<HTMLInputElement>;
     private readonly wordlist: readonly string[];
     private readonly handleInput = () => void this.handleInputImpl();
 
