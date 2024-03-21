@@ -1,5 +1,4 @@
 /* eslint-disable react/no-array-index-key */
-/* eslint-disable react/jsx-no-bind */
 import { BIP32Factory } from "bip32";
 import { mnemonicToSeed, wordlists } from "bip39";
 import { Component } from "preact";
@@ -80,7 +79,7 @@ export class Main extends Component<Record<string, never>, ViewModel> {
                 <label htmlFor="generate-24-words">
                   <input
                     ref={this.generate24WordsRef} id="generate-24-words" role="switch" type="checkbox"
-                    onInput={() => this.handleInput()} />
+                    onInput={this.handleInput} />
                   Generate 24 words (instead of the standard 12)
                 </label>
                 <br />
