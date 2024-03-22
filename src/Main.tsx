@@ -23,19 +23,7 @@ interface ViewModel {
     addresses: Array<readonly [string, string]>;
 }
 
-const withHooks = (BaseComponent: new () => Component<Props, ViewModel>) => function WithHooks() {
-    const generate24WordsRef = useRef<HTMLInputElement>(null);
-    const diceRollsRef = useRef<HTMLInputElement>(null);
-    const passphraseRef = useRef<HTMLInputElement>(null);
-
-    return (
-      <BaseComponent
-        generate24WordsRef={generate24WordsRef}
-        diceRollsRef={diceRollsRef} passphraseRef={passphraseRef} />
-    );
-};
-
-export class Main extends Component<Props, ViewModel> {
+class Main extends Component<Props, ViewModel> {
     public constructor() {
         super();
         this.state = { rollCount: 0, hash: "", mnemonic: [], addresses: [] };
@@ -176,5 +164,15 @@ export class Main extends Component<Props, ViewModel> {
         }
     }
 }
+
+const withHooks = (BaseComponent: new () => Component<Props, ViewModel>) => function WithHooks() {
+    const props = {
+        generate24WordsRef: useRef<HTMLInputElement>(null),
+        diceRollsRef: useRef<HTMLInputElement>(null),
+        passphraseRef: useRef<HTMLInputElement>(null),
+    };
+
+    return (<BaseComponent {...props} />);
+};
 
 export const MainWithHooks = withHooks(Main);
