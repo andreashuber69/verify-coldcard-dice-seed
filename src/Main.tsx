@@ -23,9 +23,7 @@ interface ViewModel {
     addresses: Array<readonly [string, string]>;
 }
 
-// eslint-disable-next-line @stylistic/max-len
-// eslint-disable-next-line @typescript-eslint/naming-convention, prefer-arrow/prefer-arrow-functions, @typescript-eslint/no-shadow
-const WithHooks = (BaseComponent: new () => Component<Props, ViewModel>) => function WithHooks() {
+const withHooks = (BaseComponent: new () => Component<Props, ViewModel>) => function WithHooks() {
     const generate24WordsRef = useRef<HTMLInputElement>(null);
     const diceRollsRef = useRef<HTMLInputElement>(null);
     const passphraseRef = useRef<HTMLInputElement>(null);
@@ -37,7 +35,6 @@ const WithHooks = (BaseComponent: new () => Component<Props, ViewModel>) => func
     );
 };
 
-// eslint-disable-next-line react/no-multi-comp
 export class Main extends Component<Props, ViewModel> {
     public constructor() {
         super();
@@ -180,5 +177,4 @@ export class Main extends Component<Props, ViewModel> {
     }
 }
 
-// eslint-disable-next-line @typescript-eslint/naming-convention
-export const MainWithHooks = WithHooks(Main);
+export const MainWithHooks = withHooks(Main);
