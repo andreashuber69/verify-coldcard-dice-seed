@@ -40,6 +40,12 @@ const WordLine = function(props: MnemonicProps) {
     return <div className="grid"><Word {...props} /><Word {...props1} /><Word {...props2} /><Word {...props3} /></div>;
 };
 
+const withHooks = <
+    P extends object,
+    S extends object,
+    T extends Component<P, S>,
+>(Base: new (props: P) => T, createProps: () => P) => function WithHooks() { return (<Base {...createProps()} />); };
+
 class Main extends Component<Props, ViewModel> {
     public constructor(props: Props) {
         super(props);
@@ -188,17 +194,11 @@ class Main extends Component<Props, ViewModel> {
     }
 }
 
-const withHooks = <T extends Component<Props, ViewModel>>(
-    BaseComponentCtor: new (props: Props) => T,
-) => function WithHooks() {
-    const props = {
-        generate24WordsRef: useRef<HTMLInputElement>(null),
-        diceRollsRef: useRef<HTMLInputElement>(null),
-        passphraseRef: useRef<HTMLInputElement>(null),
-    };
+const useProps = () => ({
+    generate24WordsRef: useRef<HTMLInputElement>(null),
+    diceRollsRef: useRef<HTMLInputElement>(null),
+    passphraseRef: useRef<HTMLInputElement>(null),
+});
 
-    return (<BaseComponentCtor {...props} />);
-};
-
-const MainWithHooks = withHooks(Main);
+const MainWithHooks = withHooks(Main, useProps);
 render(<MainWithHooks />, getElement(HTMLElement, "#main"));
