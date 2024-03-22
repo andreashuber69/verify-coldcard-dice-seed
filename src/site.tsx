@@ -10,6 +10,7 @@ import { calculateBip39Mnemonic } from "./calculateBip39Mnemonic.js";
 import { getAddresses } from "./getAddresses.js";
 import { getElement } from "./getElement.js";
 import { sha256 } from "./sha256.js";
+import { WordLine } from "./WordLine.js";
 
 interface Props {
     readonly generate24WordsRef: Ref<HTMLInputElement>;
@@ -23,22 +24,6 @@ interface ViewModel {
     mnemonic: string[];
     addresses: Array<readonly [string, string]>;
 }
-
-interface MnemonicProps {
-    readonly index: number;
-    readonly words: string[];
-}
-
-const Word = function({ index, words }: MnemonicProps) {
-    return <span>{`${`${index + 1}`.padStart(2, "0")}: ${words[index]}`}</span>;
-};
-
-const WordLine = function(props: MnemonicProps) {
-    const props1 = { ...props, index: props.index + 1 };
-    const props2 = { ...props, index: props.index + 2 };
-    const props3 = { ...props, index: props.index + 3 };
-    return <div className="grid"><Word {...props} /><Word {...props1} /><Word {...props2} /><Word {...props3} /></div>;
-};
 
 const withHooks = <
     P extends object,
