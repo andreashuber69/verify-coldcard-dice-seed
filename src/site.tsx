@@ -41,8 +41,8 @@ const WordLine = function(props: MnemonicProps) {
 };
 
 class Main extends Component<Props, ViewModel> {
-    public constructor() {
-        super();
+    public constructor(props: Props) {
+        super(props);
         this.state = { rollCount: 0, hash: "", mnemonic: [], addresses: [] };
         const wordlist = wordlists["english"];
 
@@ -188,7 +188,9 @@ class Main extends Component<Props, ViewModel> {
     }
 }
 
-const withHooks = <T extends Component<Props, ViewModel>>(BaseComponentCtor: new () => T) => function WithHooks() {
+const withHooks = <T extends Component<Props, ViewModel>>(
+    BaseComponentCtor: new (props: Props) => T,
+) => function WithHooks() {
     const props = {
         generate24WordsRef: useRef<HTMLInputElement>(null),
         diceRollsRef: useRef<HTMLInputElement>(null),
