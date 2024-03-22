@@ -1,5 +1,4 @@
 // https://github.com/andreashuber69/verify-coldcard-dice-seed/blob/develop/README.md#----verify-coldcard-dice-seed
-/* eslint-disable react/no-array-index-key */
 import { BIP32Factory } from "bip32";
 import { mnemonicToSeed, wordlists } from "bip39";
 import { Component } from "preact";
@@ -119,7 +118,7 @@ class Main extends Component<Props, ViewModel> {
             <section>
               <h2>Seed</h2>
               <div className="monospace">
-                {mnemonic.map((_w, i, a) => (i % 4 === 0 ? <WordLine key={i} index={i} words={a} /> : ""))}
+                {mnemonic.map((_w, i, a) => (i % 4 === 0 ? <WordLine key={this.getKey()} index={i} words={a} /> : ""))}
               </div>
             </section>
             <section>
@@ -147,7 +146,12 @@ class Main extends Component<Props, ViewModel> {
     }
 
     private readonly wordlist: readonly string[];
+    private currentKey = 0;
     private readonly handleInput = () => void this.handleInputImpl();
+
+    private getKey() {
+        return this.currentKey++;
+    }
 
     private async handleInputImpl() {
         const { generate24WordsRef, diceRollsRef, passphraseRef } = this.props;
@@ -182,14 +186,14 @@ class Main extends Component<Props, ViewModel> {
     }
 }
 
-const withHooks = (BaseComponent: new () => Component<Props, ViewModel>) => function WithHooks() {
+const withHooks = <T extends Component<Props, ViewModel>>(BaseComponentCtor: new () => T) => function WithHooks() {
     const props = {
         generate24WordsRef: useRef<HTMLInputElement>(null),
         diceRollsRef: useRef<HTMLInputElement>(null),
         passphraseRef: useRef<HTMLInputElement>(null),
     };
 
-    return (<BaseComponent {...props} />);
+    return (<BaseComponentCtor {...props} />);
 };
 
 export const MainWithHooks = withHooks(Main);
