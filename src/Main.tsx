@@ -1,3 +1,4 @@
+// https://github.com/andreashuber69/verify-coldcard-dice-seed/blob/develop/README.md#----verify-coldcard-dice-seed
 /* eslint-disable react/no-array-index-key */
 import { BIP32Factory } from "bip32";
 import { mnemonicToSeed, wordlists } from "bip39";
@@ -22,6 +23,22 @@ interface ViewModel {
     mnemonic: string[];
     addresses: Array<readonly [string, string]>;
 }
+
+interface MnemonicProps {
+    readonly index: number;
+    readonly words: string[];
+}
+
+const Word = function({ index, words }: MnemonicProps) {
+    return <span>{`${`${index + 1}`.padStart(2, "0")}: ${words[index]}`}</span>;
+};
+
+const WordLine = function(props: MnemonicProps) {
+    const props1 = { ...props, index: props.index + 1 };
+    const props2 = { ...props, index: props.index + 2 };
+    const props3 = { ...props, index: props.index + 3 };
+    return <div className="grid"><Word {...props} /><Word {...props1} /><Word {...props2} /><Word {...props3} /></div>;
+};
 
 class Main extends Component<Props, ViewModel> {
     public constructor() {
@@ -102,7 +119,7 @@ class Main extends Component<Props, ViewModel> {
             <section>
               <h2>Seed</h2>
               <div className="monospace">
-                {mnemonic.map((w, i) => <span key={i}>{`${i + 1}`.padStart(2, "0")}{`: ${w}`}<br /></span>)}
+                {mnemonic.map((_w, i, a) => (i % 4 === 0 ? <WordLine key={i} index={i} words={a} /> : ""))}
               </div>
             </section>
             <section>
