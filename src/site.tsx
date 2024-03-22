@@ -99,12 +99,13 @@ class Main extends Component<Props, ViewModel> {
                     ref={diceRollsRef} id="dice-rolls" pattern="[1-6]*" placeholder="31415..." type="text"
                     required onInput={this.handleInput} />
                 </label>
+                <div className="monospace">{`${rollCount} rolls`}</div>
+                <div className="monospace">{hash}</div>
+                <br />
                 <label htmlFor="passphrase">
                   Passphrase
                   <input ref={passphraseRef} id="passphrase" type="text" onInput={this.handleInput} />
                 </label>
-                <div className="monospace">{`${rollCount} rolls`}</div>
-                <div className="monospace">{hash}</div>
               </form>
             </section>
             <section>
@@ -116,7 +117,7 @@ class Main extends Component<Props, ViewModel> {
             <section>
               <h2>Addresses</h2>
               <div className="monospace">
-                {addresses.map(([p, a]) => <span key={p}>{p}{" => "}{a}<br /></span>)}
+                {addresses.map(([p, a]) => <div key={p} className="grid"><span>{`${p} => ${a}`}</span></div>)}
               </div>
             </section>
           </>
