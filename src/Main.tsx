@@ -95,8 +95,8 @@ class Main extends Component<Props, ViewModel> {
                   Passphrase
                   <input ref={passphraseRef} id="passphrase" type="text" onInput={this.handleInput} />
                 </label>
-                <div id="rolls-count" className="monospace">{`${rollCount} rolls`}</div>
-                <div id="hash" className="monospace">{hash}</div>
+                <div className="monospace">{`${rollCount} rolls`}</div>
+                <div className="monospace">{hash}</div>
               </form>
             </section>
             <section>
@@ -107,7 +107,7 @@ class Main extends Component<Props, ViewModel> {
             </section>
             <section>
               <h2>Addresses</h2>
-              <div id="addresses" className="monospace">
+              <div className="monospace">
                 {addresses.map(([p, a]) => <span key={p}>{p}{" => "}{a}<br /></span>)}
               </div>
             </section>
