@@ -29,7 +29,7 @@ const withHooks = <
     P extends object,
     S extends object,
     T extends Component<P, S>,
->(Base: new (props: P) => T, createProps: () => P) => function WithHooks() { return (<Base {...createProps()} />); };
+>(Base: new (props: P) => T, useProps: () => P) => function WithHooks() { return (<Base {...useProps()} />); };
 
 class Main extends Component<Props, ViewModel> {
     public constructor(props: Props) {
@@ -179,11 +179,11 @@ class Main extends Component<Props, ViewModel> {
     }
 }
 
-const useProps = () => ({
+const useMainProps = () => ({
     generate24WordsRef: useRef<HTMLInputElement>(null),
     diceRollsRef: useRef<HTMLInputElement>(null),
     passphraseRef: useRef<HTMLInputElement>(null),
 });
 
-const MainWithHooks = withHooks(Main, useProps);
+const MainWithHooks = withHooks(Main, useMainProps);
 render(<MainWithHooks />, getElement(HTMLElement, "#main"));
