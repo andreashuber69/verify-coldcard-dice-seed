@@ -1,7 +1,7 @@
 import { exec as nodeExec } from "node:child_process";
 import { writeFile } from "node:fs/promises";
 import { promisify } from "node:util";
-import { version } from "./package.json";
+import { version } from "../package.json";
 
 const encoding = { encoding: "utf8" } as const;
 
