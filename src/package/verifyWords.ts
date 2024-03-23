@@ -1,8 +1,8 @@
 // https://github.com/andreashuber69/verify-coldcard-dice-seed/blob/develop/README.md#----verify-coldcard-dice-seed
 import { wordlists } from "bip39";
-import { calculateBip39Mnemonic } from "./calculateBip39Mnemonic.js";
+import { calculateBip39Mnemonic } from "../common/calculateBip39Mnemonic.js";
+import { sha256 } from "../common/sha256.js";
 import type { InOut } from "./InOut.js";
-import { sha256 } from "./sha256.js";
 import { waitForUser } from "./waitForUser.js";
 
 export const verifyWords = async ({ stdin, stdout }: InOut, diceRolls: string, wordCount: number) => {

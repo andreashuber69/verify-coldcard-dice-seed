@@ -3,7 +3,7 @@ import { BIP32Factory } from "bip32";
 import { mnemonicToSeed } from "bip39";
 // eslint-disable-next-line import/no-namespace
 import * as ecc from "tiny-secp256k1";
-import { getAddresses } from "./getAddresses.js";
+import { getAddresses } from "../common/getAddresses.js";
 import type { InOut } from "./InOut.js";
 import { waitForUser } from "./waitForUser.js";
 

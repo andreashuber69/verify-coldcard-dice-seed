@@ -6,9 +6,9 @@ import type { Ref } from "preact/hooks";
 import { useCallback, useEffect, useRef, useState } from "preact/hooks";
 // eslint-disable-next-line import/no-namespace
 import * as ecc from "tiny-secp256k1";
-import { calculateBip39Mnemonic } from "./calculateBip39Mnemonic.js";
-import { getAddresses } from "./getAddresses.js";
-import { sha256 } from "./sha256.js";
+import { calculateBip39Mnemonic } from "../common/calculateBip39Mnemonic.js";
+import { getAddresses } from "../common/getAddresses.js";
+import { sha256 } from "../common/sha256.js";
 import { WordLine } from "./WordLine.js";
 
 const wordlist = wordlists["english"];
