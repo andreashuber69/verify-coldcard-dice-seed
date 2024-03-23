@@ -78,7 +78,7 @@ const Main = () => {
           <hgroup>
             <h1>Verify COLDCARD Dice Seed</h1>
             <p>
-              <span>v1.0.29</span>
+              <span>v1.0.30</span>
             </p>
           </hgroup>
           <p>
