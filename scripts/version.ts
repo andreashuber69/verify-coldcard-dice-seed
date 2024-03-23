@@ -7,7 +7,7 @@ const previousVersionFilename = "previousVersion.txt";
 const previousVersion = await readFile(previousVersionFilename, encoding);
 await rm(previousVersionFilename);
 
-const indexFilename = "index.html";
+const indexFilename = "src/site/main.tsx";
 const index = await readFile(indexFilename, encoding);
 const newIndex = index.replaceAll(`<span>v${previousVersion}</span>`, `<span>v${version}</span>`);
 await writeFile(indexFilename, newIndex, encoding);
