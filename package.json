@@ -73,10 +73,10 @@
     "cspell": "^8.6.0",
     "markdownlint-cli": "^0.39.0",
     "node-fetch": "^3.3.2",
-    "preact": "^10.20.0",
+    "preact": "^10.20.1",
     "tsx": "^4.7.1",
     "typescript": "^5.4.3",
-    "vite": "^5.2.2",
+    "vite": "^5.2.4",
     "vite-plugin-node-polyfills": "^0.21.0",
     "vite-plugin-wasm": "^3.3.0"
   }
