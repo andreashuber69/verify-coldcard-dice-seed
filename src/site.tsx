@@ -8,7 +8,6 @@ import { useCallback, useEffect, useRef, useState } from "preact/hooks";
 import * as ecc from "tiny-secp256k1";
 import { calculateBip39Mnemonic } from "./calculateBip39Mnemonic.js";
 import { getAddresses } from "./getAddresses.js";
-import { getElement } from "./getElement.js";
 import { sha256 } from "./sha256.js";
 import { WordLine } from "./WordLine.js";
 
@@ -149,4 +148,10 @@ const Main = () => {
     );
 };
 
-render(<Main />, getElement(HTMLElement, "#main"));
+const mainElement = document.querySelector("#main");
+
+if (!mainElement) {
+    throw new Error("#main not found");
+}
+
+render(<Main />, mainElement);
