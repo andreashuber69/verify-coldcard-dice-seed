@@ -9,7 +9,6 @@ import { calculateBip39Mnemonic } from "./calculateBip39Mnemonic.js";
 const wordlist = wordlists["english"];
 
 if (!wordlist) {
-    // cSpell: ignore wordlist
     throw new Error("Missing english wordlist.");
 }
 

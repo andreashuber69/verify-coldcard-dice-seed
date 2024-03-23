@@ -1,13 +1,13 @@
 {
-  "extends": "../tsconfig.json",
+  "extends": "../../tsconfig.json",
   "compilerOptions": {
     "importHelpers": true,
-    "lib": ["ESNext", "DOM"],
     "noEmit": false,
-    "outDir": "../dist",
+    "outDir": "../../dist",
     "sourceMap": true
   },
   "include": [
-    "**/*.ts"
+    "../common/*.ts",
+    "*.ts",
   ]
 }

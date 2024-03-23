@@ -16,7 +16,7 @@ try {
     // the directory src with all the code. This is due to how the ts compiler automatically determines the rootDir from
     // imports. There are alternatives to calling require, but these seem overly complicated:
     // https://stackoverflow.com/questions/58172911/typescript-compiler-options-trying-to-get-flat-output-to-outdir
-    const { version } = createRequire(import.meta.url)("../package.json") as { readonly version: string };
+    const { version } = createRequire(import.meta.url)("../../package.json") as { readonly version: string };
 
     if (!(stdin instanceof ReadStream)) {
         throw new TypeError("stdin is not an instance of tty.ReadStream");

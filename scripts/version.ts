@@ -1,21 +1,13 @@
-import { exec as nodeExec } from "node:child_process";
 import { readFile, rm, writeFile } from "node:fs/promises";
-import { promisify } from "node:util";
-import { version } from "./package.json";
-
-const encoding = { encoding: "utf8" } as const;
-
-const exec = async (command: string) => {
-    const { stdout, stderr } = await promisify(nodeExec)(command, encoding);
-    console.log(stdout);
-    console.error(stderr);
-};
+import { version } from "../package.json";
+import { encoding } from "./encoding.js";
+import { exec } from "./exec.js";
 
 const previousVersionFilename = "previousVersion.txt";
 const previousVersion = await readFile(previousVersionFilename, encoding);
 await rm(previousVersionFilename);
 
-const indexFilename = "index.html";
+const indexFilename = "src/site/main.tsx";
 const index = await readFile(indexFilename, encoding);
 const newIndex = index.replaceAll(`<span>v${previousVersion}</span>`, `<span>v${version}</span>`);
 await writeFile(indexFilename, newIndex, encoding);
