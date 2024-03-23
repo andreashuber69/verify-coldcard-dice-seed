@@ -17,8 +17,8 @@ const wordlist = wordlists["english"];
 let currentKey = 0;
 const getKey = () => currentKey++;
 
-const getCurrent = <T extends NonNullable<unknown>>(ref: Ref<T> | undefined) => {
-    if (!ref?.current) {
+const getCurrent = <T extends NonNullable<unknown>>(ref: Ref<T>) => {
+    if (!ref.current) {
         throw new TypeError("ref.current is nullish.");
     }
 
