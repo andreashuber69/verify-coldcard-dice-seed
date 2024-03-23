@@ -12,17 +12,8 @@ import { getElement } from "./getElement.js";
 import { sha256 } from "./sha256.js";
 import { WordLine } from "./WordLine.js";
 
-const bip32 = BIP32Factory(ecc);
 const wordlist = wordlists["english"];
-const getKey = (index: number) => `${index}`;
-
-const getCurrent = <T extends NonNullable<unknown>>(ref: Ref<T>) => {
-    if (!ref.current) {
-        throw new TypeError("ref.current is nullish.");
-    }
-
-    return ref.current;
-};
+const bip32 = BIP32Factory(ecc);
 
 const calculate = async (generate24Words: boolean, rolls: string, isValid: boolean, passphrase: string) => {
     if (!wordlist) {
@@ -44,6 +35,16 @@ const calculate = async (generate24Words: boolean, rolls: string, isValid: boole
 
     return { newHash, newMnemonic, newAddresses };
 };
+
+const getCurrent = <T extends NonNullable<unknown>>(ref: Ref<T>) => {
+    if (!ref.current) {
+        throw new TypeError("ref.current is nullish.");
+    }
+
+    return ref.current;
+};
+
+const getKey = (index: number) => `${index}`;
 
 const Main = () => {
     const generate24WordsRef = useRef<HTMLInputElement>(null);
