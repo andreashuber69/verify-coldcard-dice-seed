@@ -1,20 +1,16 @@
 {
-  "extends": "../tsconfig.json",
+  "extends": "../../tsconfig.json",
   "compilerOptions": {
-    "importHelpers": true,
     "jsx": "react-jsx",
     "jsxImportSource": "preact",
     "lib": ["ESNext", "DOM"],
-    "noEmit": false,
     "paths": {
       "react": ["./node_modules/preact/compat/"],
       "react-dom": ["./node_modules/preact/compat/"]
     },
-    "outDir": "../dist",
-    "sourceMap": true
   },
   "include": [
-    "**/*.ts",
-    "**/*.tsx"
+    "../common/*.ts",
+    "*.tsx"
   ]
 }

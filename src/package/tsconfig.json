@@ -1,0 +1,13 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "importHelpers": true,
+    "noEmit": false,
+    "outDir": "../../dist",
+    "sourceMap": true
+  },
+  "include": [
+    "../common/*.ts",
+    "*.ts",
+  ]
+}
