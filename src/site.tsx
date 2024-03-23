@@ -14,8 +14,7 @@ import { WordLine } from "./WordLine.js";
 
 const bip32 = BIP32Factory(ecc);
 const wordlist = wordlists["english"];
-let currentKey = 0;
-const getKey = () => currentKey++;
+const getKey = (index: number) => `${index}`;
 
 const getCurrent = <T extends NonNullable<unknown>>(ref: Ref<T>) => {
     if (!ref.current) {
@@ -136,7 +135,7 @@ const Main = () => {
         <section>
           <h2>Seed</h2>
           <div className="monospace">
-            {mnemonic.map((_w, i, a) => (i % 4 === 0 ? <WordLine key={getKey()} index={i} words={a} /> : ""))}
+            {mnemonic.map((_w, i, a) => (i % 4 === 0 ? <WordLine key={getKey(i)} index={i} words={a} /> : ""))}
           </div>
         </section>
         <section>
