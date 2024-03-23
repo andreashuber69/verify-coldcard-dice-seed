@@ -30,13 +30,12 @@
   },
   "files": [
     "/dist/",
-    "!/dist/site/",
     "!/**/*.spec.*",
     "!/**/*.map",
     "/*.md"
   ],
   "scripts": {
-    "start": "tsx './src/main.ts'",
+    "start": "tsx './src/package/main.ts'",
     "dev": "vite --open",
     "preview": "vite build && vite preview --open",
     "prelint": "cspell '**' && markdownlint '**/*.md'",
