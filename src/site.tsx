@@ -1,9 +1,9 @@
 // https://github.com/andreashuber69/verify-coldcard-dice-seed/blob/develop/README.md#----verify-coldcard-dice-seed
 import { BIP32Factory } from "bip32";
 import { mnemonicToSeed, wordlists } from "bip39";
-import { Component, render } from "preact";
+import { render } from "preact";
 import type { Ref } from "preact/hooks";
-import { useRef } from "preact/hooks";
+import { useCallback, useEffect, useRef, useState } from "preact/hooks";
 // eslint-disable-next-line import/no-namespace
 import * as ecc from "tiny-secp256k1";
 import { calculateBip39Mnemonic } from "./calculateBip39Mnemonic.js";
@@ -12,179 +12,141 @@ import { getElement } from "./getElement.js";
 import { sha256 } from "./sha256.js";
 import { WordLine } from "./WordLine.js";
 
-interface Props {
-    readonly generate24WordsRef: Ref<HTMLInputElement>;
-    readonly diceRollsRef: Ref<HTMLInputElement>;
-    readonly passphraseRef: Ref<HTMLInputElement>;
-}
+const bip32 = BIP32Factory(ecc);
+const wordlist = wordlists["english"];
+let currentKey = 0;
+const getKey = () => currentKey++;
 
-interface ViewModel {
-    rollCount: number;
-    hash: string;
-    mnemonic: string[];
-    addresses: Array<readonly [string, string]>;
-}
+const getCurrent = <T extends NonNullable<unknown>>(ref: Ref<T> | undefined) => {
+    if (!ref?.current) {
+        throw new TypeError("ref.current is nullish.");
+    }
 
-const withHooks = <
-    P extends object,
-    S extends object,
-    T extends Component<P, S>,
->(Base: new (props: P) => T, useProps: () => P) => function WithHooks() { return (<Base {...useProps()} />); };
+    return ref.current;
+};
 
-class Main extends Component<Props, ViewModel> {
-    public constructor(props: Props) {
-        super(props);
-        this.state = { rollCount: 0, hash: "", mnemonic: [], addresses: [] };
-        const wordlist = wordlists["english"];
+const calculate = async (generate24Words: boolean, rolls: string, isValid: boolean, passphrase: string) => {
+    if (!wordlist) {
+        throw new Error("Missing english wordlist.");
+    }
 
-        if (!wordlist) {
-            throw new Error("Missing english wordlist.");
+    const newHash = await sha256(new TextEncoder().encode(rolls));
+    let newMnemonic = new Array<string>();
+    const newAddresses = new Array<readonly [string, string]>();
+
+    if (isValid) {
+        newMnemonic = await calculateBip39Mnemonic(newHash, generate24Words ? 24 : 12, wordlist);
+        const root = bip32.fromSeed(await mnemonicToSeed(newMnemonic.join(" "), passphrase));
+
+        for (let startIndex = 0; startIndex < 50; startIndex = newAddresses.length) {
+            newAddresses.push(...getAddresses(root, "m/84'/0'/0'/0", startIndex));
         }
-
-        this.wordlist = wordlist;
     }
 
-    public override render() {
-        const { generate24WordsRef, diceRollsRef, passphraseRef } = this.props;
-        const { rollCount, hash, mnemonic, addresses } = this.state;
+    return { newHash, newMnemonic, newAddresses };
+};
 
-        return (
-          <>
-            <section>
-              <hgroup>
-                <h1>Verify COLDCARD Dice Seed</h1>
-                <p>
-                  <span>v1.0.29</span>
-                </p>
-              </hgroup>
-              <p>
-                The COLDCARD manufacturer
-                <a href="https://coldcardwallet.com/docs/verifying-dice-roll-math" rel="noreferrer" target="_blank">
-                  provides instructions
-                </a> on how to verify dice seed derivation with a Python script. This site offers a
-                user-friendlier way to do the same and goes one step further: It also allows you to verify the receive
-                addresses derived from the seed. Step by step guidance for the COLDCARD is available through the
-                <a href="https://www.npmjs.com/package/verify-coldcard-dice-seed" rel="noreferrer" target="_blank">
-                  verify-coldcard-dice-seed
-                </a> Node.js application. See
-                <a
-                  href="https://www.npmjs.com/package/verify-coldcard-dice-seed#motivation"
-                  rel="noreferrer" target="_blank">
-                  Motivation
-                </a>
-                for technical details.
-              </p>
-              <p>
-                <mark>CAUTION: The very point of a COLDCARD is that the seed (usually expressed as a 12 word mnemonic)
-                  of a real wallet <b>never</b> appears on any other device. You should therefore only use this
-                  application to verify the seed and address derivation of your COLDCARD. Once you are convinced that
-                  your COLDCARD works correctly, you should then generate the seed of your real wallet on your COLDCARD
-                  only. Since the COLDCARD electronics has no way of knowing whether you&apos;re verifying seed
-                  derivation or generating a real wallet, you can be reasonably sure that your real wallet was indeed
-                  derived from the dice entropy you entered.
-                </mark>
-              </p>
-              <br />
-              <form>
-                <label htmlFor="generate-24-words">
-                  <input
-                    ref={generate24WordsRef} id="generate-24-words" role="switch" type="checkbox"
-                    onInput={this.handleInput} />
-                  Generate 24 words (instead of the standard 12)
-                </label>
-                <br />
-                <label htmlFor="dice-rolls">
-                  Dice Rolls (1-6)
-                  <input
-                    ref={diceRollsRef} id="dice-rolls" pattern="[1-6]*" placeholder="31415..." type="text"
-                    required onInput={this.handleInput} />
-                </label>
-                <div className="monospace">{`${rollCount} rolls`}</div>
-                <div className="monospace">{hash}</div>
-                <br />
-                <label htmlFor="passphrase">
-                  Passphrase
-                  <input ref={passphraseRef} id="passphrase" type="text" onInput={this.handleInput} />
-                </label>
-              </form>
-            </section>
-            <section>
-              <h2>Seed</h2>
-              <div className="monospace">
-                {mnemonic.map((_w, i, a) => (i % 4 === 0 ? <WordLine key={this.getKey()} index={i} words={a} /> : ""))}
-              </div>
-            </section>
-            <section>
-              <h2>Addresses</h2>
-              <div className="monospace">
-                {addresses.map(([p, a]) => <div key={p} className="grid"><span>{`${p} => ${a}`}</span></div>)}
-              </div>
-            </section>
-          </>
-        );
-    }
+const Main = () => {
+    const generate24WordsRef = useRef<HTMLInputElement>(null);
+    const diceRollsRef = useRef<HTMLInputElement>(null);
+    const passphraseRef = useRef<HTMLInputElement>(null);
+    const [rollCount, setRollCount] = useState(0);
+    const [hash, setHash] = useState("");
+    const [mnemonic, setMnemonic] = useState<string[]>([]);
+    const [addresses, setAddresses] = useState<Array<readonly [string, string]>>([]);
 
-    public override componentDidMount() {
-        this.handleInput();
-    }
-
-    private static readonly bip32 = BIP32Factory(ecc);
-
-    private static getElement<T>(ref: Ref<T> | undefined) {
-        if (!ref?.current) {
-            throw new TypeError("ref.current is nullish.");
-        }
-
-        return ref.current;
-    }
-
-    private readonly wordlist: readonly string[];
-    private currentKey = 0;
-
-    private readonly handleInput = () => void this.handleInputImpl();
-
-    private getKey() {
-        return this.currentKey++;
-    }
-
-    private async handleInputImpl() {
-        const { generate24WordsRef, diceRollsRef, passphraseRef } = this.props;
-
-        const generate24WordsElement = Main.getElement(generate24WordsRef);
-        const diceRollsElement = Main.getElement(diceRollsRef);
-        diceRollsElement.minLength = generate24WordsElement.checked ? 99 : 50;
-        diceRollsElement.ariaInvalid = `${!diceRollsElement.validity.valid}`;
+    const handleInputImpl = useCallback(async () => {
+        const generate24Words = getCurrent(generate24WordsRef).checked;
+        const diceRollsElement = getCurrent(diceRollsRef);
+        const passphrase = getCurrent(passphraseRef).value;
+        diceRollsElement.minLength = generate24Words ? 99 : 50;
+        const isValid = diceRollsElement.validity.valid;
+        diceRollsElement.ariaInvalid = `${!isValid}`;
         const rolls = diceRollsElement.value;
-        const hash = await sha256(new TextEncoder().encode(rolls));
+        const { newHash, newMnemonic, newAddresses } = await calculate(generate24Words, rolls, isValid, passphrase);
+        setRollCount(rolls.length);
+        setHash(newHash);
+        setMnemonic(newMnemonic);
+        setAddresses(newAddresses);
+    }, [diceRollsRef, generate24WordsRef, passphraseRef]);
 
-        // eslint-disable-next-line react/no-set-state
-        this.setState({ rollCount: rolls.length, hash });
+    const handleInput = useCallback(() => void handleInputImpl(), [handleInputImpl]);
+    useEffect(handleInput, [handleInput]);
 
-        if (diceRollsElement.ariaInvalid === "true") {
-            // eslint-disable-next-line react/no-set-state
-            this.setState({ mnemonic: [], addresses: [] });
-        } else {
-            const wordCount = generate24WordsElement.checked ? 24 : 12;
-            const mnemonic = await calculateBip39Mnemonic(hash, wordCount, this.wordlist);
-            const passphraseElement = Main.getElement(passphraseRef).value;
-            const root = Main.bip32.fromSeed(await mnemonicToSeed(mnemonic.join(" "), passphraseElement));
-            const addresses = new Array<readonly [string, string]>();
+    return (
+      <>
+        <section>
+          <hgroup>
+            <h1>Verify COLDCARD Dice Seed</h1>
+            <p>
+              <span>v1.0.29</span>
+            </p>
+          </hgroup>
+          <p>
+            The COLDCARD manufacturer{" "}
+            <a href="https://coldcardwallet.com/docs/verifying-dice-roll-math" rel="noreferrer" target="_blank">
+              provides instructions
+            </a> on how to verify dice seed derivation with a Python script. This site offers a
+            user-friendlier way to do the same and goes one step further: It also allows you to verify the receive
+            addresses derived from the seed. Step by step guidance for the COLDCARD is available through the{" "}
+            <a href="https://www.npmjs.com/package/verify-coldcard-dice-seed" rel="noreferrer" target="_blank">
+              verify-coldcard-dice-seed
+            </a> Node.js application. See{" "}
+            <a
+              href="https://www.npmjs.com/package/verify-coldcard-dice-seed#motivation"
+              rel="noreferrer" target="_blank">
+              Motivation
+            </a>
+            {" "}for technical details.
+          </p>
+          <p>
+            <mark>CAUTION: The very point of a COLDCARD is that the seed (usually expressed as a 12 word mnemonic)
+              of a real wallet <b>never</b> appears on any other device. You should therefore only use this
+              application to verify the seed and address derivation of your COLDCARD. Once you are convinced that
+              your COLDCARD works correctly, you should then generate the seed of your real wallet on your COLDCARD
+              only. Since the COLDCARD electronics has no way of knowing whether you&apos;re verifying seed
+              derivation or generating a real wallet, you can be reasonably sure that your real wallet was indeed
+              derived from the dice entropy you entered.
+            </mark>
+          </p>
+          <br />
+          <form>
+            <label htmlFor="generate-24-words">
+              <input
+                ref={generate24WordsRef} id="generate-24-words" role="switch" type="checkbox"
+                onInput={handleInput} />
+              Generate 24 words (instead of the standard 12)
+            </label>
+            <br />
+            <label htmlFor="dice-rolls">
+              Dice Rolls (1-6)
+              <input
+                ref={diceRollsRef} id="dice-rolls" pattern="[1-6]*" placeholder="31415..." type="text"
+                required onInput={handleInput} />
+            </label>
+            <div className="monospace">{`${rollCount} rolls`}</div>
+            <div className="monospace">{hash}</div>
+            <br />
+            <label htmlFor="passphrase">
+              Passphrase
+              <input ref={passphraseRef} id="passphrase" type="text" onInput={handleInput} />
+            </label>
+          </form>
+        </section>
+        <section>
+          <h2>Seed</h2>
+          <div className="monospace">
+            {mnemonic.map((_w, i, a) => (i % 4 === 0 ? <WordLine key={getKey()} index={i} words={a} /> : ""))}
+          </div>
+        </section>
+        <section>
+          <h2>Addresses</h2>
+          <div className="monospace">
+            {addresses.map(([p, a]) => <div key={p} className="grid"><span>{`${p} => ${a}`}</span></div>)}
+          </div>
+        </section>
+      </>
+    );
+};
 
-            for (let startIndex = 0; startIndex < 50; startIndex = addresses.length) {
-                addresses.push(...getAddresses(root, "m/84'/0'/0'/0", startIndex));
-            }
-
-            // eslint-disable-next-line react/no-set-state
-            this.setState({ mnemonic, addresses });
-        }
-    }
-}
-
-const useMainProps = () => ({
-    generate24WordsRef: useRef<HTMLInputElement>(null),
-    diceRollsRef: useRef<HTMLInputElement>(null),
-    passphraseRef: useRef<HTMLInputElement>(null),
-});
-
-const MainWithHooks = withHooks(Main, useMainProps);
-render(<MainWithHooks />, getElement(HTMLElement, "#main"));
+render(<Main />, getElement(HTMLElement, "#main"));
