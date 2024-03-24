@@ -10,7 +10,7 @@ import { getAddresses } from "./getAddresses.js";
 const bip32 = BIP32Factory(ecc);
 
 const getBatch = async (mnemonic: string, passphrase: string, accountRootPath: string, startIndex: number) =>
-    getAddresses(bip32.fromSeed(await mnemonicToSeed(mnemonic, passphrase)), accountRootPath, startIndex);
+    getAddresses(bip32.fromSeed(await mnemonicToSeed(mnemonic, passphrase)), accountRootPath, startIndex, 10);
 
 const rootPath = "m/84'/0'/0'/0";
 const getPath = (index: number) => `${rootPath}/${index}`;

@@ -14,24 +14,28 @@ import { WordLine } from "./WordLine.js";
 const wordlist = wordlists["english"];
 const bip32 = BIP32Factory(ecc);
 
-const calculate = async (generate24Words: boolean, rolls: string, isValid: boolean, passphrase: string) => {
+const getMnemonicAndAddresses = async (
+    generate24Words: boolean,
+    isValid: boolean,
+    passphrase: string,
+    newHash: string,
+): Promise<[string[], Array<[string, string]>]> => {
     if (!wordlist) {
         throw new Error("Missing english wordlist.");
     }
 
-    const newHash = await sha256(new TextEncoder().encode(rolls));
-    let newMnemonic = new Array<string>();
-    const newAddresses = new Array<readonly [string, string]>();
-
     if (isValid) {
-        newMnemonic = await calculateBip39Mnemonic(newHash, generate24Words ? 24 : 12, wordlist);
+        const newMnemonic = await calculateBip39Mnemonic(newHash, generate24Words ? 24 : 12, wordlist);
         const root = bip32.fromSeed(await mnemonicToSeed(newMnemonic.join(" "), passphrase));
-
-        for (let startIndex = 0; startIndex < 50; startIndex = newAddresses.length) {
-            newAddresses.push(...getAddresses(root, "m/84'/0'/0'/0", startIndex));
-        }
+        return [newMnemonic, getAddresses(root, "m/84'/0'/0'/0", 0, 50)];
     }
 
+    return [[], []];
+};
+
+const getResult = async (generate24Words: boolean, rolls: string, isValid: boolean, passphrase: string) => {
+    const newHash = await sha256(new TextEncoder().encode(rolls));
+    const [newMnemonic, newAddresses] = await getMnemonicAndAddresses(generate24Words, isValid, passphrase, newHash);
     return { newHash, newMnemonic, newAddresses };
 };
 
@@ -62,7 +66,7 @@ const Main = () => {
         const isValid = diceRollsElement.validity.valid;
         diceRollsElement.ariaInvalid = `${!isValid}`;
         const rolls = diceRollsElement.value;
-        const { newHash, newMnemonic, newAddresses } = await calculate(generate24Words, rolls, isValid, passphrase);
+        const { newHash, newMnemonic, newAddresses } = await getResult(generate24Words, rolls, isValid, passphrase);
         setRollCount(rolls.length);
         setHash(newHash);
         setMnemonic(newMnemonic);

@@ -13,7 +13,7 @@ export const showAddresses = async ({ stdin, stdout }: InOut, words: readonly st
     stdout.write("Select 'Address Explorer' and press the 4 button on your COLDCARD.\r\n");
     await waitForUser({ stdin, stdout });
     const root = bip32.fromSeed(await mnemonicToSeed(words.join(" "), passphrase));
-    const getBatch = (startIndex: number) => getAddresses(root, "m/84'/0'/0'/0", startIndex);
+    const getBatch = (startIndex: number) => getAddresses(root, "m/84'/0'/0'/0", startIndex, 10);
 
     let batchStart = 0;
     let batch = getBatch(batchStart);
