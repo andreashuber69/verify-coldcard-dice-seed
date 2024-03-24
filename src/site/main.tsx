@@ -122,8 +122,12 @@ const Main = () => {
           </div>
         </section>
         <section>
-          <h2>Addresses</h2>
+          <h2>Receive Addresses</h2>
           <Addresses mnemonic={mnemonic} passphrase={passphrase} accountRootPath={"m/84'/0'/0'/0"} />
+        </section>
+        <section>
+          <h2>Change Addresses</h2>
+          <Addresses mnemonic={mnemonic} passphrase={passphrase} accountRootPath={"m/84'/0'/0'/1"} />
         </section>
       </>
     );
