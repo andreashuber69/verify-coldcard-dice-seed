@@ -3,7 +3,8 @@
   "compilerOptions": {
     "jsx": "react-jsx",
     "jsxImportSource": "preact",
-    "lib": ["ESNext", "DOM"],
+    "lib": ["es2023", "DOM"],
+    "target": "es2022"
   },
   "include": [
     "*.tsx"
