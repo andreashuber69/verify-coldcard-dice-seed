@@ -1,18 +1,13 @@
 // https://github.com/andreashuber69/verify-coldcard-dice-seed/blob/develop/README.md#----verify-coldcard-dice-seed
-import { BIP32Factory } from "bip32";
-import { mnemonicToSeed } from "bip39";
-// eslint-disable-next-line import/no-namespace
-import * as ecc from "tiny-secp256k1";
 import { getAddresses } from "../common/getAddresses.js";
+import { getRoot } from "../common/getRoot.js";
 import type { InOut } from "./InOut.js";
 import { waitForUser } from "./waitForUser.js";
-
-const bip32 = BIP32Factory(ecc);
 
 export const showAddresses = async ({ stdin, stdout }: InOut, words: readonly string[], passphrase: string) => {
     stdout.write("Select 'Address Explorer' and press the 4 button on your COLDCARD.\r\n");
     await waitForUser({ stdin, stdout });
-    const root = bip32.fromSeed(await mnemonicToSeed(words.join(" "), passphrase));
+    const root = await getRoot(words.join(" "), passphrase);
     const getBatch = (startIndex: number) => getAddresses(root, "m/84'/0'/0'/0", startIndex, 10);
 
     let batchStart = 0;
