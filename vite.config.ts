@@ -1,6 +1,5 @@
 // https://www.npmjs.com/package/@preact/preset-vite
-// eslint-disable-next-line import/no-named-as-default
-import preact from "@preact/preset-vite";
+import { preact } from "@preact/preset-vite";
 import type { Plugin } from "vite";
 import { defineConfig } from "vite";
 import { nodePolyfills } from "vite-plugin-node-polyfills";
