@@ -3,11 +3,9 @@ interface MnemonicProps {
     readonly words: string[];
 }
 
-const Word = function({ index, words }: MnemonicProps) {
-    return <span>{`${`${index + 1}`.padStart(2, "0")}: ${words[index]}`}</span>;
-};
+const Word = ({ index, words }: MnemonicProps) => <span>{`${`${index + 1}`.padStart(2, "0")}: ${words[index]}`}</span>;
 
-export const WordLine = function(props: MnemonicProps) {
+export const WordLine = (props: MnemonicProps) => {
     const props1 = { ...props, index: props.index + 1 };
     const props2 = { ...props, index: props.index + 2 };
     const props3 = { ...props, index: props.index + 3 };
