@@ -6,7 +6,6 @@
     "lib": ["ESNext", "DOM"],
   },
   "include": [
-    "../common/*.ts",
     "*.tsx"
   ]
 }
