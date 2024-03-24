@@ -32,9 +32,11 @@ const Main = () => {
     const generate24WordsRef = useRef<HTMLInputElement>(null);
     const diceRollsRef = useRef<HTMLInputElement>(null);
     const passphraseRef = useRef<HTMLInputElement>(null);
+    const accountRef = useRef<HTMLInputElement>(null);
     const [rollCount, setRollCount] = useState(0);
     const [hash, setHash] = useState("");
     const [passphrase, setPassphrase] = useState("");
+    const [account, setAccount] = useState(0);
     const [mnemonic, setMnemonic] = useState<string[]>([]);
 
     const handleInputImpl = useCallback(async () => {
@@ -49,6 +51,7 @@ const Main = () => {
         setRollCount(rolls.length);
         setHash(newHash);
         setPassphrase(getCurrent(passphraseRef).value);
+        setAccount(Number(getCurrent(accountRef).value));
         setMnemonic(newMnemonic);
     }, [generate24WordsRef, diceRollsRef]);
 
@@ -113,6 +116,10 @@ const Main = () => {
               Passphrase
               <input ref={passphraseRef} id="passphrase" type="text" onInput={handleInput} />
             </label>
+            <label htmlFor="account">
+              Account Number
+              <input ref={accountRef} id="account" type="number" min="0" value={account} onInput={handleInput} />
+            </label>
           </form>
         </section>
         <section>
@@ -123,11 +130,11 @@ const Main = () => {
         </section>
         <section>
           <h2>Receive Addresses</h2>
-          <Addresses mnemonic={mnemonic} passphrase={passphrase} accountRootPath={"m/84'/0'/0'/0"} />
+          <Addresses mnemonic={mnemonic} passphrase={passphrase} accountRootPath={`m/84'/0'/${account}'/0`} />
         </section>
         <section>
           <h2>Change Addresses</h2>
-          <Addresses mnemonic={mnemonic} passphrase={passphrase} accountRootPath={"m/84'/0'/0'/1"} />
+          <Addresses mnemonic={mnemonic} passphrase={passphrase} accountRootPath={`m/84'/0'/${account}'/1`} />
         </section>
       </>
     );
