@@ -1,22 +1,14 @@
 // https://github.com/andreashuber69/verify-coldcard-dice-seed/blob/develop/README.md#----verify-coldcard-dice-seed
-import { wordlists } from "bip39";
 import { render } from "preact";
 import type { Ref } from "preact/hooks";
 import { useCallback, useEffect, useRef, useState } from "preact/hooks";
-import { calculateBip39Mnemonic } from "../common/calculateBip39Mnemonic.js";
+import { calculateEnglishBip39Mnemonic } from "../common/calculateEnglishBip39Mnemonic.js";
 import { sha256 } from "../common/sha256.js";
 import { Addresses } from "./Addresses.js";
 import { WordLine } from "./WordLine.js";
 
-const wordlist = wordlists["english"];
-
-const getMnemonic = async (generate24Words: boolean, isValid: boolean, hash: string) => {
-    if (!wordlist) {
-        throw new Error("Missing english wordlist.");
-    }
-
-    return isValid ? await calculateBip39Mnemonic(hash, generate24Words ? 24 : 12, wordlist) : [];
-};
+const getMnemonic = async (generate24Words: boolean, isValid: boolean, hash: string) =>
+    (isValid ? await calculateEnglishBip39Mnemonic(hash, generate24Words ? 24 : 12) : []);
 
 const getCurrent = <T extends NonNullable<unknown>>(ref: Ref<T>) => {
     if (!ref.current) {
