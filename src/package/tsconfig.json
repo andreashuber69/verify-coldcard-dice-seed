@@ -7,7 +7,7 @@
     "sourceMap": true
   },
   "include": [
-    "../common/*.ts",
     "*.ts",
+    "../common/*.ts",
   ]
 }

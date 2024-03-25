@@ -1,39 +1,14 @@
 // https://github.com/andreashuber69/verify-coldcard-dice-seed/blob/develop/README.md#----verify-coldcard-dice-seed
-import { BIP32Factory } from "bip32";
-import { mnemonicToSeed, wordlists } from "bip39";
 import { render } from "preact";
 import type { Ref } from "preact/hooks";
 import { useCallback, useEffect, useRef, useState } from "preact/hooks";
-// eslint-disable-next-line import/no-namespace
-import * as ecc from "tiny-secp256k1";
-import { calculateBip39Mnemonic } from "../common/calculateBip39Mnemonic.js";
-import { getAddresses } from "../common/getAddresses.js";
+import { calculateEnglishBip39Mnemonic } from "../common/calculateEnglishBip39Mnemonic.js";
 import { sha256 } from "../common/sha256.js";
+import { Addresses } from "./Addresses.js";
 import { WordLine } from "./WordLine.js";
 
-const wordlist = wordlists["english"];
-const bip32 = BIP32Factory(ecc);
-
-const calculate = async (generate24Words: boolean, rolls: string, isValid: boolean, passphrase: string) => {
-    if (!wordlist) {
-        throw new Error("Missing english wordlist.");
-    }
-
-    const newHash = await sha256(new TextEncoder().encode(rolls));
-    let newMnemonic = new Array<string>();
-    const newAddresses = new Array<readonly [string, string]>();
-
-    if (isValid) {
-        newMnemonic = await calculateBip39Mnemonic(newHash, generate24Words ? 24 : 12, wordlist);
-        const root = bip32.fromSeed(await mnemonicToSeed(newMnemonic.join(" "), passphrase));
-
-        for (let startIndex = 0; startIndex < 50; startIndex = newAddresses.length) {
-            newAddresses.push(...getAddresses(root, "m/84'/0'/0'/0", startIndex));
-        }
-    }
-
-    return { newHash, newMnemonic, newAddresses };
-};
+const getMnemonic = async (generate24Words: boolean, isValid: boolean, hash: string) =>
+    (isValid ? await calculateEnglishBip39Mnemonic(hash, generate24Words ? 24 : 12) : []);
 
 const getCurrent = <T extends NonNullable<unknown>>(ref: Ref<T>) => {
     if (!ref.current) {
@@ -49,25 +24,28 @@ const Main = () => {
     const generate24WordsRef = useRef<HTMLInputElement>(null);
     const diceRollsRef = useRef<HTMLInputElement>(null);
     const passphraseRef = useRef<HTMLInputElement>(null);
+    const accountRef = useRef<HTMLInputElement>(null);
     const [rollCount, setRollCount] = useState(0);
     const [hash, setHash] = useState("");
+    const [passphrase, setPassphrase] = useState("");
+    const [account, setAccount] = useState(0);
     const [mnemonic, setMnemonic] = useState<string[]>([]);
-    const [addresses, setAddresses] = useState<Array<readonly [string, string]>>([]);
 
     const handleInputImpl = useCallback(async () => {
         const generate24Words = getCurrent(generate24WordsRef).checked;
         const diceRollsElement = getCurrent(diceRollsRef);
-        const passphrase = getCurrent(passphraseRef).value;
         diceRollsElement.minLength = generate24Words ? 99 : 50;
         const isValid = diceRollsElement.validity.valid;
         diceRollsElement.ariaInvalid = `${!isValid}`;
         const rolls = diceRollsElement.value;
-        const { newHash, newMnemonic, newAddresses } = await calculate(generate24Words, rolls, isValid, passphrase);
+        const newHash = await sha256(new TextEncoder().encode(rolls));
+        const newMnemonic = await getMnemonic(generate24Words, isValid, newHash);
         setRollCount(rolls.length);
         setHash(newHash);
+        setPassphrase(getCurrent(passphraseRef).value);
+        setAccount(Number(getCurrent(accountRef).value));
         setMnemonic(newMnemonic);
-        setAddresses(newAddresses);
-    }, [diceRollsRef, generate24WordsRef, passphraseRef]);
+    }, [generate24WordsRef, diceRollsRef]);
 
     const handleInput = useCallback(() => void handleInputImpl(), [handleInputImpl]);
     useEffect(handleInput, [handleInput]);
@@ -78,7 +56,7 @@ const Main = () => {
           <hgroup>
             <h1>Verify COLDCARD Dice Seed</h1>
             <p>
-              <span>v1.0.30</span>
+              <span>v1.0.31</span> (tested with COLDCARD Mk4 firmware v5.2.2)
             </p>
           </hgroup>
           <p>
@@ -130,6 +108,10 @@ const Main = () => {
               Passphrase
               <input ref={passphraseRef} id="passphrase" type="text" onInput={handleInput} />
             </label>
+            <label htmlFor="account">
+              Account Number
+              <input ref={accountRef} id="account" type="number" min="0" value={account} onInput={handleInput} />
+            </label>
           </form>
         </section>
         <section>
@@ -139,10 +121,12 @@ const Main = () => {
           </div>
         </section>
         <section>
-          <h2>Addresses</h2>
-          <div className="monospace">
-            {addresses.map(([p, a]) => <div key={p} className="grid"><span>{`${p} => ${a}`}</span></div>)}
-          </div>
+          <h2>Receive Addresses</h2>
+          <Addresses mnemonic={mnemonic} passphrase={passphrase} accountRootPath={`m/84'/0'/${account}'/0`} />
+        </section>
+        <section>
+          <h2>Change Addresses</h2>
+          <Addresses mnemonic={mnemonic} passphrase={passphrase} accountRootPath={`m/84'/0'/${account}'/1`} />
         </section>
       </>
     );

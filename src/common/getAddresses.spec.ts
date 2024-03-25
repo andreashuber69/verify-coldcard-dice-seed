@@ -1,16 +1,11 @@
 // https://github.com/andreashuber69/verify-coldcard-dice-seed/blob/develop/README.md#----verify-coldcard-dice-seed
 import assert from "node:assert";
 import { describe, it } from "node:test";
-import { BIP32Factory } from "bip32";
-import { mnemonicToSeed } from "bip39";
-// eslint-disable-next-line import/no-namespace
-import * as ecc from "tiny-secp256k1";
 import { getAddresses } from "./getAddresses.js";
-
-const bip32 = BIP32Factory(ecc);
+import { getRoot } from "./getRoot.js";
 
 const getBatch = async (mnemonic: string, passphrase: string, accountRootPath: string, startIndex: number) =>
-    getAddresses(bip32.fromSeed(await mnemonicToSeed(mnemonic, passphrase)), accountRootPath, startIndex);
+    getAddresses(await getRoot(mnemonic, passphrase), accountRootPath, startIndex, 10);
 
 const rootPath = "m/84'/0'/0'/0";
 const getPath = (index: number) => `${rootPath}/${index}`;
