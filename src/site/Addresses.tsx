@@ -1,6 +1,6 @@
 import { useEffect, useState } from "preact/hooks";
-import type { GetAddressesParams } from "./AddressesProps.js";
-import { getAddressesForMnemonicAndPassphrase } from "./AddressesProps.js";
+import type { GetAddressesParams } from "./getAddressesForMnemonicAndPassphrase.js";
+import { getAddressesForMnemonicAndPassphrase } from "./getAddressesForMnemonicAndPassphrase.js";
 
 export const Addresses = (props: GetAddressesParams) => {
     const [addresses, setAddresses] = useState<ReadonlyArray<readonly [string, string]>>([]);
