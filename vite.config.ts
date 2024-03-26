@@ -11,6 +11,10 @@ const config = defineConfig({
         (wasm as unknown as () => Plugin)(),
         nodePolyfills(),
     ],
+    worker: {
+        format: "es",
+        plugins: () => [(wasm as unknown as () => Plugin)()],
+    },
     base: "",
     build: {
         target: "es2022",
