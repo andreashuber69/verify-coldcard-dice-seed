@@ -1,11 +1,11 @@
 // https://github.com/andreashuber69/verify-coldcard-dice-seed/blob/develop/README.md#----verify-coldcard-dice-seed
 import assert from "node:assert";
 import { describe, it } from "node:test";
-import { getAddresses } from "./getAddresses.js";
+import { getAddressesForRoot } from "./getAddressesForRoot.js";
 import { getRoot } from "./getRoot.js";
 
 const getBatch = async (mnemonic: string, passphrase: string, accountRootPath: string, startIndex: number) =>
-    getAddresses(await getRoot(mnemonic, passphrase), accountRootPath, startIndex, 10);
+    getAddressesForRoot(await getRoot(mnemonic, passphrase), accountRootPath, startIndex, 10);
 
 const rootPath = "m/84'/0'/0'/0";
 const getPath = (index: number) => `${rootPath}/${index}`;
@@ -24,7 +24,7 @@ const expectBatch = async (mnemonic: string, expected: readonly string[]) => {
     );
 };
 
-await describe(getAddresses.name, async () => {
+await describe(getAddressesForRoot.name, async () => {
     await describe("should calculate the expected addresses", async () => {
         // https://en.bitcoin.it/wiki/BIP_0084
         await expectBatch(

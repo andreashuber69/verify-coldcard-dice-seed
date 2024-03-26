@@ -1,5 +1,5 @@
 // https://github.com/andreashuber69/verify-coldcard-dice-seed/blob/develop/README.md#----verify-coldcard-dice-seed
-import { getAddresses } from "../common/getAddresses.js";
+import { getAddressesForRoot } from "../common/getAddressesForRoot.js";
 import { getRoot } from "../common/getRoot.js";
 import type { InOut } from "./InOut.js";
 import { waitForUser } from "./waitForUser.js";
@@ -8,7 +8,7 @@ export const showAddresses = async ({ stdin, stdout }: InOut, words: readonly st
     stdout.write("Select 'Address Explorer' and press the 4 button on your COLDCARD.\r\n");
     await waitForUser({ stdin, stdout });
     const root = await getRoot(words.join(" "), passphrase);
-    const getBatch = (startIndex: number) => getAddresses(root, "m/84'/0'/0'/0", startIndex, 10);
+    const getBatch = (startIndex: number) => getAddressesForRoot(root, "m/84'/0'/0'/0", startIndex, 10);
 
     let batchStart = 0;
     let batch = getBatch(batchStart);
