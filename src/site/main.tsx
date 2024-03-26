@@ -63,9 +63,9 @@ const Main = () => {
             The COLDCARD manufacturer{" "}
             <a href="https://coldcardwallet.com/docs/verifying-dice-roll-math" rel="noreferrer" target="_blank">
               provides instructions
-            </a> on how to verify dice seed derivation with a Python script. This site offers a
-            user-friendlier way to do the same and goes one step further: It also allows you to verify the receive
-            addresses derived from the seed. Step by step guidance for the COLDCARD is available through the{" "}
+            </a> on how to verify dice seed derivation with a Python script. This site offers a more user-friendly way
+            to do the same and goes one step further: It also allows you to verify the receive and change addresses
+            derived from the seed. Step by step guidance for the COLDCARD is available through the{" "}
             <a href="https://www.npmjs.com/package/verify-coldcard-dice-seed" rel="noreferrer" target="_blank">
               verify-coldcard-dice-seed
             </a> Node.js application. See{" "}
