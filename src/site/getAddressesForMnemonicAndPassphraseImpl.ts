@@ -3,7 +3,7 @@ import { getAddresses } from "../common/getAddresses.js";
 import { getRoot } from "../common/getRoot.js";
 import type { GetAddressesParams } from "./GetAddressesParams.js";
 
-export const getAddressesForRoot = async (
+export const getAddressesForMnemonicAndPassphraseImpl = async (
     { mnemonic, passphrase, accountRootPath }: GetAddressesParams,
 ): Promise<Array<[string, string]>> =>
     getAddresses(await getRoot(mnemonic.join(" "), passphrase), accountRootPath, 0, 50);
