@@ -1,6 +1,7 @@
+// https://github.com/andreashuber69/verify-coldcard-dice-seed/blob/develop/README.md#----verify-coldcard-dice-seed
 import { useEffect, useState } from "preact/hooks";
-import type { GetAddressesParams } from "./getAddressesForMnemonicAndPassphrase.js";
 import { getAddressesForMnemonicAndPassphrase } from "./getAddressesForMnemonicAndPassphrase.js";
+import type { GetAddressesParams } from "./GetAddressesParams.js";
 
 export const Addresses = (props: GetAddressesParams) => {
     const [addresses, setAddresses] = useState<ReadonlyArray<readonly [string, string]>>([]);

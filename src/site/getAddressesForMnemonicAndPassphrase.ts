@@ -1,14 +1,7 @@
-import { getAddresses } from "../common/getAddresses.js";
-import { getRoot } from "../common/getRoot.js";
-
-export interface GetAddressesParams {
-    readonly mnemonic: readonly string[];
-    readonly passphrase: string;
-    readonly accountRootPath: string;
-}
+// https://github.com/andreashuber69/verify-coldcard-dice-seed/blob/develop/README.md#----verify-coldcard-dice-seed
+import { getAddressesForRoot } from "./getAddressesForRoot.js";
+import type { GetAddressesParams } from "./GetAddressesParams.js";
 
 export const getAddressesForMnemonicAndPassphrase = async (
-    { mnemonic, passphrase, accountRootPath }: GetAddressesParams,
-): Promise<Array<[string, string]>> => (
-    mnemonic.length > 0 ? getAddresses(await getRoot(mnemonic.join(" "), passphrase), accountRootPath, 0, 50) : []
-);
+    params: GetAddressesParams,
+): Promise<Array<[string, string]>> => (params.mnemonic.length > 0 ? await getAddressesForRoot(params) : []);
