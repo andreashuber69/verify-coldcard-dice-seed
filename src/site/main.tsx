@@ -20,6 +20,45 @@ const getCurrent = <T extends NonNullable<unknown>>(ref: Ref<T>) => {
 
 const getKey = (index: number) => `${index}`;
 
+const header = (
+  <>
+    <hgroup>
+      <h1>Verify COLDCARD Dice Seed</h1>
+      <p>
+        <span>v1.0.32</span> (tested with COLDCARD Mk4 firmware v5.2.2)
+      </p>
+    </hgroup>
+    <p>
+      The COLDCARD manufacturer{" "}
+      <a href="https://coldcardwallet.com/docs/verifying-dice-roll-math" rel="noreferrer" target="_blank">
+        provides instructions
+      </a> on how to verify dice seed derivation with a Python script. This site offers a more user-friendly way
+      to do the same and goes one step further: It also allows you to verify the receive and change addresses
+      derived from the seed. Step by step guidance for the COLDCARD is available through the{" "}
+      <a href="https://www.npmjs.com/package/verify-coldcard-dice-seed" rel="noreferrer" target="_blank">
+        verify-coldcard-dice-seed
+      </a> Node.js application. See{" "}
+      <a
+        href="https://www.npmjs.com/package/verify-coldcard-dice-seed#motivation"
+        rel="noreferrer" target="_blank">
+        Motivation
+      </a>
+      {" "}for technical details.
+    </p>
+    <p>
+      <mark>CAUTION: The very point of a COLDCARD is that the seed (usually expressed as a 12 word mnemonic)
+        of a real wallet <b>never</b> appears on any other device. You should therefore only use this
+        application to verify the seed and address derivation of your COLDCARD. Once you are convinced that
+        your COLDCARD works correctly, you should then generate the seed of your real wallet on your COLDCARD
+        only. Since the COLDCARD electronics has no way of knowing whether you&apos;re verifying seed
+        derivation or generating a real wallet, you can be reasonably sure that your real wallet was indeed
+        derived from the dice entropy you entered.
+      </mark>
+    </p>
+    <br />
+  </>
+);
+
 const Main = () => {
     const generate24WordsRef = useRef<HTMLInputElement>(null);
     const diceRollsRef = useRef<HTMLInputElement>(null);
@@ -50,43 +89,18 @@ const Main = () => {
     const handleInput = useCallback(() => void handleInputImpl(), [handleInputImpl]);
     useEffect(handleInput, [handleInput]);
 
+    const getAddressesSection = (change: boolean) => (
+      <section>
+        <h2>{change ? "Change" : "Receive"} Addresses</h2>
+        <Addresses
+          mnemonic={mnemonic} passphrase={passphrase} accountRootPath={`m/84'/0'/${account}'/${change ? 1 : 0}`} />
+      </section>
+    );
+
     return (
       <>
         <section>
-          <hgroup>
-            <h1>Verify COLDCARD Dice Seed</h1>
-            <p>
-              <span>v1.0.31</span> (tested with COLDCARD Mk4 firmware v5.2.2)
-            </p>
-          </hgroup>
-          <p>
-            The COLDCARD manufacturer{" "}
-            <a href="https://coldcardwallet.com/docs/verifying-dice-roll-math" rel="noreferrer" target="_blank">
-              provides instructions
-            </a> on how to verify dice seed derivation with a Python script. This site offers a
-            user-friendlier way to do the same and goes one step further: It also allows you to verify the receive
-            addresses derived from the seed. Step by step guidance for the COLDCARD is available through the{" "}
-            <a href="https://www.npmjs.com/package/verify-coldcard-dice-seed" rel="noreferrer" target="_blank">
-              verify-coldcard-dice-seed
-            </a> Node.js application. See{" "}
-            <a
-              href="https://www.npmjs.com/package/verify-coldcard-dice-seed#motivation"
-              rel="noreferrer" target="_blank">
-              Motivation
-            </a>
-            {" "}for technical details.
-          </p>
-          <p>
-            <mark>CAUTION: The very point of a COLDCARD is that the seed (usually expressed as a 12 word mnemonic)
-              of a real wallet <b>never</b> appears on any other device. You should therefore only use this
-              application to verify the seed and address derivation of your COLDCARD. Once you are convinced that
-              your COLDCARD works correctly, you should then generate the seed of your real wallet on your COLDCARD
-              only. Since the COLDCARD electronics has no way of knowing whether you&apos;re verifying seed
-              derivation or generating a real wallet, you can be reasonably sure that your real wallet was indeed
-              derived from the dice entropy you entered.
-            </mark>
-          </p>
-          <br />
+          {header}
           <form>
             <label htmlFor="generate-24-words">
               <input
@@ -120,14 +134,8 @@ const Main = () => {
             {mnemonic.map((_w, i, a) => (i % 4 === 0 ? <WordLine key={getKey(i)} index={i} words={a} /> : ""))}
           </div>
         </section>
-        <section>
-          <h2>Receive Addresses</h2>
-          <Addresses mnemonic={mnemonic} passphrase={passphrase} accountRootPath={`m/84'/0'/${account}'/0`} />
-        </section>
-        <section>
-          <h2>Change Addresses</h2>
-          <Addresses mnemonic={mnemonic} passphrase={passphrase} accountRootPath={`m/84'/0'/${account}'/1`} />
-        </section>
+        {getAddressesSection(false)}
+        {getAddressesSection(true)}
       </>
     );
 };

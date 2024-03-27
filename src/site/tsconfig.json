@@ -3,10 +3,11 @@
   "compilerOptions": {
     "jsx": "react-jsx",
     "jsxImportSource": "preact",
-    "lib": ["es2023", "DOM"],
+    "lib": ["es2023", "DOM", "WebWorker"],
     "target": "es2022"
   },
   "include": [
-    "*.tsx"
+    "*.tsx",
+    "*.ts"
   ]
 }

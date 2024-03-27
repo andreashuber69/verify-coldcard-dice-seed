@@ -6,7 +6,7 @@ type GrowToSize<T, N extends number, A extends T[]> = A["length"] extends N ? A 
 
 type Batch<N extends number> = GrowToSize<[string, string], N, []>;
 
-export const getAddresses = <N extends number>(
+export const getAddressesForRoot = <N extends number>(
     root: BIP32Interface,
     accountRootPath: string,
     startIndex: number,

@@ -33,10 +33,10 @@ try {
     stdout.write("correctly derives seeds and addresses from dice rolls.\r\n");
     stdout.write("\r\n");
     stdout.write("CAUTION: The very point of a COLDCARD is that the seed of a real wallet\r\n");
-    stdout.write("is never entered outside of a coldcard. You should therefore only use\r\n");
-    stdout.write("this application to verify the seed and address derivation of your\r\n");
-    stdout.write("COLDCARD. Once you are convinced that your COLDCARD works correctly, you\r\n");
-    stdout.write("should then generate the seed of your real wallet on your COLDCARD only.\r\n");
+    stdout.write("*never* appears on any other device. You should therefore only use this\r\n");
+    stdout.write("application to verify the seed and address derivation of your COLDCARD.\r\n");
+    stdout.write("Once you are convinced that your COLDCARD works correctly, you should\r\n");
+    stdout.write("then generate the seed of your real wallet on your COLDCARD only.\r\n");
     stdout.write("\r\n");
 
     const generate24WordsPrompt = "Generate 24 instead of the standard 12 words [y, N]? ";
