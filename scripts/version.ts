@@ -1,3 +1,4 @@
+// https://github.com/andreashuber69/verify-coldcard-dice-seed/blob/develop/README.md#----verify-coldcard-dice-seed
 import { readFile, rm, writeFile } from "node:fs/promises";
 import { version } from "../package.json";
 import { encoding } from "./encoding.js";
