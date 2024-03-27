@@ -42,7 +42,7 @@
     "lint": "eslint --ext .cjs,.ts,.tsx --report-unused-disable-directives '.'",
     "build": "tsc -p './tsconfig.json' && tsc -p './src/package/tsconfig.json' && tsc -p './src/site/tsconfig.json' && tsc -p './scripts/tsconfig.json'",
     "postbuild": "vite build",
-    "test-no-coverage": "node --import tsx --test src/common/*.spec.ts",
+    "test-no-coverage": "node --import tsx --test src/common/*.spec.ts src/site/*.spec.ts",
     "test-no-coverage-built": "node --test dist/common/*.spec.js",
     "test": "c8 --exclude 'src/common/*.spec.ts' --reporter=text --reporter=lcov npm run test-no-coverage",
     "test-built": "c8 --exclude 'dist/common/*.spec.js' --reporter=text --reporter=lcov npm run test-no-coverage-built",
