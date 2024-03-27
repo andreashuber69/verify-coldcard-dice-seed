@@ -25,7 +25,7 @@ const header = (
     <hgroup>
       <h1>Verify COLDCARD Dice Seed</h1>
       <p>
-        <span>v1.0.31</span> (tested with COLDCARD Mk4 firmware v5.2.2)
+        <span>v1.0.32</span> (tested with COLDCARD Mk4 firmware v5.2.2)
       </p>
     </hgroup>
     <p>
