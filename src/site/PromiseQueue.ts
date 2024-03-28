@@ -15,18 +15,17 @@ export class PromiseQueue {
         }
     }
 
-    private static async push<T>(current: PromiseLike<unknown> | undefined, createNext: () => Promise<T>) {
+    private static async push<T>(current: Promise<unknown> | undefined, createNext: () => Promise<T>) {
         try {
             await current;
-        } catch (error: unknown) {
+        } catch {
             // Intentionally empty. If await current throws, the exception can be caught by the previous caller of
             // execute(). Here we simply need to wait for it to settle so that we can proceed to create the next
             // Promise.
-            console.log(`${error}`);
         }
 
         return await createNext();
     }
 
-    private pendingPromise: PromiseLike<unknown> | undefined;
+    private pendingPromise: Promise<unknown> | undefined;
 }

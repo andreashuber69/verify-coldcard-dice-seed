@@ -30,7 +30,7 @@ await describe(PromiseQueue.name, async () => {
 
             await new Promise((resolve) => setTimeout(resolve, 150));
             const id1 = Math.random() * 1000;
-            const errorPromise1 = queue.execute(async () => await throwError(id1));
+            const throwErrorPromise1 = queue.execute(async () => await throwError(id1));
 
             promises.push(
                 queue.execute(async () => await delay(sequence, 3)),
@@ -38,24 +38,21 @@ await describe(PromiseQueue.name, async () => {
                 queue.execute(async () => await delay(sequence, 5)),
             );
 
-            const id2 = Math.random() * 1000;
-            const errorPromise2 = queue.execute(async () => await throwError(id2));
-
-            const result = await Promise.all(promises);
-
             try {
-                await errorPromise1;
+                await throwErrorPromise1;
             } catch (error: unknown) {
                 assert(error instanceof Error && error.message === `${id1}`);
             }
 
+            const id2 = Math.random() * 1000;
+
             try {
-                await errorPromise2;
+                await queue.execute(async () => await throwError(id2));
             } catch (error: unknown) {
                 assert(error instanceof Error && error.message === `${id2}`);
             }
 
-            for (const [index, value] of result.entries()) {
+            for (const [index, value] of (await Promise.all(promises)).entries()) {
                 assert(index === value);
                 assert(index === sequence[index]);
             }
