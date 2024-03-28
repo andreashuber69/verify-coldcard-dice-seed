@@ -4,29 +4,63 @@ import { describe, it } from "node:test";
 
 import { PromiseQueue } from "./PromiseQueue.js";
 
-const randomDelay = async (sequence: number[], result: number) => {
-    await new Promise<void>((resolve) => setTimeout(resolve, Math.random() * 100));
+const delay = async (sequence: number[], result: number) => {
+    await new Promise<void>((resolve) => setTimeout(resolve, 100));
     sequence.push(result);
     return result;
 };
 
+const throwError = async (id: number) => {
+    await new Promise<void>((resolve) => setTimeout(resolve, 10));
+    throw new Error(`${id}`);
+};
+
 await describe(PromiseQueue.name, async () => {
-    await it("should execute tasks in order", async () => {
-        const queue = new PromiseQueue();
-        const sequence = new Array<number>();
+    await it("should create and await awaitables in order", async () => {
+        try {
+            const queue = new PromiseQueue();
+            const sequence = new Array<number>();
+            const promises = new Array<Promise<number>>();
 
-        const result = await Promise.all([
-            queue.execute(async () => await randomDelay(sequence, 0)),
-            queue.execute(async () => await randomDelay(sequence, 1)),
-            queue.execute(async () => await randomDelay(sequence, 2)),
-            queue.execute(async () => await randomDelay(sequence, 3)),
-            queue.execute(async () => await randomDelay(sequence, 4)),
-            queue.execute(async () => await randomDelay(sequence, 5)),
-        ]);
+            promises.push(
+                queue.execute(async () => await delay(sequence, 0)),
+                queue.execute(async () => await delay(sequence, 1)),
+                queue.execute(async () => await delay(sequence, 2)),
+            );
 
-        for (const [index, value] of result.entries()) {
-            assert(index === value);
-            assert(index === sequence[index]);
+            await new Promise((resolve) => setTimeout(resolve, 150));
+            const id1 = Math.random() * 1000;
+            const errorPromise1 = queue.execute(async () => await throwError(id1));
+
+            promises.push(
+                queue.execute(async () => await delay(sequence, 3)),
+                queue.execute(async () => await delay(sequence, 4)),
+                queue.execute(async () => await delay(sequence, 5)),
+            );
+
+            const id2 = Math.random() * 1000;
+            const errorPromise2 = queue.execute(async () => await throwError(id2));
+
+            const result = await Promise.all(promises);
+
+            try {
+                await errorPromise1;
+            } catch (error: unknown) {
+                assert(error instanceof Error && error.message === `${id1}`);
+            }
+
+            try {
+                await errorPromise2;
+            } catch (error: unknown) {
+                assert(error instanceof Error && error.message === `${id2}`);
+            }
+
+            for (const [index, value] of result.entries()) {
+                assert(index === value);
+                assert(index === sequence[index]);
+            }
+        } catch (error: unknown) {
+            console.log(error);
         }
     });
 });
