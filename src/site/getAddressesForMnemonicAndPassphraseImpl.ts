@@ -1,7 +1,12 @@
 // https://github.com/andreashuber69/verify-coldcard-dice-seed/blob/develop/README.md#----verify-coldcard-dice-seed
 import { getAddressesForRoot } from "../common/getAddressesForRoot.js";
 import { getRoot } from "../common/getRoot.js";
-import type { GetAddressesParams } from "./GetAddressesParams.js";
+
+export interface GetAddressesParams {
+    readonly mnemonic: readonly string[];
+    readonly passphrase: string;
+    readonly accountRootPath: string;
+}
 
 export const getAddressesForMnemonicAndPassphraseImpl = async (
     { mnemonic, passphrase, accountRootPath }: GetAddressesParams,

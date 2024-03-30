@@ -1,5 +1,4 @@
 import { getAddressesForMnemonicAndPassphraseImpl } from "./getAddressesForMnemonicAndPassphraseImpl.js";
-import type { GetAddressesParams } from "./GetAddressesParams.js";
+import { listen } from "./listen.js";
 
-onmessage = async (ev: MessageEvent<GetAddressesParams>) =>
-    postMessage(await getAddressesForMnemonicAndPassphraseImpl(ev.data));
+listen(getAddressesForMnemonicAndPassphraseImpl);
