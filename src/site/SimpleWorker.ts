@@ -1,8 +1,7 @@
 import { once } from "node:events";
 import { PromiseQueue } from "./PromiseQueue.js";
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export class SimpleWorker<T extends (...args: any[]) => unknown> {
+export class SimpleWorker<T extends (...args: never[]) => unknown> {
     public constructor(private readonly worker: Worker) {}
 
     public async execute(...args: Parameters<T>) {
