@@ -3,7 +3,7 @@ import { once } from "node:events";
 import type { GetAddressesParams } from "./GetAddressesParams.js";
 import { PromiseQueue } from "./PromiseQueue.js";
 
-const worker = new Worker(new URL("getAddressesForMnemonicAndPassphraseImpl.js", import.meta.url), { type: "module" });
+const worker = new Worker(new URL("worker.js", import.meta.url), { type: "module" });
 const queue = new PromiseQueue();
 
 const getAddressesForMnemonicAndPassphraseImpl = async (params: GetAddressesParams) =>
