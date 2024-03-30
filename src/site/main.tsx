@@ -4,7 +4,7 @@ import type { Ref } from "preact/hooks";
 import { useCallback, useEffect, useRef, useState } from "preact/hooks";
 import { calculateEnglishBip39Mnemonic } from "../common/calculateEnglishBip39Mnemonic.js";
 import { sha256 } from "../common/sha256.js";
-import { Addresses } from "./Addresses.js";
+import { AddressSection } from "./AddressSection.js";
 import { WordLine } from "./WordLine.js";
 
 const getMnemonic = async (generate24Words: boolean, isValid: boolean, hash: string) =>
@@ -57,20 +57,6 @@ const header = (
     </p>
     <br />
   </>
-);
-
-interface AddressSectionProps {
-    readonly mnemonic: readonly string[];
-    readonly passphrase: string;
-    readonly account: number;
-    readonly change: boolean;
-}
-
-const AddressSection = ({ mnemonic, passphrase, account, change }: AddressSectionProps) => (
-  <section>
-    <h2>{change ? "Change" : "Receive"} Addresses</h2>
-    <Addresses mnemonic={mnemonic} passphrase={passphrase} accountRootPath={`m/84'/0'/${account}'/${change ? 1 : 0}`} />
-  </section>
 );
 
 const Main = () => {

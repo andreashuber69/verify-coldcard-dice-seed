@@ -2,14 +2,16 @@
 import { useEffect, useState } from "preact/hooks";
 import { getAddressesForMnemonicAndPassphrase } from "./getAddressesForMnemonicAndPassphrase.js";
 
-export interface GetAddressesParams {
+interface AddressSectionProps {
     readonly mnemonic: readonly string[];
     readonly passphrase: string;
-    readonly accountRootPath: string;
+    readonly account: number;
+    readonly change: boolean;
 }
 
-export const Addresses = ({ mnemonic, passphrase, accountRootPath }: GetAddressesParams) => {
+export const AddressSection = ({ mnemonic, passphrase, account, change }: AddressSectionProps) => {
     const [addresses, setAddresses] = useState<ReadonlyArray<readonly [string, string]>>([]);
+    const accountRootPath = `m/84'/0'/${account}'/${change ? 1 : 0}`;
 
     useEffect(
         () => {
@@ -23,8 +25,11 @@ export const Addresses = ({ mnemonic, passphrase, accountRootPath }: GetAddresse
     );
 
     return (
-      <div className="monospace">
-        {addresses.map(([p, a]) => <div key={p} className="grid"><span>{`${p} => ${a}`}</span></div>)}
-      </div>
+      <section>
+        <h2>{change ? "Change" : "Receive"} Addresses</h2>
+        <div className="monospace">
+          {addresses.map(([p, a]) => <div key={p} className="grid"><span>{`${p} => ${a}`}</span></div>)}
+        </div>
+      </section>
     );
 };
