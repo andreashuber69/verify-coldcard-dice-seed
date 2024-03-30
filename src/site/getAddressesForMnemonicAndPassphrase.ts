@@ -9,5 +9,5 @@ const simpleWorker = new SimpleWorker<typeof getAddressesForMnemonicAndPassphras
 export const getAddressesForMnemonicAndPassphrase = async (
     ...args: Parameters<typeof getAddressesForMnemonicAndPassphraseImpl>
 ) => (
-    args[0].mnemonic.length > 0 ? await simpleWorker.execute(...args) : new Array<[string, string]>()
+    args[0].length > 0 ? await simpleWorker.execute(...args) : new Array<[string, string]>()
 );

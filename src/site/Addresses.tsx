@@ -2,17 +2,24 @@
 import { useEffect, useState } from "preact/hooks";
 import { getAddressesForMnemonicAndPassphrase } from "./getAddressesForMnemonicAndPassphrase.js";
 
-export const Addresses = (...args: Parameters<typeof getAddressesForMnemonicAndPassphrase>) => {
+export interface GetAddressesParams {
+    readonly mnemonic: readonly string[];
+    readonly passphrase: string;
+    readonly accountRootPath: string;
+}
+
+export const Addresses = ({ mnemonic, passphrase, accountRootPath }: GetAddressesParams) => {
     const [addresses, setAddresses] = useState<ReadonlyArray<readonly [string, string]>>([]);
 
     useEffect(
         () => {
-            const doIt = async () => setAddresses(await getAddressesForMnemonicAndPassphrase(...args));
+            const doIt = async () => setAddresses(
+                await getAddressesForMnemonicAndPassphrase(mnemonic, passphrase, accountRootPath),
+            );
+
             void doIt();
         },
-        // False positive, rule is unable to deal with spreads
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-        [...args],
+        [mnemonic, passphrase, accountRootPath],
     );
 
     return (
