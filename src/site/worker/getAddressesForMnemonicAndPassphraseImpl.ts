@@ -1,6 +1,6 @@
 // https://github.com/andreashuber69/verify-coldcard-dice-seed/blob/develop/README.md#----verify-coldcard-dice-seed
-import { getAddressesForRoot } from "../common/getAddressesForRoot.js";
-import { getRoot } from "../common/getRoot.js";
+import { getAddressesForRoot } from "../../common/getAddressesForRoot.js";
+import { getRoot } from "../../common/getRoot.js";
 
 export interface GetAddressesParams {
     readonly mnemonic: readonly string[];
