@@ -59,6 +59,20 @@ const header = (
   </>
 );
 
+interface AddressSectionProps {
+    readonly mnemonic: readonly string[];
+    readonly passphrase: string;
+    readonly account: number;
+    readonly change: boolean;
+}
+
+const AddressSection = ({ mnemonic, passphrase, account, change }: AddressSectionProps) => (
+  <section>
+    <h2>{change ? "Change" : "Receive"} Addresses</h2>
+    <Addresses mnemonic={mnemonic} passphrase={passphrase} accountRootPath={`m/84'/0'/${account}'/${change ? 1 : 0}`} />
+  </section>
+);
+
 const Main = () => {
     const generate24WordsRef = useRef<HTMLInputElement>(null);
     const diceRollsRef = useRef<HTMLInputElement>(null);
@@ -88,14 +102,6 @@ const Main = () => {
 
     const handleInput = useCallback(() => void handleInputImpl(), [handleInputImpl]);
     useEffect(handleInput, [handleInput]);
-
-    const getAddressesSection = (change: boolean) => (
-      <section>
-        <h2>{change ? "Change" : "Receive"} Addresses</h2>
-        <Addresses
-          mnemonic={mnemonic} passphrase={passphrase} accountRootPath={`m/84'/0'/${account}'/${change ? 1 : 0}`} />
-      </section>
-    );
 
     return (
       <>
@@ -134,8 +140,8 @@ const Main = () => {
             {mnemonic.map((_w, i, a) => (i % 4 === 0 ? <WordLine key={getKey(i)} index={i} words={a} /> : ""))}
           </div>
         </section>
-        {getAddressesSection(false)}
-        {getAddressesSection(true)}
+        <AddressSection mnemonic={mnemonic} passphrase={passphrase} account={account} change={false} />
+        <AddressSection mnemonic={mnemonic} passphrase={passphrase} account={account} change />
       </>
     );
 };
