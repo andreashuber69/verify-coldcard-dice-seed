@@ -7,11 +7,6 @@ import { sha256 } from "../common/sha256.js";
 import { AddressSection } from "./AddressSection.js";
 import { WordLine } from "./WordLine.js";
 
-const getMnemonic = async (generate24Words: boolean, isValid: boolean, hash: string) =>
-    (isValid ? await calculateEnglishBip39Mnemonic(hash, generate24Words ? 24 : 12) : []);
-
-const getKey = (index: number) => `${index}`;
-
 const header = (
   <>
     <hgroup>
@@ -51,6 +46,14 @@ const header = (
   </>
 );
 
+const getMnemonic = async (generate24Words: boolean, isValid: boolean, hash: string) =>
+    (isValid ? await calculateEnglishBip39Mnemonic(hash, generate24Words ? 24 : 12) : []);
+
+const useHandler = <Target extends EventTarget>(handler: (currentTarget: Target) => void) =>
+    useCallback(({ currentTarget }: JSX.TargetedInputEvent<Target>) => handler(currentTarget), [handler]);
+
+const getKey = (index: number) => `${index}`;
+
 const Main = () => {
     const formRef = useRef<HTMLFormElement>(null);
     const [generate24Words, setGenerate24Words] = useState(false);
@@ -61,7 +64,7 @@ const Main = () => {
     const [account, setAccount] = useState(0);
     const [mnemonic, setMnemonic] = useState<string[]>([]);
 
-    const handleInputImpl = useCallback(async () => {
+    const handleInput = useCallback(async () => {
         const newIsValid = formRef?.current?.checkValidity() ?? false;
         setIsValid(newIsValid);
         const newHash = await sha256(new TextEncoder().encode(diceRolls));
@@ -69,24 +72,12 @@ const Main = () => {
         setMnemonic(await getMnemonic(generate24Words, newIsValid, newHash));
     }, [diceRolls, generate24Words]);
 
-    const handleInput = useCallback(() => void handleInputImpl(), [handleInputImpl]);
-    useEffect(handleInput, [handleInput]);
+    useEffect(() => void handleInput(), [handleInput]);
 
-    const handleGenerate24Words = useCallback(({ currentTarget }: JSX.TargetedInputEvent<HTMLInputElement>) => {
-        setGenerate24Words(currentTarget.checked);
-    }, []);
-
-    const handleDiceRolls = useCallback(({ currentTarget }: JSX.TargetedInputEvent<HTMLInputElement>) => {
-        setDiceRolls(currentTarget.value);
-    }, []);
-
-    const handlePassphrase = useCallback(({ currentTarget }: JSX.TargetedInputEvent<HTMLInputElement>) => {
-        setPassphrase(currentTarget.value);
-    }, []);
-
-    const handleAccount = useCallback(({ currentTarget }: JSX.TargetedInputEvent<HTMLInputElement>) => {
-        setAccount(Number(currentTarget.value));
-    }, []);
+    const handleGenerate24Words = useHandler(({ checked }: HTMLInputElement) => setGenerate24Words(checked));
+    const handleDiceRolls = useHandler(({ value }: HTMLInputElement) => setDiceRolls(value));
+    const handlePassphrase = useHandler(({ value }: HTMLInputElement) => setPassphrase(value));
+    const handleAccount = useHandler(({ value }: HTMLInputElement) => setAccount(Number(value)));
 
     return (
       <>
