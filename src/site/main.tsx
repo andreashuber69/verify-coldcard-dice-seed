@@ -1,7 +1,7 @@
 // https://github.com/andreashuber69/verify-coldcard-dice-seed/blob/develop/README.md#----verify-coldcard-dice-seed
 import { render } from "preact";
-import type { Ref } from "preact/hooks";
-import { useCallback, useEffect, useRef, useState } from "preact/hooks";
+import { useCallback, useEffect, useState } from "preact/hooks";
+import type { JSX } from "preact/jsx-dev-runtime";
 import { calculateEnglishBip39Mnemonic } from "../common/calculateEnglishBip39Mnemonic.js";
 import { sha256 } from "../common/sha256.js";
 import { AddressSection } from "./AddressSection.js";
@@ -9,14 +9,6 @@ import { WordLine } from "./WordLine.js";
 
 const getMnemonic = async (generate24Words: boolean, isValid: boolean, hash: string) =>
     (isValid ? await calculateEnglishBip39Mnemonic(hash, generate24Words ? 24 : 12) : []);
-
-const getCurrent = <T extends NonNullable<unknown>>(ref: Ref<T>) => {
-    if (!ref.current) {
-        throw new TypeError("ref.current is nullish.");
-    }
-
-    return ref.current;
-};
 
 const getKey = (index: number) => `${index}`;
 
@@ -60,34 +52,43 @@ const header = (
 );
 
 const Main = () => {
-    const generate24WordsRef = useRef<HTMLInputElement>(null);
-    const diceRollsRef = useRef<HTMLInputElement>(null);
-    const passphraseRef = useRef<HTMLInputElement>(null);
-    const accountRef = useRef<HTMLInputElement>(null);
-    const [rollCount, setRollCount] = useState(0);
+    const [generate24Words, setGenerate24Words] = useState(false);
+    const [diceRolls, setDiceRolls] = useState("");
+    const [isValid, setIsValid] = useState(false);
     const [hash, setHash] = useState("");
     const [passphrase, setPassphrase] = useState("");
     const [account, setAccount] = useState(0);
     const [mnemonic, setMnemonic] = useState<string[]>([]);
 
     const handleInputImpl = useCallback(async () => {
-        const generate24Words = getCurrent(generate24WordsRef).checked;
-        const diceRollsElement = getCurrent(diceRollsRef);
-        diceRollsElement.minLength = generate24Words ? 99 : 50;
-        const isValid = diceRollsElement.validity.valid;
-        diceRollsElement.ariaInvalid = `${!isValid}`;
-        const rolls = diceRollsElement.value;
-        const newHash = await sha256(new TextEncoder().encode(rolls));
-        const newMnemonic = await getMnemonic(generate24Words, isValid, newHash);
-        setRollCount(rolls.length);
+        const newHash = await sha256(new TextEncoder().encode(diceRolls));
         setHash(newHash);
-        setPassphrase(getCurrent(passphraseRef).value);
-        setAccount(Number(getCurrent(accountRef).value));
-        setMnemonic(newMnemonic);
-    }, [generate24WordsRef, diceRollsRef]);
+        setMnemonic(await getMnemonic(generate24Words, isValid, newHash));
+    }, [diceRolls, generate24Words, isValid]);
 
     const handleInput = useCallback(() => void handleInputImpl(), [handleInputImpl]);
     useEffect(handleInput, [handleInput]);
+
+    const handleGenerate24Words = useCallback(({ currentTarget }: JSX.TargetedInputEvent<HTMLInputElement>) => {
+        setGenerate24Words(currentTarget.checked);
+        handleInput();
+    }, [handleInput]);
+
+    const handleDiceRolls = useCallback(({ currentTarget }: JSX.TargetedInputEvent<HTMLInputElement>) => {
+        setDiceRolls(currentTarget.value);
+        setIsValid(currentTarget.validity.valid);
+        handleInput();
+    }, [handleInput]);
+
+    const handlePassphrase = useCallback(({ currentTarget }: JSX.TargetedInputEvent<HTMLInputElement>) => {
+        setPassphrase(currentTarget.value);
+        handleInput();
+    }, [handleInput]);
+
+    const handleAccount = useCallback(({ currentTarget }: JSX.TargetedInputEvent<HTMLInputElement>) => {
+        setAccount(Number(currentTarget.value));
+        handleInput();
+    }, [handleInput]);
 
     return (
       <>
@@ -95,28 +96,26 @@ const Main = () => {
           {header}
           <form>
             <label htmlFor="generate-24-words">
-              <input
-                ref={generate24WordsRef} id="generate-24-words" role="switch" type="checkbox"
-                onInput={handleInput} />
+              <input id="generate-24-words" role="switch" type="checkbox" onInput={handleGenerate24Words} />
               Generate 24 words (instead of the standard 12)
             </label>
             <br />
             <label htmlFor="dice-rolls">
               Dice Rolls (1-6)
               <input
-                ref={diceRollsRef} id="dice-rolls" pattern="[1-6]*" placeholder="31415..." type="text"
-                required onInput={handleInput} />
+                id="dice-rolls" pattern="[1-6]*" minLength={generate24Words ? 99 : 50} placeholder="31415..."
+                aria-invalid={!isValid} type="text" required onInput={handleDiceRolls} />
             </label>
-            <div className="monospace">{`${rollCount} rolls`}</div>
+            <div className="monospace">{`${diceRolls.length} rolls`}</div>
             <div className="monospace">{hash}</div>
             <br />
             <label htmlFor="passphrase">
               Passphrase
-              <input ref={passphraseRef} id="passphrase" type="text" onInput={handleInput} />
+              <input id="passphrase" type="text" onInput={handlePassphrase} />
             </label>
             <label htmlFor="account">
               Account Number
-              <input ref={accountRef} id="account" type="number" min="0" value={account} onInput={handleInput} />
+              <input id="account" type="number" min="0" value={account} onInput={handleAccount} />
             </label>
           </form>
         </section>
