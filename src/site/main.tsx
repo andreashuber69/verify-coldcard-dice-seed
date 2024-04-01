@@ -71,24 +71,20 @@ const Main = () => {
 
     const handleGenerate24Words = useCallback(({ currentTarget }: JSX.TargetedInputEvent<HTMLInputElement>) => {
         setGenerate24Words(currentTarget.checked);
-        handleInput();
-    }, [handleInput]);
+    }, []);
 
     const handleDiceRolls = useCallback(({ currentTarget }: JSX.TargetedInputEvent<HTMLInputElement>) => {
         setDiceRolls(currentTarget.value);
         setIsValid(currentTarget.validity.valid);
-        handleInput();
-    }, [handleInput]);
+    }, []);
 
     const handlePassphrase = useCallback(({ currentTarget }: JSX.TargetedInputEvent<HTMLInputElement>) => {
         setPassphrase(currentTarget.value);
-        handleInput();
-    }, [handleInput]);
+    }, []);
 
     const handleAccount = useCallback(({ currentTarget }: JSX.TargetedInputEvent<HTMLInputElement>) => {
         setAccount(Number(currentTarget.value));
-        handleInput();
-    }, [handleInput]);
+    }, []);
 
     return (
       <>
