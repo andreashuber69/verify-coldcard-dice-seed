@@ -1,6 +1,6 @@
 // https://github.com/andreashuber69/verify-coldcard-dice-seed/blob/develop/README.md#----verify-coldcard-dice-seed
 import { render } from "preact";
-import { useCallback, useEffect, useState } from "preact/hooks";
+import { useCallback, useEffect, useRef, useState } from "preact/hooks";
 import type { JSX } from "preact/jsx-dev-runtime";
 import { calculateEnglishBip39Mnemonic } from "../common/calculateEnglishBip39Mnemonic.js";
 import { sha256 } from "../common/sha256.js";
@@ -52,6 +52,7 @@ const header = (
 );
 
 const Main = () => {
+    const formRef = useRef<HTMLFormElement>(null);
     const [generate24Words, setGenerate24Words] = useState(false);
     const [diceRolls, setDiceRolls] = useState("");
     const [isValid, setIsValid] = useState(false);
@@ -61,10 +62,12 @@ const Main = () => {
     const [mnemonic, setMnemonic] = useState<string[]>([]);
 
     const handleInputImpl = useCallback(async () => {
+        const newIsValid = formRef?.current?.checkValidity() ?? false;
+        setIsValid(newIsValid);
         const newHash = await sha256(new TextEncoder().encode(diceRolls));
         setHash(newHash);
-        setMnemonic(await getMnemonic(generate24Words, isValid, newHash));
-    }, [diceRolls, generate24Words, isValid]);
+        setMnemonic(await getMnemonic(generate24Words, newIsValid, newHash));
+    }, [diceRolls, generate24Words]);
 
     const handleInput = useCallback(() => void handleInputImpl(), [handleInputImpl]);
     useEffect(handleInput, [handleInput]);
@@ -75,7 +78,6 @@ const Main = () => {
 
     const handleDiceRolls = useCallback(({ currentTarget }: JSX.TargetedInputEvent<HTMLInputElement>) => {
         setDiceRolls(currentTarget.value);
-        setIsValid(currentTarget.validity.valid);
     }, []);
 
     const handlePassphrase = useCallback(({ currentTarget }: JSX.TargetedInputEvent<HTMLInputElement>) => {
@@ -90,7 +92,7 @@ const Main = () => {
       <>
         <section>
           {header}
-          <form>
+          <form ref={formRef}>
             <label htmlFor="generate-24-words">
               <input id="generate-24-words" role="switch" type="checkbox" onInput={handleGenerate24Words} />
               Generate 24 words (instead of the standard 12)
