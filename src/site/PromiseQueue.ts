@@ -9,7 +9,7 @@ export class PromiseQueue {
         } finally {
             if (resultPromise === this.pendingPromise) {
                 // We only get here if this function has not been called again while we were waiting for
-                // pendingPromise to settle. We therefore no longer need to hold on to pendingPromise.
+                // resultPromise to settle. We therefore no longer need to hold on to pendingPromise.
                 this.pendingPromise = undefined;
             }
         }
