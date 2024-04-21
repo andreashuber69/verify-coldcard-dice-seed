@@ -2,6 +2,6 @@
 import { implementWorkerExternal } from "kiss-worker";
 import type { GetAddresses } from "./getAddresses.js";
 
-export const AddressWorker = implementWorkerExternal<GetAddresses>(
+export const GetAddressesWorker = implementWorkerExternal<GetAddresses>(
     () => new Worker(new URL("getAddresses.js", import.meta.url), { type: "module" }),
 );
