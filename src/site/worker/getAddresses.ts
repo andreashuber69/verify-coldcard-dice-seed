@@ -3,13 +3,13 @@ import { serve } from "kiss-worker";
 import { getAddressesForRoot } from "../../common/getAddressesForRoot.js";
 import { getRoot } from "../../common/getRoot.js";
 
-const getAddressesForMnemonicAndPassphraseImpl = async (
+const getAddresses = async (
     mnemonic: readonly string[],
     passphrase: string,
     accountRootPath: string,
 ): Promise<Array<[string, string]>> =>
     getAddressesForRoot(await getRoot(mnemonic.join(" "), passphrase), accountRootPath, 0, 50);
 
-serve(getAddressesForMnemonicAndPassphraseImpl);
+serve(getAddresses);
 
-export type GetAddressesForMnemonicAndPassphraseImpl = typeof getAddressesForMnemonicAndPassphraseImpl;
+export type GetAddresses = typeof getAddresses;

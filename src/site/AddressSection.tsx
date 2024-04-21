@@ -1,6 +1,6 @@
 // https://github.com/andreashuber69/verify-coldcard-dice-seed/blob/develop/README.md#----verify-coldcard-dice-seed
 import { useEffect, useState } from "preact/hooks";
-import { getAddressesForMnemonicAndPassphrase } from "./getAddressesForMnemonicAndPassphrase.js";
+import { getAddresses } from "./getAddresses.js";
 
 interface AddressSectionProps {
     readonly mnemonic: readonly string[];
@@ -16,7 +16,7 @@ export const AddressSection = ({ mnemonic, passphrase, account, change }: Addres
     useEffect(
         () => {
             const doIt = async () => setAddresses(
-                await getAddressesForMnemonicAndPassphrase(mnemonic, passphrase, accountRootPath),
+                await getAddresses(mnemonic, passphrase, accountRootPath),
             );
 
             void doIt();

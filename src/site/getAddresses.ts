@@ -3,6 +3,6 @@ import { AddressWorker } from "./worker/AddressWorker.js";
 
 const worker = new AddressWorker();
 
-export const getAddressesForMnemonicAndPassphrase = async (...args: Parameters<typeof worker["execute"]>) => (
+export const getAddresses = async (...args: Parameters<typeof worker["execute"]>) => (
     args[0].length > 0 ? await worker.execute(...args) : new Array<[string, string]>()
 );
