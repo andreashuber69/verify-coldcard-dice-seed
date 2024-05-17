@@ -62,7 +62,7 @@
     "tslib": "^2.6.2"
   },
   "devDependencies": {
-    "@andreashuber69/eslint-config": "^1.2.16",
+    "@andreashuber69/eslint-config": "^1.2.17",
     "@picocss/pico": "^1.5.13",
     "@preact/preset-vite": "^2.8.2",
     "@tsconfig/node20": "^20.1.4",
@@ -74,8 +74,8 @@
     "kiss-worker": "^3.0.0",
     "markdownlint-cli": "^0.40.0",
     "node-fetch": "^3.3.2",
-    "preact": "^10.21.0",
-    "tsx": "^4.10.2",
+    "preact": "^10.22.0",
+    "tsx": "^4.10.4",
     "typescript": "^5.4.5",
     "vite": "^5.2.11",
     "vite-plugin-node-polyfills": "^0.21.0",
