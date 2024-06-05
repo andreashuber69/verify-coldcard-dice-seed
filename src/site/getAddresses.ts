@@ -1,5 +1,5 @@
 // https://github.com/andreashuber69/verify-coldcard-dice-seed/blob/develop/README.md#----verify-coldcard-dice-seed
-import { createGetAddressesWorker } from "./worker/GetAddressesWorker.js";
+import { createGetAddressesWorker } from "./worker/createGetAddressesWorker.js";
 
 const worker = createGetAddressesWorker();
 
