@@ -7,13 +7,16 @@ import wasm from "vite-plugin-wasm";
 
 const config = defineConfig({
     plugins: [
+        nodePolyfills(),
         (preact as unknown as () => Plugin)(),
         (wasm as unknown as () => Plugin)(),
-        nodePolyfills(),
     ],
     worker: {
         format: "es",
-        plugins: () => [(wasm as unknown as () => Plugin)()],
+        plugins: () => [
+            nodePolyfills(),
+            (wasm as unknown as () => Plugin)(),
+        ],
     },
     base: "",
     build: {
