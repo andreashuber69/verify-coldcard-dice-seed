@@ -27,7 +27,7 @@ try {
     stdin.setEncoding("utf8");
 
     stdout.write(`*** Verify COLDCARD Dice Seed v${version} ***\r\n`);
-    stdout.write("(tested with COLDCARD Mk4 firmware v5.2.2)\r\n");
+    stdout.write("(tested with COLDCARD Mk4 firmware v5.3.1)\r\n");
     stdout.write("\r\n");
     stdout.write("This application guides you through verifying that your COLDCARD\r\n");
     stdout.write("correctly derives seeds and addresses from dice rolls.\r\n");
@@ -42,7 +42,8 @@ try {
     const generate24WordsPrompt = "Generate 24 instead of the standard 12 words [y, N]? ";
     const generate24Words = (await waitForUser({ stdin, stdout }, generate24WordsPrompt)).toLocaleLowerCase() === "y";
     const wordCount = generate24Words ? 24 : 12;
-    stdout.write(`Log into your COLDCARD, select 'New Seed Words', '${wordCount} Word Dice Roll'.\r\n`);
+    stdout.write("Log into your COLDCARD, select 'New Seed Words', 'Advanced',\r\n");
+    stdout.write(`'${wordCount} Word Dice Roll'.\r\n`);
     await waitForUser(process);
     const words = await verifyWords(process, await readDiceRolls(process, generate24Words), wordCount);
     let currentPassphrase = "";
