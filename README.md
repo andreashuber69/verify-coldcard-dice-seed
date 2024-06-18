@@ -139,14 +139,15 @@ This application guides you through verifying that your COLDCARD
 correctly derives seeds and addresses from dice rolls.
 
 CAUTION: The very point of a COLDCARD is that the seed of a real wallet
-is never entered outside of a coldcard. You should therefore only use
-this application to verify the seed and address derivation of your
-COLDCARD. Once you are convinced that your COLDCARD works correctly, you
-should then generate the seed of your real wallet on your COLDCARD only.
+*never* appears on any other device. You should therefore only use this
+application to verify the seed and address derivation of your COLDCARD.
+Once you are convinced that your COLDCARD works correctly, you should
+then generate the seed of your real wallet on your COLDCARD only.
 
 Generate 24 instead of the standard 12 words [y, N]? 
 
-Log into your COLDCARD, select 'New Seed Words', '12 Word Dice Roll'.
+Log into your COLDCARD, select 'New Seed Words', 'Advanced',
+'12 Word Dice Roll'.
 Press any key to continue or CTRL-C to abort: 
 
 To perform a realistic test you should enter exactly as many dice rolls
