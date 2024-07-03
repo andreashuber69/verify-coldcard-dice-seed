@@ -133,7 +133,7 @@ Need to install the following packages:
   verify-coldcard-dice-seed@1.0.33
 Ok to proceed? (y) y
 *** Verify COLDCARD Dice Seed v1.0.33 ***
-(tested with COLDCARD Mk4 firmware v5.3.1)
+(tested with COLDCARD Mk4 firmware v5.3.2)
 
 This application guides you through verifying that your COLDCARD
 correctly derives seeds and addresses from dice rolls.
