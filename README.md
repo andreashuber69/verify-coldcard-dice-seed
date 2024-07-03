@@ -177,7 +177,8 @@ Compare these words to the ones calculated by your COLDCARD:
 
 Press any key to continue or CTRL-C to abort: 
 
-Press the OK button on your COLDCARD and answer the test questions.
+Press the OK button on your COLDCARD, answer the test questions and
+press OK again.
 Press any key to continue or CTRL-C to abort: 
 
 Wallet passphrase (press Return for none): 
