@@ -130,10 +130,10 @@ COLDCARD copy correctly derives the seed but then generates addresses from a dif
 ``` shell_session cSpell:disable
 $ npx verify-coldcard-dice-seed@latest
 Need to install the following packages:
-  verify-coldcard-dice-seed@1.0.33
+  verify-coldcard-dice-seed@1.0.34
 Ok to proceed? (y) y
-*** Verify COLDCARD Dice Seed v1.0.33 ***
-(tested with COLDCARD Mk4 firmware v5.3.1)
+*** Verify COLDCARD Dice Seed v1.0.34 ***
+(tested with COLDCARD Mk4 firmware v5.3.2)
 
 This application guides you through verifying that your COLDCARD
 correctly derives seeds and addresses from dice rolls.
@@ -177,7 +177,8 @@ Compare these words to the ones calculated by your COLDCARD:
 
 Press any key to continue or CTRL-C to abort: 
 
-Press the OK button on your COLDCARD and answer the test questions.
+Press the OK button on your COLDCARD, answer the test questions and
+press OK again.
 Press any key to continue or CTRL-C to abort: 
 
 Wallet passphrase (press Return for none): 

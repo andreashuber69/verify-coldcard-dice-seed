@@ -10,7 +10,8 @@ export const verifyWords = async ({ stdin, stdout }: InOut, diceRolls: string, w
     stdout.write(words.reduce((p, c, i) => `${p}${`0${i + 1}`.slice(-2)}: ${c}\r\n`, ""));
     stdout.write("\r\n");
     await waitForUser({ stdin, stdout });
-    stdout.write("Press the OK button on your COLDCARD and answer the test questions.\r\n");
+    stdout.write("Press the OK button on your COLDCARD, answer the test questions and\r\n");
+    stdout.write("press OK again.\r\n");
     await waitForUser({ stdin, stdout });
     return words;
 };
