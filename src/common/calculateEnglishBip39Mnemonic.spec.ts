@@ -21,15 +21,15 @@ if (!response.ok) {
     throw new Error("Unexpected response");
 }
 
-const vectors = JSON.parse(await response.text()) as Record<string, unknown>;
+const vectors = JSON.parse(await response.text()) as unknown;
 
 await describe(calculateEnglishBip39Mnemonic.name, async () => {
     await describe("should calculate the expected words", async () => {
-        if (!("english" in vectors) || !Array.isArray(vectors["english"])) {
+        if (!vectors || (typeof vectors !== "object") || !("english" in vectors) || !Array.isArray(vectors.english)) {
             throw new Error("Unexpected response");
         }
 
-        for (const vector of vectors["english"]) {
+        for (const vector of vectors.english) {
             if (!Array.isArray(vector) || (vector.length < 2) ||
                 (typeof vector[0] !== "string") || (typeof vector[1] !== "string")) {
                 throw new Error("Unexpected response");

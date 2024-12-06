@@ -9,13 +9,15 @@ import wasm from "vite-plugin-wasm";
 const config = defineConfig({
     plugins: [
         nodePolyfills(),
-        (preact as unknown as () => Plugin)(),
+        ...preact(),
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-type-assertion
         (wasm as unknown as () => Plugin)(),
     ],
     worker: {
         format: "es",
         plugins: () => [
             nodePolyfills(),
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-type-assertion
             (wasm as unknown as () => Plugin)(),
         ],
     },

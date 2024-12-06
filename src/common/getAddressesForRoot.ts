@@ -20,5 +20,7 @@ export const getAddressesForRoot = <N extends number>(
         result[index - startIndex] = [`${accountRootPath}/${index}`, toBech32Address(accountRoot.derive(index))];
     }
 
+    // It seems almost impossible to type-safely index into a fixed-size array, which is why we need to cast here.
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-type-assertion
     return result as Batch<N>;
 };
