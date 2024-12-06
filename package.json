@@ -76,7 +76,7 @@
     "node-fetch": "^3.3.2",
     "preact": "^10.25.1",
     "tsx": "^4.19.2",
-    "typescript": "^5.5.3",
+    "typescript": "^5.7.2",
     "vite": "^5.4.11",
     "vite-plugin-node-polyfills": "^0.22.0",
     "vite-plugin-wasm": "^3.3.0"

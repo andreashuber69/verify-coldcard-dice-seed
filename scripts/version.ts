@@ -1,10 +1,11 @@
 // https://github.com/andreashuber69/verify-coldcard-dice-seed/blob/develop/README.md#----verify-coldcard-dice-seed
 
 import { readFile, rm, writeFile } from "node:fs/promises";
-import { version } from "../package.json";
+import packageJson from "../package.json" with { type: "json" };
 import { encoding } from "./encoding.js";
 import { exec } from "./exec.js";
 
+const { version } = packageJson;
 const previousVersionFilename = "previousVersion.txt";
 const previousVersion = await readFile(previousVersionFilename, encoding);
 await rm(previousVersionFilename);

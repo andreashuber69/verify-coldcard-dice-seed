@@ -4,6 +4,7 @@
     "bech",
     "bitcoinjs",
     "coldcard",
+    "nodenext",
     "preact",
     "secp",
     "utxo",
