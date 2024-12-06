@@ -1,4 +1,5 @@
 // https://github.com/andreashuber69/verify-coldcard-dice-seed/blob/develop/README.md#----verify-coldcard-dice-seed
+
 import assert from "node:assert";
 import { describe, it } from "node:test";
 import { getAddressesForRoot } from "./getAddressesForRoot.js";

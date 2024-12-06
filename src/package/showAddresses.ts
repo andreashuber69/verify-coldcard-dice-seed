@@ -1,4 +1,5 @@
 // https://github.com/andreashuber69/verify-coldcard-dice-seed/blob/develop/README.md#----verify-coldcard-dice-seed
+
 import { getAddressesForRoot } from "../common/getAddressesForRoot.js";
 import { getRoot } from "../common/getRoot.js";
 import type { InOut } from "./InOut.js";

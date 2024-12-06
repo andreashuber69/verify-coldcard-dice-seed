@@ -1,4 +1,5 @@
 // https://github.com/andreashuber69/verify-coldcard-dice-seed/blob/develop/README.md#----verify-coldcard-dice-seed
+
 import { calculateEnglishBip39Mnemonic } from "../common/calculateEnglishBip39Mnemonic.js";
 import { sha256 } from "../common/sha256.js";
 import type { InOut } from "./InOut.js";

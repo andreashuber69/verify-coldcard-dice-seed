@@ -1,4 +1,5 @@
 // https://www.npmjs.com/package/@preact/preset-vite
+
 import { preact } from "@preact/preset-vite";
 import type { Plugin } from "vite";
 import { defineConfig } from "vite";

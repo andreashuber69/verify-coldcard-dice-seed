@@ -1,4 +1,5 @@
 // https://github.com/andreashuber69/verify-coldcard-dice-seed/blob/develop/README.md#----verify-coldcard-dice-seed
+
 import { once } from "node:events";
 
 import { AbortError } from "./AbortError.js";

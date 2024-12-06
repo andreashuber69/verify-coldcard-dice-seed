@@ -1,4 +1,5 @@
 // https://github.com/andreashuber69/verify-coldcard-dice-seed/blob/develop/README.md#----verify-coldcard-dice-seed
+
 import { render } from "preact";
 import { useCallback, useEffect, useRef, useState } from "preact/hooks";
 import type { JSX } from "preact/jsx-dev-runtime";
