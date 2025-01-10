@@ -53,6 +53,11 @@
     "postversion": "git commit -a -m \"chore: start release v`cat package.json | jq -r '.version'`\"",
     "finish-release": "git flow release finish -p -m \"chore: finish release\" v`cat package.json | jq -r '.version'`"
   },
+  "overrides": {
+    "vite-plugin-node-polyfills": {
+      "vite": "^6.0.0"
+    }
+  },
   "dependencies": {
     "bech32": "^2.0.0",
     "bip32": "^4.0.0",
@@ -77,7 +82,7 @@
     "preact": "^10.25.4",
     "tsx": "^4.19.2",
     "typescript": "^5.7.3",
-    "vite": "^5.4.11",
+    "vite": "^6.0.7",
     "vite-plugin-node-polyfills": "^0.22.0",
     "vite-plugin-wasm": "^3.4.1"
   }
