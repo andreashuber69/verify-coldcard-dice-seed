@@ -4,6 +4,7 @@
     "jsx": "react-jsx",
     "jsxImportSource": "preact",
     "lib": ["es2023", "DOM"],
+    "module": "node16",
     "target": "es2022"
   },
   "include": [

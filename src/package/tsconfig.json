@@ -2,6 +2,7 @@
   "extends": "../../tsconfig.json",
   "compilerOptions": {
     "importHelpers": true,
+    "module": "node16",
     "noEmit": false,
     "outDir": "../../dist",
     "sourceMap": true

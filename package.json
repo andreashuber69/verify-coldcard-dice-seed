@@ -39,8 +39,8 @@
     "dev": "vite --open",
     "preview": "vite build && vite preview --open",
     "prelint": "cspell '**' && markdownlint '**/*.md'",
-    "lint": "eslint --ext .cjs,.ts,.tsx --report-unused-disable-directives '.'",
-    "build": "tsc -p '.' && tsc -p 'src/package' && tsc -p 'src/site' && tsc -p 'scripts'",
+    "lint": "eslint",
+    "build": "tsc -p '.' && tsc -p 'src/package' && tsc -p 'src/site'",
     "postbuild": "vite build",
     "test-no-coverage": "node --import tsx --test src/common/*.spec.ts",
     "test-no-coverage-built": "node --test dist/common/*.spec.js",
@@ -67,7 +67,7 @@
     "tslib": "^2.8.1"
   },
   "devDependencies": {
-    "@andreashuber69/eslint-config": "^1.2.32",
+    "@andreashuber69/eslint-config": "^2.0.0-beta.3",
     "@picocss/pico": "^1.5.13",
     "@preact/preset-vite": "^2.9.4",
     "@tsconfig/node20": "^20.1.4",

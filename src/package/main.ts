@@ -50,7 +50,6 @@ try {
     const words = await verifyWords(process, await readDiceRolls(process, generate24Words), wordCount);
     let currentPassphrase = "";
 
-    // eslint-disable-next-line no-constant-condition
     while (true) {
         /* eslint-disable no-await-in-loop */
         const newPassphrase = await readPassphrase(process);
