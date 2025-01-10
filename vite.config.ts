@@ -6,9 +6,11 @@ import { defineConfig } from "vite";
 import { nodePolyfills } from "vite-plugin-node-polyfills";
 import wasm from "vite-plugin-wasm";
 
+const nodePolyfillsPlugin = nodePolyfills();
+
 const config = defineConfig({
     plugins: [
-        nodePolyfills(),
+        nodePolyfillsPlugin,
         ...preact(),
         // eslint-disable-next-line @typescript-eslint/no-unsafe-type-assertion
         (wasm as unknown as () => Plugin)(),
@@ -16,7 +18,7 @@ const config = defineConfig({
     worker: {
         format: "es",
         plugins: () => [
-            nodePolyfills(),
+            nodePolyfillsPlugin,
             // eslint-disable-next-line @typescript-eslint/no-unsafe-type-assertion
             (wasm as unknown as () => Plugin)(),
         ],
