@@ -7,8 +7,5 @@
     "module": "node16",
     "target": "es2022"
   },
-  "include": [
-    "*.tsx",
-    "**/*.ts"
-  ]
+  "include": ["*.tsx", "**/*.ts"]
 }
