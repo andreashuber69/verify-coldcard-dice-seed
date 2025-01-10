@@ -6,7 +6,7 @@ import { defineConfig } from "vite";
 import { nodePolyfills } from "vite-plugin-node-polyfills";
 import wasm from "vite-plugin-wasm";
 
-const nodePolyfillsPlugin = nodePolyfills();
+const nodePolyfillsPlugin = nodePolyfills({ include: ["stream"] });
 
 const config = defineConfig({
     plugins: [
