@@ -1,9 +1,0 @@
-{
-  "extends": "../../tsconfig.json",
-  "compilerOptions": {
-    "importHelpers": true,
-    "module": "node16",
-    "sourceMap": true
-  },
-  "include": ["*.ts"]
-}

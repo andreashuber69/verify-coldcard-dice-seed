@@ -4,10 +4,10 @@
     "@tsconfig/node20/tsconfig"
   ],
   "compilerOptions": {
-    "module": "nodenext",
+    "jsx": "react-jsx",
+    "jsxImportSource": "preact",
     "noEmit": true,
-    "resolveJsonModule": true,
     "verbatimModuleSyntax": true
   },
-  "include": ["src/**/*.ts", "scripts/*.ts"]
+  "include": ["src/**/*"]
 }
