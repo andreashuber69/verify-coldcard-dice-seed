@@ -1,7 +1,6 @@
 // https://github.com/andreashuber69/verify-coldcard-dice-seed/blob/develop/README.md#----verify-coldcard-dice-seed
 
-import assert from "node:assert";
-import { describe, it } from "node:test";
+import { describe, expect, it } from "vitest";
 import { getAddressesForRoot } from "./getAddressesForRoot.js";
 import { getRoot } from "./getRoot.js";
 
@@ -10,24 +9,24 @@ const getBatch = async (mnemonic: string, passphrase: string, accountRootPath: s
 
 const getPath = (index: number) => `m/84h/0h/0h/0/${index}`;
 
-const expectBatch = async (mnemonic: string, expected: readonly string[]) => {
-    await it(
+const expectBatch = (mnemonic: string, expected: readonly string[]) => {
+    it(
         mnemonic,
         async () => {
             const batch = await getBatch(mnemonic, "", "m/84'/0'/0'/0", 0);
 
             for (const [index, [path, address]] of batch.entries()) {
-                assert(path === getPath(index));
-                assert(address === expected[index]);
+                expect(path === getPath(index));
+                expect(address === expected[index]);
             }
         },
     );
 };
 
-await describe(getAddressesForRoot.name, async () => {
-    await describe("should calculate the expected addresses", async () => {
+describe(getAddressesForRoot.name, () => {
+    describe("should calculate the expected addresses", () => {
         // https://en.bitcoin.it/wiki/BIP_0084
-        await expectBatch(
+        expectBatch(
             "abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon about",
             [
                 /* cSpell:disable */
@@ -46,7 +45,7 @@ await describe(getAddressesForRoot.name, async () => {
             ],
         );
 
-        await expectBatch(
+        expectBatch(
             "unveil nice picture region tragic fault cream strike tourist control recipe tourist",
             [
                 /* cSpell:disable */
