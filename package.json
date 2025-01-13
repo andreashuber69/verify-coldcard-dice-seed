@@ -41,7 +41,7 @@
     "prelint": "cspell '**' && markdownlint '**/*.md'",
     "lint": "eslint",
     "build": "tsc && tsc -p 'src/package'",
-    "postbuild": "tsc -p 'src/site' && vite build",
+    "postbuild": "tsc -p 'src/site' && vite build --config vite.site.config.ts",
     "test-no-coverage": "vitest --run",
     "test": "vitest --run --coverage",
     "show-coverage": "vite 'coverage/lcov-report' --logLevel error --open",
