@@ -7,22 +7,15 @@ import { nodePolyfills } from "vite-plugin-node-polyfills";
 import wasm from "vite-plugin-wasm";
 
 const nodePolyfillsPlugin = nodePolyfills({ include: ["stream"] });
+// eslint-disable-next-line @typescript-eslint/no-unsafe-type-assertion
+const wasmPlugin = (wasm as unknown as () => Plugin)();
 
 // eslint-disable-next-line import/no-anonymous-default-export, import/no-default-export
 export default defineConfig({
-    plugins: [
-        nodePolyfillsPlugin,
-        ...preact(),
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-type-assertion
-        (wasm as unknown as () => Plugin)(),
-    ],
+    plugins: [nodePolyfillsPlugin, ...preact(), wasmPlugin],
     worker: {
         format: "es",
-        plugins: () => [
-            nodePolyfillsPlugin,
-            // eslint-disable-next-line @typescript-eslint/no-unsafe-type-assertion
-            (wasm as unknown as () => Plugin)(),
-        ],
+        plugins: () => [nodePolyfillsPlugin, wasmPlugin],
     },
     base: "",
     build: {
