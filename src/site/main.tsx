@@ -1,4 +1,5 @@
 // https://github.com/andreashuber69/verify-coldcard-dice-seed/blob/develop/README.md#----verify-coldcard-dice-seed
+
 import { render } from "preact";
 import { useCallback, useEffect, useRef, useState } from "preact/hooks";
 import type { JSX } from "preact/jsx-dev-runtime";
@@ -12,7 +13,7 @@ const header = (
     <hgroup>
       <h1>Verify COLDCARD Dice Seed</h1>
       <p>
-        <span>v1.0.34</span> (tested with COLDCARD Mk4 firmware v5.3.2)
+        <span>v1.0.35</span> (tested with COLDCARD Mk4 firmware v5.4.0)
       </p>
     </hgroup>
     <p>

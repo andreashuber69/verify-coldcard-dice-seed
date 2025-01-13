@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 // https://github.com/andreashuber69/verify-coldcard-dice-seed/blob/develop/README.md#----verify-coldcard-dice-seed
+
 import { createRequire } from "node:module";
 import { ReadStream } from "node:tty";
 import { AbortError } from "./AbortError.js";
@@ -16,7 +17,8 @@ try {
     // the directory src with all the code. This is due to how the ts compiler automatically determines the rootDir from
     // imports. There are alternatives to calling require, but these seem overly complicated:
     // https://stackoverflow.com/questions/58172911/typescript-compiler-options-trying-to-get-flat-output-to-outdir
-    const { version } = createRequire(import.meta.url)("../../package.json") as { readonly version: string };
+    const json = createRequire(import.meta.url)("../../package.json") as unknown;
+    const version = json && typeof json === "object" && "version" in json ? json.version : undefined;
 
     if (!(stdin instanceof ReadStream)) {
         throw new TypeError("stdin is not an instance of tty.ReadStream");
@@ -27,7 +29,7 @@ try {
     stdin.setEncoding("utf8");
 
     stdout.write(`*** Verify COLDCARD Dice Seed v${version} ***\r\n`);
-    stdout.write("(tested with COLDCARD Mk4 firmware v5.3.2)\r\n");
+    stdout.write("(tested with COLDCARD Mk4 firmware v5.4.0)\r\n");
     stdout.write("\r\n");
     stdout.write("This application guides you through verifying that your COLDCARD\r\n");
     stdout.write("correctly derives seeds and addresses from dice rolls.\r\n");
@@ -48,7 +50,6 @@ try {
     const words = await verifyWords(process, await readDiceRolls(process, generate24Words), wordCount);
     let currentPassphrase = "";
 
-    // eslint-disable-next-line no-constant-condition
     while (true) {
         /* eslint-disable no-await-in-loop */
         const newPassphrase = await readPassphrase(process);

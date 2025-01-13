@@ -1,4 +1,5 @@
 // https://github.com/andreashuber69/verify-coldcard-dice-seed/blob/develop/README.md#----verify-coldcard-dice-seed
+
 import type { BIP32Interface } from "bip32";
 import { toBech32Address } from "./toBech32Address.js";
 
@@ -16,8 +17,11 @@ export const getAddressesForRoot = <N extends number>(
     const result = new Array<[string, string]>(length);
 
     for (let index = startIndex; index < startIndex + length; ++index) {
-        result[index - startIndex] = [`${accountRootPath}/${index}`, toBech32Address(accountRoot.derive(index))];
+        const path = `${accountRootPath.replaceAll("'", "h")}/${index}`;
+        result[index - startIndex] = [path, toBech32Address(accountRoot.derive(index))];
     }
 
+    // It seems almost impossible to type-safely index into a fixed-size array, which is why we need to cast here.
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-type-assertion
     return result as Batch<N>;
 };

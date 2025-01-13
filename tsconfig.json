@@ -4,11 +4,10 @@
     "@tsconfig/node20/tsconfig"
   ],
   "compilerOptions": {
+    "module": "nodenext",
     "noEmit": true,
+    "resolveJsonModule": true,
     "verbatimModuleSyntax": true
   },
-  "include": [
-    ".eslintrc.cjs",
-    "*.ts"
-  ]
+  "include": ["src/**/*.ts", "scripts/*.ts"]
 }

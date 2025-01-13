@@ -1,4 +1,5 @@
 // https://github.com/andreashuber69/verify-coldcard-dice-seed/blob/develop/README.md#----verify-coldcard-dice-seed
+
 import type EventEmitter from "node:events";
 
 type GenericOut<T extends keyof NodeJS.WriteStream> = Pick<NodeJS.WriteStream, T>;
