@@ -3,8 +3,6 @@
   "compilerOptions": {
     "importHelpers": true,
     "module": "node16",
-    "noEmit": false,
-    "outDir": "../../dist",
     "sourceMap": true
   },
   "include": ["*.ts"]

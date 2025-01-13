@@ -40,7 +40,7 @@
     "preview": "vite build && vite preview --open",
     "prelint": "cspell '**' && markdownlint '**/*.md'",
     "lint": "eslint",
-    "build": "tsc && tsc -p 'src/package'",
+    "build": "tsc && tsc -p 'src/package' && vite build --config vite.package.config.ts",
     "postbuild": "tsc -p 'src/site' && vite build --config vite.site.config.ts",
     "test-no-coverage": "vitest --run",
     "test": "vitest --run --coverage",
