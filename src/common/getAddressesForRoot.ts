@@ -17,7 +17,8 @@ export const getAddressesForRoot = <N extends number>(
     const result = new Array<[string, string]>(length);
 
     for (let index = startIndex; index < startIndex + length; ++index) {
-        result[index - startIndex] = [`${accountRootPath}/${index}`, toBech32Address(accountRoot.derive(index))];
+        const path = `${accountRootPath.replaceAll("'", "h")}/${index}`;
+        result[index - startIndex] = [path, toBech32Address(accountRoot.derive(index))];
     }
 
     // It seems almost impossible to type-safely index into a fixed-size array, which is why we need to cast here.

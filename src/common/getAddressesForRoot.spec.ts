@@ -8,14 +8,13 @@ import { getRoot } from "./getRoot.js";
 const getBatch = async (mnemonic: string, passphrase: string, accountRootPath: string, startIndex: number) =>
     getAddressesForRoot(await getRoot(mnemonic, passphrase), accountRootPath, startIndex, 10);
 
-const rootPath = "m/84'/0'/0'/0";
-const getPath = (index: number) => `${rootPath}/${index}`;
+const getPath = (index: number) => `m/84h/0h/0h/0/${index}`;
 
 const expectBatch = async (mnemonic: string, expected: readonly string[]) => {
     await it(
         mnemonic,
         async () => {
-            const batch = await getBatch(mnemonic, "", rootPath, 0);
+            const batch = await getBatch(mnemonic, "", "m/84'/0'/0'/0", 0);
 
             for (const [index, [path, address]] of batch.entries()) {
                 assert(path === getPath(index));
