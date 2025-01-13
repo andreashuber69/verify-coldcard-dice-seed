@@ -8,7 +8,8 @@ import wasm from "vite-plugin-wasm";
 
 const nodePolyfillsPlugin = nodePolyfills({ include: ["stream"] });
 
-const config = defineConfig({
+// eslint-disable-next-line import/no-anonymous-default-export, import/no-default-export
+export default defineConfig({
     plugins: [
         nodePolyfillsPlugin,
         ...preact(),
@@ -29,6 +30,3 @@ const config = defineConfig({
         outDir: "github_pages",
     },
 });
-
-// eslint-disable-next-line import/no-default-export
-export default config;
