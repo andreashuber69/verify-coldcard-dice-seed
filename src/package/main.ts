@@ -13,10 +13,8 @@ import { waitForUser } from "./waitForUser.js";
 const { stdin, stdout } = process;
 
 try {
-    // Simple typescript alternatives to calling require below lead to the outDir containing the file package.json and
-    // the directory src with all the code. This is due to how the ts compiler automatically determines the rootDir from
-    // imports. There are alternatives to calling require, but these seem overly complicated:
-    // https://stackoverflow.com/questions/58172911/typescript-compiler-options-trying-to-get-flat-output-to-outdir
+    // `vite` detects and converts static and dynamic imports such that the contents is bundled. So, it appears this is
+    // one of the few ways to read the contents of package.json at runtime.
     const json = createRequire(import.meta.url)("../../package.json") as unknown;
     const version = json && typeof json === "object" && "version" in json ? json.version : undefined;
 
