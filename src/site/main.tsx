@@ -5,6 +5,7 @@ import { useCallback, useEffect, useRef, useState } from "preact/hooks";
 import type { JSX } from "preact/jsx-dev-runtime";
 import { calculateEnglishBip39Mnemonic } from "../common/calculateEnglishBip39Mnemonic.js";
 import { sha256 } from "../common/sha256.js";
+import { version } from "../common/version.js";
 import { AddressSection } from "./AddressSection.js";
 import { WordLine } from "./WordLine.js";
 
@@ -13,7 +14,7 @@ const header = (
     <hgroup>
       <h1>Verify COLDCARD Dice Seed</h1>
       <p>
-        <span>v1.0.35</span> (tested with COLDCARD Mk4 firmware v5.4.0)
+        <span>v{version}</span> (tested with COLDCARD Mk4 firmware v5.4.0)
       </p>
     </hgroup>
     <p>

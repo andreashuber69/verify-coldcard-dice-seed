@@ -7,6 +7,7 @@
     "jsx": "react-jsx",
     "jsxImportSource": "preact",
     "noEmit": true,
+    "resolveJsonModule": true,
     "verbatimModuleSyntax": true
   },
   "include": ["src/**/*"]

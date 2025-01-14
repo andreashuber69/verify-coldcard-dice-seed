@@ -1,8 +1,9 @@
 #!/usr/bin/env node
 // https://github.com/andreashuber69/verify-coldcard-dice-seed/blob/develop/README.md#----verify-coldcard-dice-seed
 
-import { createRequire } from "node:module";
 import { ReadStream } from "node:tty";
+
+import { version } from "../common/version.js";
 import { AbortError } from "./AbortError.js";
 import { readDiceRolls } from "./readDiceRolls.js";
 import { readPassphrase } from "./readPassphrase.js";
@@ -13,11 +14,6 @@ import { waitForUser } from "./waitForUser.js";
 const { stdin, stdout } = process;
 
 try {
-    // `vite` detects and converts static and dynamic imports such that the contents is bundled. So, it appears this is
-    // one of the few ways to read the contents of package.json at runtime.
-    const json = createRequire(import.meta.url)("../../package.json") as unknown;
-    const version = json && typeof json === "object" && "version" in json ? json.version : undefined;
-
     if (!(stdin instanceof ReadStream)) {
         throw new TypeError("stdin is not an instance of tty.ReadStream");
     }

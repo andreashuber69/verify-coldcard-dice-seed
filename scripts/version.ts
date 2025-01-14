@@ -10,11 +10,6 @@ const previousVersionFilename = "previousVersion.txt";
 const previousVersion = await readFile(previousVersionFilename, encoding);
 await rm(previousVersionFilename);
 
-const indexFilename = "src/site/main.tsx";
-const index = await readFile(indexFilename, encoding);
-const newIndex = index.replaceAll(`<span>v${previousVersion}</span>`, `<span>v${version}</span>`);
-await writeFile(indexFilename, newIndex, encoding);
-
 const readmeFilename = "README.md";
 const readme = await readFile(readmeFilename, encoding);
 
