@@ -10,7 +10,7 @@ export default defineConfig({
             fileName: "main",
             formats: ["es"],
         },
-        outDir: "dist/package",
+        outDir: "dist",
         rollupOptions: {
             input: {
                 main: "src/package/main.ts",

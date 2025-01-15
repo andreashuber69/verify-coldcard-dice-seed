@@ -24,9 +24,9 @@
     "node": ">=20.11"
   },
   "type": "module",
-  "main": "dist/package/main.js",
+  "main": "dist/main.js",
   "bin": {
-    "verify-coldcard-dice-seed": "dist/package/main.js"
+    "verify-coldcard-dice-seed": "dist/main.js"
   },
   "files": [
     "/dist/",
