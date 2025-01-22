@@ -11,11 +11,6 @@ export default defineConfig({
             formats: ["es"],
         },
         outDir: "dist",
-        rollupOptions: {
-            input: {
-                main: "src/package/main.ts",
-            },
-        },
         ssr: true,
         target: "es2022",
     },

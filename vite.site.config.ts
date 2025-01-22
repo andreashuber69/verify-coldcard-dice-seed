@@ -19,7 +19,7 @@ export default defineConfig({
     },
     base: "",
     build: {
-        target: "es2022",
         outDir: "github_pages",
+        target: "es2022",
     },
 });
