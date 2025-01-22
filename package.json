@@ -65,7 +65,6 @@
     "@andreashuber69/eslint-config": "^2.1.1",
     "@picocss/pico": "^1.5.13",
     "@preact/preset-vite": "^2.10.0",
-    "@tsconfig/node20": "^20.1.4",
     "@tsconfig/strictest": "^2.0.5",
     "@types/node": "^20.17.14",
     "@vitest/coverage-istanbul": "^3.0.3",

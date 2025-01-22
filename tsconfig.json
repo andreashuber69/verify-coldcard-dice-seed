@@ -1,11 +1,9 @@
 {
-  "extends": [
-    "@tsconfig/strictest/tsconfig",
-    "@tsconfig/node20/tsconfig"
-  ],
+  "extends": ["@tsconfig/strictest/tsconfig"],
   "compilerOptions": {
     "jsx": "react-jsx",
     "jsxImportSource": "preact",
+    "module": "NodeNext",
     "noEmit": true,
     "resolveJsonModule": true
   },
