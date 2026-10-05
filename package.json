@@ -57,11 +57,11 @@
     "tiny-secp256k1": "^2.2.4"
   },
   "devDependencies": {
-    "@andreashuber69/eslint-config": "^3.0.0-beta.4",
+    "@andreashuber69/eslint-config": "^3.0.0-beta.7",
     "@picocss/pico": "^1.5.13",
     "@preact/preset-vite": "^2.10.6",
     "@tsconfig/strictest": "^2.0.8",
-    "@types/node": "^20.19.43",
+    "@types/node": "^22.20.5",
     "@vitest/coverage-istanbul": "^5.0.3",
     "coveralls": "^3.1.1",
     "cspell": "^10.3.6",
