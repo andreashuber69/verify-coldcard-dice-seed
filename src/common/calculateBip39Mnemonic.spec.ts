@@ -16,9 +16,9 @@ const expectError = (entropy: string, newWordlist: readonly string[], errorMessa
     async () => {
         try {
             await calculateBip39Mnemonic(entropy, Math.floor(entropy.length / 8) * 3, newWordlist);
-            expect(false, "Expected error to be thrown!");
+            expect(false, "Expected error to be thrown!").toBe(true);
         } catch (error: unknown) {
-            expect(error instanceof RangeError && error.message === errorMessage);
+            expect(error instanceof RangeError && error.message === errorMessage).toBe(true);
         }
     },
 );

@@ -6,6 +6,6 @@ import { version } from "./version.js";
 
 describe("version", () => {
     it("should be a non-empty string", () => {
-        expect(typeof version === "string" && version.length > 0);
+        expect(typeof version === "string" && version.length > 0).toBe(true);
     });
 });

@@ -10,7 +10,7 @@ const expectWords = (entropy: string, words: string) => {
 
     it(
         entropy,
-        async () => expect((await calculateEnglishBip39Mnemonic(entropy, wordCount)).join(" ") === words),
+        async () => expect((await calculateEnglishBip39Mnemonic(entropy, wordCount)).join(" ") === words).toBe(true),
     );
 };
 
@@ -49,18 +49,18 @@ describe(calculateEnglishBip39Mnemonic.name, () => {
         it("ffffffff", async () => {
             try {
                 await calculateEnglishBip39Mnemonic("ffffffff", 2);
-                expect(false, "Expected error to be thrown!");
+                expect(false, "Expected error to be thrown!").toBe(true);
             } catch (error: unknown) {
-                expect(error instanceof RangeError && error.message === "wordCount must be a multiple of 3");
+                expect(error instanceof RangeError && error.message === "wordCount must be a multiple of 3").toBe(true);
             }
         });
 
         it("fffffff", async () => {
             try {
                 await calculateEnglishBip39Mnemonic("fffffff", 3);
-                expect(false, "Expected error to be thrown!");
+                expect(false, "Expected error to be thrown!").toBe(true);
             } catch (error: unknown) {
-                expect(error instanceof RangeError && error.message === "hexEntropy length must be >= 8");
+                expect(error instanceof RangeError && error.message === "hexEntropy length must be >= 8").toBe(true);
             }
         });
     });

@@ -16,8 +16,8 @@ const expectBatch = (mnemonic: string, expected: readonly string[]) => {
             const batch = await getBatch(mnemonic, "", "m/84'/0'/0'/0", 0);
 
             for (const [index, [path, address]] of batch.entries()) {
-                expect(path === getPath(index));
-                expect(address === expected[index]);
+                expect(path === getPath(index)).toBe(true);
+                expect(address === expected[index]).toBe(true);
             }
         },
     );
